@@ -1,0 +1,6 @@
+Nombre,id,Peso,Altura,Fecha_de_nacimiento,estado_civil,Soltero
+Maria,sc001,58.3,165,10/3/85,casado,FALSE
+Carlos,sc002,70.2,180,17/10/83,soltero,TRUE
+Ana,sc003,55.4,160,23/4/90,soltero,TRUE
+Laura,sc004,90.4,165,15/2/87,casado,FALSE
+Santiago,sc005,83.2,170,1/1/83,viudo,FALSE
