@@ -4,6 +4,7 @@
 
 ## Tema 1: Análisis Exploratorio de Datos
 
+* [Introducción](tema-1-analisis-exploratorio-de-datos/introduccion.md)
 * [Tipos de variables](tema-1-analisis-exploratorio-de-datos/tipos-de-variables/README.md)
   * [Ejercicio: Tipos de Datos](tema-1-analisis-exploratorio-de-datos/tipos-de-variables/ejercicio-tipos-de-datos/README.md)
     * [Resultados](tema-1-analisis-exploratorio-de-datos/tipos-de-variables/ejercicio-tipos-de-datos/resultados.md)

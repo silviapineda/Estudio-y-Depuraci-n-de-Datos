@@ -27,4 +27,4 @@ Realiza las siguientes actividades en R:
 7. Nos hemos equivocado en la introducción de datos y para todos los valores _2_ de carga física, queríamos haber puesto un _3_. _Recodifica_ esta variable incluyendo este cambio. Recuerda recodificar en una nueva variable. Utiliza <mark style="color:green;">**`if_else()`**</mark>del paquete **`dplyr`**
 8. Crea una nueva variable llamada _expo\_total_ que se obtenga como suma de los valores de exposición en _carga física_, _carga psíquica_ y _ruido_.
 9. _Categoriza_ la variable _estres_ en otra nueva variable que llamaremos _estres\_grupo_ que incluya tres categorías: _bajo_: 1 a 2; _medio_: 3 a 7; _alto_; 8 a 10. ¿Cuántas personas hay en cada categoría de la nueva variable. Utiliza <mark style="color:green;">**`cut()`**</mark> y <mark style="color:green;">**`breaks()`**</mark>
-10. Gurda la base de datos corregida. Usa <mark style="color:green;">**`write.csv()`**</mark> y llamala <mark style="color:orange;">**estres\_corregido.csv**</mark>
+10. Guarda la base de datos corregida. Usa <mark style="color:green;">**`write.csv()`**</mark> y llamala <mark style="color:orange;">**estres\_corregido.csv**</mark>

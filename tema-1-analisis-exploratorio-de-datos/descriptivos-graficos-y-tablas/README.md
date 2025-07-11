@@ -5,16 +5,14 @@ coverY: 0
 
 # Descriptivos, Gráficos y Tablas
 
-Análisis exploratorio y corrección de errores detectados
-
 No siempre vamos a poder realizar de forma tan sencilla la detección de errores, sobre todo cuando tenemos un gran volumen de datos, algo habitual en estadística y ciencia de datos. Por tanto, para poder detectar problemas presentes en los datos, es necesario llevar a cabo un análisis exploratorio de los mismos a través de gráficos y tablas.
 
 Para ello es importante fijarse en los siguientes aspectos:
 
-1. **Límites de las variables cuantitativas:** Una forma rápida de verificar que las variables cuantitativas toman valores lógicos, es verificar que el máximo y el mínimo de las variables  se encuentran dentro de los límites que marque la variable (por ejemplo, las variables que representan porcentajes deben situarse entre 0 y 100 o  medidas como el peso, la altura, la edad, etc tomarán un número positivo). **Lo miraremos con descriptivos y gráficos**
+1. **Límites de las variables cuantitativas:** Una forma rápida de verificar que las variables cuantitativas toman valores lógicos, es verificar que el máximo y el mínimo de las variables  se encuentran dentro de los límites que marque la variable (por ejemplo, las variables que representan porcentajes deben situarse entre 0 y 100 o medidas como el peso, la altura, la edad, etc tomarán un número positivo). **Lo miraremos con descriptivos y gráficos**
 2. **Niveles de las variables cualitativas**: En línea con el punto anterior, también debemos verificar que los niveles de las variables cualitativas tienen sentido, teniendo en cuenta el significado de las mismas. **Lo mirarmos con tablas de frecuencias**
-3. **Número de datos perdidos**: Este tema lo veremos con mas detalle en el Tema 3, pero si en una variable observamos muchos datos faltantes (más de la mitad), es recomendable rechazarla al inicio del proceso, pues carece de suficiente información.&#x20;
-4. **Datos perdidos codificados**: En ocasiones, en lugar de dejar "huecos" para representar los datos faltantes, se utiliza algún tipo de codificación que facilite el envío y la lectura de los conjuntos de datos. Ejemplo: En variables cualitativas el símbolo `?` o el clásico `NSNC` (no sabe/no contesta) y en variables cuantitativas, el valor `-1` (si la variable no puede tomar valores negativos) o `999`. Es fundamental detectar este aspecto para poder analizar de manera correcta la presencia de ausentes. **Lo miraremos con descriptivos, tablas y gráficos.**
+3. **Número de datos perdidos**: Este tema lo veremos con mas detalle en el [Tema 3,](broken-reference) pero si en una variable observamos muchos datos faltantes (más de la mitad), es recomendable rechazarla al inicio del proceso, pues carece de suficiente información.&#x20;
+4. **Datos perdidos codificados**: En ocasiones, en lugar de dejar "huecos" para representar los datos faltantes, se utiliza algún tipo de codificación que facilite el envío y la lectura de los conjuntos de datos. Ejemplo: En variables cualitativas el símbolo `?` o el clásico `NS/NC` (no sabe/no contesta) y en variables cuantitativas, el valor `-1` (si la variable no puede tomar valores negativos) o `999`. Es fundamental detectar este aspecto para poder analizar de manera correcta la presencia de ausentes. **Lo miraremos con descriptivos, tablas y gráficos.**
 5. **Frecuencia de las categorías de las variables cualitativas**: Dado que los modelos predictivos se basan en detectar patrones en las variables input que nos permitan aproximar el valor de la variable objetivo, es imprescindible que todos los niveles de las variables cualitativas estén bien representados pues, de los contrario, se podrían detectar patrones que no fueran extrapolables al estar basados en muy pocas observaciones. Por ello, se debe verificar que la frecuencia de todas ellas sea superior al 2-5% (el porcentaje exacto depende del número de observaciones del conjunto de datos).
 
 Algunas de las funciones más útiles para este propósito son:
@@ -96,27 +94,40 @@ prop.table(t,2)
 #  Universitaria 0.2222222 0.1000000  0.0000000
 </code></pre>
 
-¿Qué porcentaje de los que se de autodenomina género masculino tiene estudios primarios?&#x20;
+<details>
 
-¿Qué porcentaje de los que tienen estudios secundarios se autodenominan género no binario?
+<summary>¿Qué porcentaje de los que se autodenominan género masculino tiene estudios primarios?</summary>
+
+20%
+
+</details>
+
+<details>
+
+<summary>¿Qué porcentaje de los que tienen estudios secundarios se autodenominan género no binario?</summary>
+
+7.7%
+
+</details>
 
 ### Tablas de frecuencias de una variable continua agrupada por intervalos
 
 Una tabla de frecuencia para una variable cuantitativa no tiene sentido, veamos que pasa si representamos la edad con una tabla de frecuencia:
 
-<pre class="language-r"><code class="lang-r">table(datos$edad)
-<strong># -5  21  22  23  26  32  33  39  43  45  51  54  55  56  61  64  75 150 
-</strong>#  1   1   1   1   1   1   2   2   1   1   1   1   1   1   1   1   1   1 
-</code></pre>
+```r
+table(datos$edad)
+# -5  21  22  23  26  32  33  39  43  45  51  54  55  56  61  64  75 150 
+#  1   1   1   1   1   1   2   2   1   1   1   1   1   1   1   1   1   1 
+```
 
-No nos está dando informacióm adicional ni resumiendo la variable. Para trabajar este tipo de variables, podemos construir intervalos. Normalmente pensaremos qué intervalos pueden tener sentido según el objetivo del estudio. En este caso podemos pensar simplemente en una variable dicotómica con lo que son menores de edad y los que son mayores de edad.&#x20;
+No nos está dando informacióm adicional ni resumiendo la variable. Para trabajar este tipo de variables, podemos construir intervalos. Normalmente pensaremos qué intervalos pueden tener sentido según el **objetivo del estudio**. En este caso podemos pensar simplemente en una variable dicotómica con los que son menores de edad y los que son mayores de edad.&#x20;
 
 En este caso lo podemos hacer de forma muy sencilla con el comando <mark style="color:green;">**`if_else`**</mark>:&#x20;
 
 ```r
-datos$edad_cat<-if_else(datos$edad<40,1,2)
+datos$edad_cat<-if_else(datos$edad<18,1,2)
 datos$edad_cat<-factor(datos$edad_cat, levels=c(1,2),   
-                labels=c("<40",">=40"))
+                labels=c("<18",">=18"))
 table(datos$edad_cat)
 ```
 
@@ -156,7 +167,7 @@ describeBy(datos$edad,datos$genero)
 
 ## Gráficos
 
-Estos serían las cuatro representaciones gráficos más sencillas para las variables que estamos viendo:
+Estos serían las cuatro representaciones gráficas más sencillas para las variables que estamos viendo:
 
 ```
 pie(table(datos$estudios))
@@ -164,13 +175,13 @@ pie(table(datos$estudios))
 
 <figure><img src="../../.gitbook/assets/image (17).png" alt="" width="375"><figcaption></figcaption></figure>
 
-<pre class="language-r"><code class="lang-r">barplot(table(datos$genero),col=rainbow(10))
+```r
+barplot(table(datos$genero),col=rainbow(10))
 
-<strong>
-</strong>library(ggplot2)
+library(ggplot2)
 ggplot(datos, aes(x = sexo)) +
   geom_bar(aes(fill=sexo))
-</code></pre>
+```
 
 <figure><img src="../../.gitbook/assets/image (18).png" alt="" width="375"><figcaption></figcaption></figure>
 

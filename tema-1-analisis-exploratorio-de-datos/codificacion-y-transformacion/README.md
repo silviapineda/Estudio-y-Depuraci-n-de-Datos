@@ -39,7 +39,7 @@ En esta detección inicial lo que queremos ver es si:
 3. No hay valores incorrectos
 4. Los NAs se han leído de forma correcta
 
-Vamos a verlo de forma muy sencilla primero para asegurarnos de que cosas son las que vemos mal y luego veremos como detectarlo de forma automática.
+Vamos a verlo de forma muy sencilla primero de forma manual para entender las cosas que hay que detectar y luego veremos como detectarlo de forma automática.
 
 ### **El nombre de las columnas debe tener un nombre consistente.**&#x20;
 
@@ -53,6 +53,7 @@ colnames(data)
 #Con tidyverse
 library(tidyverse)
 data <-janitor::clean_names(data)
+##Con la opción de clean_names recuerda verificar que los nombres se han completado de forma correcta
 ```
 
 ```r
@@ -64,14 +65,7 @@ data <-janitor::clean_names(data)
 ```r
 data$meal_plan<-as.factor(data$meal_plan)
 str(data)
-data$age<-as.numeric(data$age) ###Cuidado cunando salta este warning porque hay algo raro        
-
-#Con tidyverse
-data<- data |>
-  mutate(
-    meal_plan=as.factor(meal_plan),
-    age=as.numeric(age) ###Cuidado cunando salta este warning porque hay algo raro
-  )
+data$age<-as.numeric(data$age) ###Cuidado cunando salta este warning 
 ```
 
 {% hint style="info" %}
@@ -80,28 +74,19 @@ Cuidado con los warnings, en este caso ha convertido un "five" en NA cuando debe
 
 ### **Asegurarnos que los NA se han leído correctamente**
 
-Columna <mark style="color:purple;">`favourite_food`</mark> tiene un `N/A` que no está detectado como dato "missing" y un vacío en <mark style="color:purple;">`age`</mark>
+Columna <mark style="color:purple;">`favourite_food`</mark> tiene un `N/A` que no está detectado como dato "_missing_" y un vacío en <mark style="color:purple;">`age`</mark>
 
-&#x20;Para buscar posibles errores o NA mal declarados podemos hacer uso de sentencias sencillas como <mark style="color:green;">**`summary()`**</mark> o <mark style="color:green;">**`table()`**</mark>
+Para buscar posibles errores o NA mal declarados podemos hacer uso de sentencias sencillas como <mark style="color:green;">**`summary()`**</mark> o <mark style="color:green;">**`table()`**</mark>
 
-```r
-summary(data)
+<pre class="language-r"><code class="lang-r">summary(data)
 table(data$favourite_food)
-table(data$meal_plan)
-
-data$favourite_food<-car::recode(data$favourite_food,"'N/A'= NA")
-data[data == ""] <- NA ##Esto reemplaza todos los valores vacíos a NA
-
-
-#con tidyverse
-data <- data |>
-  mutate(
-    favourite_food = na_if(favourite_food, "N/A"), # Cambia "N/A" a NA
-    across(everything(), ~ replace(., . == "", NA)))
-  )
+<strong>table(data$meal_plan)
+</strong>
+data$favourite_food&#x3C;-car::recode(data$favourite_food,"'N/A'= NA")
+data[data == ""] &#x3C;- NA ##Esto reemplaza todos los valores vacíos a NA
 
 data
-```
+</code></pre>
 
 ```r
   student_id        full_name     favourite_food     meal_plan            age
@@ -123,16 +108,6 @@ En la variable <mark style="color:purple;">`age`</mark>, una de las observacione
 data$age<-car::recode(data$age,"'five'='5'")
 data$age<-as.numeric(data$age)
 
-#con tidyverse
-data <- data |>
-  mutate(
-    age = case_when(
-      age == "five" ~ "5",  # Reemplazar "five" por "5"
-      TRUE ~ age           # Mantener los demás valores sin cambios
-    ),
-    age = as.numeric(age)  # Convertir la columna a numérica
-  )
-
 data
 
 ```
@@ -149,13 +124,13 @@ Así quedaría la base de datos corregida
 6          6    Güvenç Attila          Ice cream          Lunch only   6
 ```
 
-
-
 ## Transformación de variables
 
 En ocasiones nos puede interesar incorporar nuevas variables a nuestra base de datos, como ya vimos con la creación de la variable edad
 
-**Ejemplo**: Para este ejemplo vamos a utilizar el dataset <mark style="color:orange;">**TiposDatos.csv**</mark>
+_<mark style="color:orange;">Ejemplo</mark>_&#x20;
+
+Para este ejemplo vamos a utilizar el dataset <mark style="color:orange;">**TiposDatos.csv**</mark>
 
 {% file src="../../.gitbook/assets/TiposDatos.csv" %}
 
@@ -173,14 +148,6 @@ datos$fecha_de_nacimiento<-as.Date(datos$fecha_de_nacimiento,format="%d/%m/%y")
 datos$estado_civil<-as.factor(datos$estado_civil)
 str(datos)
 
-
-#Con tidyverse
-datos <- datos |>
-  mutate(
-    fecha_de_nacimiento = as.Date(fecha_de_nacimiento, format = "%d/%m/%y"),  
-    estado_civil = as.factor(estado_civil)                                    
-  )
-  
 ## 3. No hay valores missing
 any(is.na(datos))
 
@@ -204,8 +171,6 @@ $$
 IMC=peso(kg)/altura(m)^2
 $$
 
-
-
 ```r
 ##Crear IMC
 datos$IMC  <- datos$peso / (datos$altura/100)^2
@@ -218,7 +183,9 @@ datos$IMC  <- datos$peso / (datos$altura/100)^2
 
 Esta opción suele ser muy habitual ya que muchas veces queremos trabajar con las categorías de una variable en vez de la variable cuantitativa.&#x20;
 
-**Ejemplo**: La variable cuantitativa IMC que acabamos de crear se suele usar en cuatro grupos:
+_<mark style="color:orange;">Ejemplo</mark>_&#x20;
+
+La variable cuantitativa IMC que acabamos de crear se suele usar en cuatro grupos:
 
 * **bajo peso**: IMC <= 18.50
 * **normal**: 18.5 < IMC <=25
@@ -263,18 +230,15 @@ bajo peso     normal     sobrepreso   obesidad
 
 Nos puede interesar trabajar de forma diferente sobre una de las variables que ya tenemos&#x20;
 
-**Ejemplo**: Queremos ver la probabilidad de estar casado o de tener un determinado peso si la persona tiene más de 40 años o menos y queremos poder predecir dicha variable, para aplicar en este caso una regresión logística necesitaremos tener una variable codificada como: 0 (<40), 1 (>=40). Esto con el comando <mark style="color:green;">**`if_else()`**</mark> del paquete **`dplyr`** es muy fácil:
+_<mark style="color:orange;">Ejemplo</mark>_
+
+Queremos ver la probabilidad de estar casado o de tener un determinado peso si la persona tiene más de 40 años o menos y queremos poder predecir dicha variable, para aplicar en este caso una regresión logística necesitaremos tener una variable codificada como: 0 (<40), 1 (>=40). Esto con el comando <mark style="color:green;">**`if_else()`**</mark> del paquete **`dplyr`** es muy fácil:
 
 ```r
 ##Recodificación de variables
 table(datos$edad)
 datos$edad2cat<- if_else(datos$edad < 40, 0, 1)
-
-#Con tidyverse
-datos <- datos |>
-  mutate(
-    edad2cat = if_else(edad < 40, 0, 1)  # Crear variable categórica
-  )
+
 ```
 
 **¿Qué tipo de variable es edad2Cat?**

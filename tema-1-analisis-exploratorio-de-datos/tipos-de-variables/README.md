@@ -13,7 +13,7 @@ Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los sc
 
 A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
 
-Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1</mark>
+Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1, Tema\_2, Tema\_3, Tema\_4</mark>
 
 ## Tipos de variables
 
@@ -83,13 +83,12 @@ letras
 
 Para saber su longitud usamos la función <mark style="color:green;">**`length()`**</mark>
 
-```r
-length(edad)
+<pre class="language-r"><code class="lang-r">length(edad)
 # [1] 10
-
-length(letras)
+<strong>
+</strong>length(letras)
 # [1] 5
-```
+</code></pre>
 
 Tenemos distintas formas de acceso a las posiciones del vector:
 
@@ -131,6 +130,24 @@ edad[sexo=="M"]
 ## [1] 22 25 30 31 27
 ```
 
+En _**tidyverse**_ podemos usar la opción <mark style="color:green;">**`filter`**</mark>
+
+```r
+# Filtrar personas con edad > 25
+datos |> 
+  filter(edad > 25)
+
+# Extraer solo el vector de edad correspondiente
+datos |> 
+  filter(edad > 25) |> 
+  pull(edad)
+
+# Edad de personas con sexo "M"
+datos |>
+  filter(sexo == "M") |> 
+  pull(edad)
+```
+
 ## Factores
 
 Un **factor** es una variable categórica con un número finito de valores o _niveles_. En R los factores se utilizan habitualmente para realizar clasificaciones de los datos, estableciendo su pertenencia a los grupos o categorías determinados por los niveles del factor.
@@ -139,7 +156,7 @@ Los factores juegan un papel muy importante en la elaboración de modelos estad�
 
 Los niveles de un factor puede estar codificados como valores numéricos o como caracteres. Independientemente de que el factor sea numérico o carácter, sus valores son siempre almacenados internamente por R como números enteros, con lo que se consigue economizar memoria.
 
-Ejemplo:
+_<mark style="color:orange;">Ejemplo</mark>_
 
 ```r
 sexo <- factor(sexo,levels=c("H","M"),labels=c("Hombre","Mujer"))
@@ -163,7 +180,7 @@ Las variables lógicas constituyen un tipo particular de factor en R, que se car
 
 **ATENCIÓN: No debe confundirse el operador de asignación `=` con el de comparación `==`**.
 
-Ejemplo:
+_<mark style="color:orange;">**Ejemplo**</mark>_
 
 Podemos realizar la tabla de frecuencias anterior pero teniendo sólo en cuenta aquellos individuos que estén solteros:
 
@@ -176,12 +193,13 @@ table(sexo[soltero==TRUE])
 
 Podemos hacer lo mismo con la función <mark style="color:green;">**`which()`**</mark> para acceder a las posiciones cuando es TRUE:
 
-<pre class="language-r"><code class="lang-r"><strong>which(soltero)
-</strong># [1]  1  2  3  6  7 10
+```r
+which(soltero)
+# [1]  1  2  3  6  7 10
 table(sexo[which(soltero)])
 # Hombre  Mujer 
 #      4      2
-</code></pre>
+```
 
 ## Fechas
 
@@ -189,7 +207,7 @@ R almacena las **fechas** en la clase _**Date**._  Esta clase almacena los valor
 
 Para crear una fecha en R el modo más sencillo es utilizar la función <mark style="color:green;">**`as.Date()`**</mark>. Esta función recibe como argumento un dato de fecha en modo carácter y la convierte a la clase `Date`. En esta clase, el estándar de fecha que se utiliza (en el que se leen y muestran las fechas si no se indica otra cosa) es _“año-mes-día”_ (yyyy-mm-dd).&#x20;
 
-Ejemplo
+_<mark style="color:orange;">Ejemplo</mark>_
 
 ```r
 navidad=as.Date("2013-12-25")

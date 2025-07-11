@@ -1,6 +1,6 @@
 # Ejercicio: Tipos de Datos
 
-Con el fichero de datos que hemos leido en este tema:
+Con el fichero de datos <mark style="color:orange;">**TiposDatos.csv**</mark> que hemos leido en este tema:
 
 {% file src="../../../.gitbook/assets/TiposDatos.csv" %}
 
@@ -10,11 +10,11 @@ Antes de empezar, inicia un fichero quarto para renderizar en formato HTML. Una 
 
 <figure><img src="../../../.gitbook/assets/image (231).png" alt="" width="375"><figcaption></figcaption></figure>
 
-Para que me puedas enviar solo el fichero que se genera HTML y aparezcan todos los gráficos y tablas, deber poner la siguiente cabecera:
+Para que me puedas enviar solo el fichero que se genera HTML y aparezcan todos los gráficos y tablas, debes poner la siguiente cabecera:
 
 ```r
 ---
-title: "TiposDatos"
+title: "Tipos Datos"
 format: 
   html:
     embed-resources: true
@@ -28,6 +28,6 @@ Además en cada chunk de código puedes poner la opción <mark style="color:gree
 **Ahora ya puedes realizar los siguientes ejercicios:**
 
 1. Lee el fichero y clasifica las variables en cuantitativas y cualitativas.
-2. Mira si todas los tipos de variables están bien declarados y sino declaralos bien.&#x20;
-3. Dime como se llaman los individuos que están solteros.
+2. Mira si todos los tipos de variables están bien declarados y sino declaralos bien.&#x20;
+3. Averigua como se llaman los individuos que están solteros.
 4. Calcula la edad de los individuos.
