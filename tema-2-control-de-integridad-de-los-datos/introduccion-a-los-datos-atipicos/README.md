@@ -168,7 +168,7 @@ Vamos a realizar los siguientes ejercicios:
 [ejercicios](ejercicios/)
 {% endcontent-ref %}
 
-**Lo primero que nos preguntamos es ¿Qué clase de dato atípico tenemos?**
+Antes de ver cómo tratar los datos atípcio, nos preguntamos como los podemos clasificar&#x20;
 
 ## Clases de datos atípicos
 
@@ -179,8 +179,10 @@ Vamos a realizar los siguientes ejercicios:
 | Observaciones extrañas para las que no nos sirve ningún tipo de justificación                                       | Eliminarlos cuando no es posible encontrar una explicación                                                                                                |
 | Datos con valores extremos                                                                                          | El investigador decidirá si debe eliminarse o considerarlo representativo de una parte minoritaria. Si se elimina, debe quedar constancia y ser informada |
 
-Como **criterio general**, la decisión de los atípicos a eliminar, debe ser en función de sus características y de los objetivos del análisis a realizar.&#x20;
+Como **criterio general**, la decisión de los atípicos a eliminar, debe ser en función de sus características y de los **objetivos del análisis a realizar**.&#x20;
 
 A veces se **analizan los datos con los atípicos y sin los atípicos** para ver dicha influencia (**Análisis de Sensibilidad**). Si los resultados son similares entonces se convierte en una decisión intranscendente lo que se haga con los atípicos. Pero si no los son, unos pocos valores atípicos no eliminados de un análisis pueden provocar que el resto de los datos resulten inútiles para llegar a conclusiones correctas.&#x20;
+
+Para la detección y tratamiento de los datos atípicos vamos a seguir tres enfoques que veremos a continuación, enfoque univariante, ennfoque bivariante y enfoque multivariante, que podemos ver resumiedo en el siguiente gráfico:
 
 <figure><img src="../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>

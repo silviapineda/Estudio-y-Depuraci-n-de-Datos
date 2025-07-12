@@ -6,17 +6,42 @@ coverY: 0
 
 # Detección y tratamiento de datos atípicos (univariante)
 
-Los datos atípicos los estudiaremos dentro del contexto de todas las variables. A veces, un valor extremo no es significativo dentro de un conjunto de variables. Por lo tanto, debemos abordar el problema desde el punto de vista **univariante y multivariante**.&#x20;
+Los datos atípicos deben analizarse **teniendo en cuenta todas las variables disponibles**. Un valor que podría parecer inusual si se analiza de forma aislada (por ejemplo, una edad de 95 años) puede ser completamente coherente cuando se considera junto a otras variables (como el estado de salud, el entorno residencial, etc.). Por eso es importante **combinar el enfoque univariante con el enfoque multivariante**.
 
 ## Enfoque univariante&#x20;
 
-Para una variable continua, un **dato atípico** se determina por aquellas observaciones que caigan fuera de 1.5\*IQR y un **dato extremo** para los que esta distancia sea superior a 3 veces el IQR, siendo IQR el Rango Intercuartílico que es la diferencia entre el cuartil tercero y el cuartil primero.&#x20;
+Este enfoque analiza **una sola variable** a la vez para detectar valores que se alejan de lo esperado.
+
+📐 **Regla de Tukey**
+
+Para variables continuas, una de las reglas más comunes es la **regla de Tukey**, basada en el **rango intercuartílico (IQR)**, que mide la dispersión de los valores centrales de una distribución.
+
+* El **IQR** se define como la diferencia entre el **tercer cuartil (Q3)** y el **primer cuartil (Q1)**:
 
 $$
-IQR=Q3-Q1
+\text{IQR} = Q3 - Q1
 $$
 
-Es decir, aquellos puntos que están fuera de los bigotes de un diagrama de cajas. Esto se le llama **regla de Tukey**.
+A partir de este valor, se definen dos umbrales:
+
+* **Atípico (outlier):**\
+  Un valor se considera atípico si está fuera del rango:
+
+$$
+[Q1−1.5×IQR,  Q3+1.5×IQR
+$$
+
+* **Extremo:**\
+  Un valor se considera extremo si está aún más alejado:
+
+$$
+[Q1−3×IQR,  Q3+3×IQR]
+$$
+
+Esta regla se representa visualmente en el **diagrama de cajas** (_boxplot_), donde:
+
+* Los "bigotes" del diagrama terminan en los límites definidos por ±1.5 × IQR.
+* Los puntos fuera de los bigotes se marcan como atípicos (normalmente con un punto o un asterisco).
 
 <figure><img src="../.gitbook/assets/image (79).png" alt=""><figcaption></figcaption></figure>
 
@@ -44,8 +69,8 @@ Vamos a estudiar la variable <mark style="color:purple;">`Pressure_height`</mark
 
 ggplot(data, aes(y = Pressure_height)) +
   geom_boxplot(fill = "skyblue", outlier.color = "red", outlier.shape = 16)
-<strong>
-</strong>
+
+
 ###Los valores atípicos son:
 outlier_values &#x3C;- boxplot.stats(data$Pressure_height)$out  # outlier values.
 out_ind &#x3C;- which(data$Pressure_height %in% c(outlier_values))
@@ -57,7 +82,7 @@ extreme_values &#x3C;- boxplot.stats(data$Pressure_height,coef=3)$out  # extreme
 </strong>
 </code></pre>
 
-<figure><img src="../.gitbook/assets/image (248).png" alt="" width="501"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (248).png" alt="" width="334"><figcaption></figcaption></figure>
 
 La decisión de que hacer es más compleja, no siempre hay que borrar los datos atípicos o extremos, a veces basta con que seamos conscientes y en el posterior análisis tengamos en cuenta la influencia de los mismos. Otras veces dependerá del contexto del estudio y lo que queramos hacer después.&#x20;
 
@@ -69,9 +94,9 @@ length(out_ind)/length(data$Pressure_height)*100
 [1] 2.463054
 ```
 
-**En este ejemplo nos salen que los datos atípicos de la variable pressure height corresponden a un 2.5% de los datos, por tanto ya que son sólo atípicos y no extremos y están por encima del 2% vamos a dejarlos sin borrar pero siendo conscientes en futuros análisis de su existencia.**&#x20;
+**En este ejemplo nos salen que los datos atípicos de la variable pressure height corresponden a un 2.5% de los datos, por tanto los considerarenos atípicos y pasarán a ser estudiados de forma bivariante en el siguiente apartado.**
 
-Además también es importante tener en cuenta si son datos aislados o son parte de una distribución un poco asimétrica. Si hacemos un histograma podemos ver un poco más si es solo la distribución que es asimétrica
+Además también es importante tener en cuenta si son datos aislados o son parte de una distribución un poco asimétrica. Si hacemos un histograma podemos ver un poco más si es solo la distribución que es asimétrica:
 
 ```r
 hist(data$Pressure_height)
@@ -79,5 +104,4 @@ hist(data$Pressure_height)
 
 <figure><img src="../.gitbook/assets/image (250).png" alt=""><figcaption></figcaption></figure>
 
-Empieza a parecer que más bien corresponde a una distribución asimétrica
-
+En este caso, vemos como los valores atípicos corresponden a una distribución asimétrica y seguramente en el estudio bivariante encontremos alguna asociación y terminemos no borrando los datos.&#x20;
