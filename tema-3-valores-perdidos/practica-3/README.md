@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # PRACTICA 3
 
 En el dataset de Titanic las variables disponibles son:​

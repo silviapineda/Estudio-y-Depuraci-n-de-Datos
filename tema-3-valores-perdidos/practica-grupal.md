@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # PRÁCTICA GRUPAL
 
 {% embed url="https://www.cis.es/es/detalle-ficha-estudio?origen=estudio&codEstudio=3428" %}
