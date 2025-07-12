@@ -12,19 +12,17 @@ El problema de los datos atípicos es que distorsionan de forma importante los a
 
 Es muy importante no confundir un dato atípico con un dato erróneo. Por ejemplo una persona que mida 2.1 metros, aunque poco frecuente, no tiene porque tratarse de valor erróneo, pues se trata de un valor válido, y será un dato atípico si se compara con otros individuos de menor altura, pero no si forma parte de un conjunto de datos de jugadores de baloncesto. Es importante tratar primero los errores como hemos vissto en el [Tema 1](broken-reference) y luego los datos atípicos como vamos a ver en este tema.
 
-### <mark style="color:orange;">Ejemplo 1</mark>
+<mark style="color:orange;">**Ejemplo 1**</mark>
 
 Supongamos que en una pequeña empresa hay 6 empleados con los siguientes salarios mensuales (en euros):
 
-1800, 1900, 2000, 2100, 2200, 2300
+1,800, 1,900, 2,000, 2,100, 2,200, 2,300
 
 #### Si calculamos la media obtenemos:
 
 $$
 \text{Media} = \frac{1800 + 1900 + 2000 + 2100 + 2200 + 2300}{6} = \frac{12300}{6} = 2050
 $$
-
-
 
 #### Si calculamos su mediana
 
@@ -38,7 +36,7 @@ Hasta aquí, la media y la mediana coinciden.
 
 Ahora supongamos que el dueño de la empresa también incluye su propio salario de **20,000€** en la lista:
 
-1800, 1900, 2000, 2100, 2200, 2300, **20000**
+1,800, 1,900, 2,000, 2,100, 2,200, 2,300, **20,000**
 
 #### **Nueva media**:
 
@@ -58,9 +56,7 @@ La **mediana** apenas ha cambiado (de **2050** a **2100**), lo que indica que la
 
 Este ejemplo muestra que la **media es muy sensible a los datos atípicos**, mientras que la **mediana es más robusta** y representa mejor la tendencia central en presencia de valores extremos.
 
-
-
-### <mark style="color:orange;">Ejemplo 2</mark>
+<mark style="color:orange;">**Ejemplo 2**</mark>
 
 No siempre vamos a observar unos datos tan dispares, pero aun así podemos ver que un dato atípico  puede tener un gran impacto en nuestros estudios.
 
@@ -68,9 +64,9 @@ Imagínate que queremos predecir el tiempo que tarda en recorrer una persona 1.5
 
 En un grupo de 10 personas, se observan para cada una de ellas las siguientes variables:
 
-_**Tiempo**_: tiempo que tarda en recorrer 1.5 millas (en minutos)
+<mark style="color:purple;">`Tiempo`</mark>: tiempo que tarda en recorrer 1.5 millas (en minutos)
 
-_**Oxigeno**_: cantidad de oxígeno que absorve por minuto (en ml. por Kg de peso)
+<mark style="color:purple;">`Oxigeno`</mark>: cantidad de oxígeno que absorve por minuto (en ml. por Kg de peso)
 
 ```r
 Tiempo=c(11.37,10.07,8.65,8.17,9.22,11.63,11.95,10.85,13.08,8.63)
@@ -120,10 +116,11 @@ ggp + stat_smooth(method = "lm",formula = y ~ x, geom = "smooth")
 
 Supongamos que en algún momento se ha producido un error y que en la observacion 10, el Tiempo = 18:
 
-<pre class="language-r"><code class="lang-r"><strong>Tiempo=c(11.37,10.07,8.65,8.17,9.22,11.63,11.95,10.85,13.08,18)
-</strong>Oxigeno=c(44.609,45.313,54.297,59.571,49.874,44.811,45.681,49.091,39.442,60.055)
-data_outlier&#x3C;-data.frame(Tiempo,Oxigeno)
-</code></pre>
+```r
+Tiempo=c(11.37,10.07,8.65,8.17,9.22,11.63,11.95,10.85,13.08,18)
+Oxigeno=c(44.609,45.313,54.297,59.571,49.874,44.811,45.681,49.091,39.442,60.055)
+data_outlier<-data.frame(Tiempo,Oxigeno)
+```
 
 Y volvemos a ajustar una recta de regresión y la volvemos a dibujar
 

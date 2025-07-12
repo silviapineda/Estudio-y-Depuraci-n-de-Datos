@@ -1,6 +1,6 @@
 # Ejercicios
 
-Con los siguientes datos de la base de datos implementada en R <mark style="color:orange;">`cars`</mark>: donde medimos dos variables <mark style="color:purple;">`speed`</mark> (velocidad) y <mark style="color:purple;">`dist`</mark> (distancia) obtenemos dos bases de datos, una original y una a la que le introducimos unos datos atípicos a la variable <mark style="color:purple;">`dist`</mark>:
+Con los siguientes datos de la base de datos implementada en R <mark style="color:orange;">**`cars`**</mark>: donde medimos dos variables <mark style="color:purple;">`speed`</mark> (velocidad) y <mark style="color:purple;">`dist`</mark> (distancia) obtenemos dos bases de datos, una original y una a la que le introducimos unos datos atípicos a la variable <mark style="color:purple;">`dist`</mark>:
 
 ```r
 cars_original <- cars # original data
