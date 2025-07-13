@@ -6,9 +6,9 @@ coverY: 0
 
 # Detección de datos atípicos y su tratamiento (automatización)
 
-Si tenemos que comprobar varias variables de una misma base de datos podemos pensar en automatizar el proceso mediante el uso de alguna función propia.&#x20;
+Si tenemos que comprobar varias variables de una misma base de datos podemos pensar en automatizar el proceso mediante el uso de alguna función propia que puede ejecutar el estudio univariante de forma automática.&#x20;
 
-Esta sería la función propia <mark style="color:green;">**`outliers()`**</mark> que la guarderemos en un **`Funciones_propias.R`**
+En este ejemplor vemos como sería la función propia <mark style="color:green;">**`outliers()`**</mark> que la guarderemos en un fichero como **`Funciones_propias.R`**
 
 ```r
 library(ggplot2)
@@ -60,7 +60,7 @@ outliers <- function(data, variable) {
 Y para usarla sería como una función cualquiera de R:
 
 ```r
-source("Funciones_propias .R")
+source("Funciones_propias.R")
 
 outliers(data,"Pressure_height")
 

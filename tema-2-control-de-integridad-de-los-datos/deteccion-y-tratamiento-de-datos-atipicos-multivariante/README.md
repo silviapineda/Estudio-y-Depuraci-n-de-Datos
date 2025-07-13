@@ -8,9 +8,11 @@ coverY: 0
 
 ## Enfoque Multivariante
 
-La idea del enfoque multivariante, es sobre todo detectar posibles "observaciones" atípicas. Considerando todas las variables de forma global, podemos ver si hay observaciones que destaquen de forma atípica.&#x20;
+Un estudio multivariante es aquel que estudia más de dos variables de forma simultanea. Su objetivo principal es **capturar las relaciones internas** (correlaciones, dependencias, estructuras latentes) que no se aprecian en un enfoque univariado o bivariado.&#x20;
 
 Al igual que tenemos métodos más sofisticados de _machine learning_ para analizar nuestros datos, los tenemos también para la detección de datos atípicos.&#x20;
+
+Los outliers **no siempre destacan en la distribución global**. En un espacio multidimensional puede haber puntos perfectamente “normales” vistos variable a variable, pero **raros respecto a sus vecinos más próximos**. LOF (Local Outlier Factor) —propuesto por [Breunig et al., 2000](https://dl.acm.org/doi/10.1145/335191.335388)— aborda ese problema midiendo la _desviación local_.
 
 ### Local Outlier Factor (LOF)
 
@@ -18,7 +20,7 @@ LOF es un algoritmo de detección de valores atípicos basado en la proximida y 
 
 En la práctica, la densidad local se obtiene de los k vecinos más cercanos. La puntuación LOF de una observación es igual a la relación entre la densidad local promedio de sus k vecinos más cercanos y su propia densidad local. Se espera que un _caso_ normal tenga una densidad local similar a la de sus vecinos, mientras que los _casos_ anómalos se espera que tengan una densidad local mucho menor.
 
-En un **KNN**, lo que hacemos es  clasificar a un nuevo miembro a una _clase_ o categoría que ya existe. Lo determina según que sus atributos se parezcan a los casos de una categoría u otra. Supongamos los grupos que se presentan en la siguiente gráfica. Se quiere asignar un nuevo punto, en negro. KNN buscará los _k_ puntos más cercanos a éste para encontrar la clase dominante del grupo. Para garantizar la existencia de una clase dominante, k debe ser un número impar.\
+En un **KNN**, lo que hacemos es clasificar a un nuevo miembro a una _clase_ o categoría que ya existe. Lo determina según que sus atributos se parezcan a los casos de una categoría u otra. Supongamos los grupos que se presentan en la siguiente gráfica. Se quiere asignar un nuevo punto, en negro. KNN buscará los _k_ puntos más cercanos a éste para encontrar la clase dominante del grupo. Para garantizar la existencia de una clase dominante, k debe ser un número impar.\
 
 
 <figure><img src="../../.gitbook/assets/image (15).png" alt="" width="375"><figcaption></figcaption></figure>
@@ -36,13 +38,21 @@ En la práctica, la densidad local se obtiene de los k vecinos más cercanos. La
   * Evalúa la densidad local en función de la distancia promedio a los vecinos.
   * Compara la densidad local del punto con las densidades locales de sus vecinos.
   * Calcula el Local Outlier Factor (LOF) como la relación entre la densidad del punto y la densidad promedio de sus vecinos.
-* Para elegir el mejor valor de k hay muchas maneras, en esta asignatura vamos a aplicar un método muy sencillo que es coger:
+* **Elegir&#x20;**_**k**_ (número de vecinos “cercanos”): $$k = log(n)$$
+* Para cada observación **A**, calcular su **k-distance(A)** como la distancia al k-ésimo vecino.
+* Derivar la **reachability distance** respecto a cada vecino **B:**
 
-$$
-k = log(n)
-$$
+&#x20;        $$\operatorname{reach}\_{k}(A,B)=\max\{\text{k-distance}(B),\;d(A,B)\}$$
 
-siendo $$n$$ el número de observaciones.&#x20;
+
+
+* Obtener la **densidad de alcance local** (_local reachability density_, LRD):$$\text{LRD}_{k}(A)=\Big(\frac{\sum_{B\in N_{k}(A)} \operatorname{reach}_{k}(A,B)}{|N_{k}(A)|}\Big)^{-1}$$
+
+
+
+*   Comparar densidades:&#x20;
+
+    &#x20;$$\text{LOF}_{k}(A)=\frac{\sum_{B\in N_{k}(A)} \text{LRD}_{k}(B)}{|N_{k}(A)|}\;\Big/\;\text{LRD}_{k}(A)$$
 
 **Interpretación:**
 

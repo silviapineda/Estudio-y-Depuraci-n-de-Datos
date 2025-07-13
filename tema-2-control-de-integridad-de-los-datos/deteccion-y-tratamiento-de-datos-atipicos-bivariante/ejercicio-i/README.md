@@ -8,7 +8,7 @@ Con la misma base de datos <mark style="color:orange;">**`ozone`**</mark> de R  
 data <- read.csv("ozone.csv")  # import data
 ```
 
-Puedes dar los siguientes pasos:
+Puedes ejecutar los siguientes pasos:
 
 1. Comprueba si hay datos atípicos de forma univariante en cada una de las variables
    1. Usa gráficos para tomar la decisión
