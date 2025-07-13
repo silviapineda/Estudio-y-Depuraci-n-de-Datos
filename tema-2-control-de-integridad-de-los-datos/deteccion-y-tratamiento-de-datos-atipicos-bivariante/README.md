@@ -6,15 +6,18 @@ coverY: 0
 
 # Detección y tratamiento de datos atípicos (bivariante)
 
-Seguimos con la misma base de datos <mark style="color:orange;">**`ozone`**</mark> de R para ilustrar el tema
-
-{% file src="../../.gitbook/assets/ozone (5).csv" %}
+Seguimos con la misma base de datos <mark style="color:orange;">**`ozone`**</mark> de R para ilustrar el tema.
 
 ## Enfoque bivariante
 
-El caso bivariado, nos permite representar una variable en función de otra. Por ejemplo, en el caso de una variable continua en función de una variable categórica, volvemos a hacer uso del diagrama de cajas.
+El caso bivariado, nos permite representar una variable en función de otra. La idea es ver si los "outliers" encontrados en el estudio univariante son parte de una asociación (no serán outliers) o en cambio son datos aislados (si serán outliers).&#x20;
 
-### **Variable continua con variable categórica**
+Lo vamos a hacer de forma gráfica teniendo en cuenta el tipo de variables:
+
+* Variable Cuantitativa con Variable Cualitativa ⇒ Diagrama de cajas (boxplot)
+* Variable Cuantitativa con Variable Cuantitativa ⇒ Diagrama de dispersión (scatterplot)
+
+### **Variable cuantitativa con variable cualitativa**
 
 Ahora vamos a ver si la variable <mark style="color:purple;">`Pressure_height`</mark>  toma valores atípicos de la misma forma que antes al representarla por meses (<mark style="color:purple;">`Month`</mark>) y días de la semana (<mark style="color:purple;">`Day_of_week`</mark>):
 
@@ -38,24 +41,25 @@ p1 + p2
 
 <figure><img src="../../.gitbook/assets/image (252).png" alt=""><figcaption></figcaption></figure>
 
-En el gráfico primero, donde se representa la variable <mark style="color:purple;">`Pressure_height`</mark> por la variable <mark style="color:purple;">`Month`</mark>, sólo 3 atípicos son detectados que no son los mismos que se detectaban en la variable en cuestión, y en el caso de la representación por la variable <mark style="color:purple;">`Day_of_week`</mark>, se detectan unos cuantos más, aquí si coincidiendo con la variable en cuestión. El problema aquí es que además de los datos atípicos que nos muestran los diagramas de cajas, tenemos que ver si existe relación entre dichas variables. En este caso, parece que la variable <mark style="color:purple;">`Pressure_height`</mark> tiene relación con la variable <mark style="color:purple;">`Month`</mark>, siendo los meses de invierno los que toman valores más bajos y los de verano más altos y por tanto ya no queda claro si realmente los datos atípicos de la variable <mark style="color:purple;">`Pressure_heigt`</mark> eran realmente atípicos o simplemente son parte de la asociación observada con <mark style="color:purple;">`Month`</mark>. &#x20;
+En el gráfico de la izquierda se representa la variable <mark style="color:purple;">`Pressure_height`</mark> por la variable <mark style="color:purple;">`Month`</mark>,  y en el de la derecha por la variable <mark style="color:purple;">`Day_of_week`</mark>. En este caso, vemos que la variable <mark style="color:purple;">`Pressure_height`</mark> tiene relación con la variable <mark style="color:purple;">`Month`</mark>, a diferencia de la variable <mark style="color:purple;">`Day_of_week`</mark> con la que no se observa ninguna relación.  Con la primera, vemos como los meses de invierno son los que toman valores más bajos y los de verano más altos, siendo los outliers que detectamos en el estudio univariante parte de esta asociación.  Conclusión,  ya no queda claro si realmente los datos atípicos de la variable <mark style="color:purple;">`Pressure_heigt`</mark> eran realmente atípicos o simplemente son parte de la asociación observada con <mark style="color:purple;">`Month`</mark>. &#x20;
 
-### **Variable continua con variable continua**
+### **Variable cuantitativa con variable cuantitativa**
 
-Cuando tenemos dos variables continuas, lo que podemos hacer es dibujar un diagrama de dispersión y ver como veíamos en el ejemplo ilustrativo si dichas variables podrían tener datos atípicos
+Cuando tenemos dos variables continuas, lo que podemos hacer es dibujar un diagrama de dispersión y ver si dichas variables podrían tener datos atípicos
 
-Para este caso vamos a ver <mark style="color:purple;">`Pressure_height`</mark> con las variables de temperatura <mark style="color:purple;">`Temperature_Sandburg`</mark> y <mark style="color:purple;">`Temperature_ElMonte`</mark>
+Para este caso vamos a ver si la variable objetivo que estamos estudiando (Y)  <mark style="color:purple;">`Pressure_height`</mark>  tiene relación con las variables  explicativas (X) de temperatura <mark style="color:purple;">`Temperature_Sandburg`</mark> y <mark style="color:purple;">`Temperature_ElMonte`</mark>
 
-<pre class="language-r"><code class="lang-r"><strong>ggp &#x3C;- ggplot(data,aes(Pressure_height, Temperature_Sandburg)) + geom_point()
-</strong>ggp + stat_smooth(method = "lm",
+```r
+ggp <- ggplot(data,aes(y = Pressure_height, x = Temperature_Sandburg)) + geom_point()
+ggp + stat_smooth(method = "lm",
                   formula = y ~ x,
                   geom = "smooth")
 
 summary(lm(data$Pressure_height~data$Temperature_Sandburg))
 
-</code></pre>
+```
 
-<figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ```r
 Call:
@@ -78,13 +82,14 @@ F-statistic: 373.6 on 1 and 201 DF,  p-value: < 2.2e-16
 
 ```
 
-Aquí volvemos a ver los posibles outliers de la variable <mark style="color:purple;">`Pressure_height`</mark>, pero también vemos como esta variable se asocia con las variables de temperatura siendo que los valores que se veían como atípicos en el diagrama de cajas primero, se relacionan con niveles muy bajitos de temperatura como podíamos pensar de los meses de inviernos, por tanto, **¿Son datos realmente atípicos?**
+En este diagrama de dispersión con un ajuste de una recta de regresión lineal, vemos como los posibles outliers de la variable <mark style="color:purple;">`Pressure_height`</mark> están relacionados con la temperatura, de forma que los valores  bajos de <mark style="color:purple;">`Pressure_heigth`</mark> (incluídos los valores atípicos) se relacionan con niveles muy bajitos de temperatura como veáimos también con los meses de inviernos, por tanto, **¿Son datos realmente atípicos?**
 
-**Considerando lo ya visto en el caso univariante y esto, vamos a dejar estos datos sin tocar, pero si en futuros análisis nos dan problemas o detectamos cosas "raras" recordaremos que estos datos podrían ser atípicos.**&#x20;
+**Considerando lo ya visto en el caso univariante y esto,  estos datos no los vamos a considerar como atípicos, ya que son parte de una asociación estadística en la que vemos con los valores atípicos de la variable&#x20;**<mark style="color:purple;">**`pressure_height`**</mark>**&#x20;se relacionan con los meses de inviernos donde la temperatura en inferior. Por tanto, no vamos a hacer nada y no los borraremos.**&#x20;
 
 ### Resumen para la detección de atípicos
 
-1. Representar el diagrama de cajas de la variable en cuestión y calcular los valores atípicos y extremos como valores que se alejan de  1.5\*IQR (atípico) y de 3\*IQR (extremo).&#x20;
-2. Para poder ser considerados datos atípicos o extremos deben representar menos del 2-5% del conjunto de datos porque sino se trataría de datos "típicos".
-3. Se debe realizar un estudio bivariado para ver si esos datos atípicos son parte de una asociación estadística o no. Si lo son, no los consideraremos atípicos.&#x20;
+1. Representar el diagrama de cajas de la variable en cuestión y calcular los valores atípicos y extremos como valores que se alejan de  1.5\*IQR (atípico) y de 3\*IQR (extremo).
+2. Representar su histograma para ver la distribución de la variable en cuestión, si es asimétrica o son datos realmente diferenciados de la distribución general. &#x20;
+3. Para poder ser considerados datos atípicos o extremos deben representar menos del 2-5% del conjunto de datos porque sino se trataría de datos "típicos".
+4. Se debe realizar un estudio bivariado para ver si esos datos atípicos son parte de una asociación estadística o no. Si lo son, no los consideraremos atípicos.&#x20;
 
