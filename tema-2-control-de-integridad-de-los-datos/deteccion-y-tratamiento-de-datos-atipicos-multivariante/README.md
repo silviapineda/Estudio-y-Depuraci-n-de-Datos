@@ -33,26 +33,12 @@ En la práctica, la densidad local se obtiene de los k vecinos más cercanos. La
 
 **Resumen del Algoritmo:** Aquí tenéis un esquema básico del algoritmo LOF:
 
+* **Elegir&#x20;**_**k**_ (número de vecinos “cercanos”): $$k = log(n)$$
 * Para cada punto de datos:
   * Calcula la distancia a sus k vecinos más cercanos.&#x20;
   * Evalúa la densidad local en función de la distancia promedio a los vecinos.
   * Compara la densidad local del punto con las densidades locales de sus vecinos.
   * Calcula el Local Outlier Factor (LOF) como la relación entre la densidad del punto y la densidad promedio de sus vecinos.
-* **Elegir&#x20;**_**k**_ (número de vecinos “cercanos”): $$k = log(n)$$
-* Para cada observación **A**, calcular su **k-distance(A)** como la distancia al k-ésimo vecino.
-* Derivar la **reachability distance** respecto a cada vecino **B:**
-
-&#x20;        $$\operatorname{reach}\_{k}(A,B)=\max\{\text{k-distance}(B),\;d(A,B)\}$$
-
-
-
-* Obtener la **densidad de alcance local** (_local reachability density_, LRD):$$\text{LRD}_{k}(A)=\Big(\frac{\sum_{B\in N_{k}(A)} \operatorname{reach}_{k}(A,B)}{|N_{k}(A)|}\Big)^{-1}$$
-
-
-
-*   Comparar densidades:&#x20;
-
-    &#x20;$$\text{LOF}_{k}(A)=\frac{\sum_{B\in N_{k}(A)} \text{LRD}_{k}(B)}{|N_{k}(A)|}\;\Big/\;\text{LRD}_{k}(A)$$
 
 **Interpretación:**
 

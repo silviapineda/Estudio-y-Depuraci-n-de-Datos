@@ -68,11 +68,6 @@ ggplot(data, aes(x = as.factor(Month), y = lof)) +
 ggplot(data, aes(x = as.factor(Day_of_week), y = lof)) +
   geom_boxplot(fill = "lightgreen") +
   labs(title = "lof across day of week", x = "Day_of_week", y = "lof") 
-
-
-
-
-
 ```
 
 No observamos ninguna observación que tenga un LOF especialmente grande más allá de que los puntos rojos que son los que mayor LOF tienen siempre corresponden a los puntos más alejados de las nubes de puntos al representar las variables dos a dos que corresponden a los datos atípicos que ya hemos observado en el estudio previo. No borraremos nada más.

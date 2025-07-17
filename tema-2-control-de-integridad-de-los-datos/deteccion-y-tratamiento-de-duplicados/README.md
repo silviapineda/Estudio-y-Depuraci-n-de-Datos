@@ -48,7 +48,7 @@ La función <mark style="color:green;">**`unique()`**</mark> se puede utilizar p
 unique(df)
 ```
 
-Por otro lado la librería **`dplyr`** proporciona la función <mark style="color:green;">**`distinct()`**</mark> para obtener filas únicas de un dataframe muy similar que unique. También se puede utilizar para eliminar duplicados:
+Por otro lado la librería **`dplyr`** proporciona la función <mark style="color:green;">**`distinct()`**</mark> para obtener filas únicas de un dataframe muy similar a unique. También se puede utilizar para eliminar duplicados:
 
 ```r
 library(dplyr)
