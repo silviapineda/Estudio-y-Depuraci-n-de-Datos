@@ -26,9 +26,6 @@ outliers <- function(data, variable) {
   outlier_values <- stats$out  
   prop_outliers <- round(length(outlier_values) / tot * 100, 2)  # Proporción de outliers
   
-  # Filtrar datos sin outliers
-  data_no_outliers <- data.frame(value = var_name) %>%
-    filter(!(value %in% outlier_values))
   
   # Histograma con todos los datos
   p1 <- ggplot(data.frame(value = var_name), aes(x = value)) +

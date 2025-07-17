@@ -23,7 +23,7 @@ extreme <- function(data, variable) {
   ##Datos extremos para dibujar en boxplot
   data_extreme <- data.frame(value = var_name) %>%
     filter(value %in% outlier_values)
-    
+  
   # Histograma con todos los datos
   p1 <- ggplot(data.frame(value = var_name), aes(x = value)) +
     geom_histogram(fill = "steelblue", color = "black", bins = 30, alpha = 0.7) +
@@ -36,7 +36,7 @@ extreme <- function(data, variable) {
     geom_boxplot() +
     geom_point(data = data_extreme, 
                aes(x = value, y = 0), color = "red", size = 3) +  # Solo outliers extremos en rojo
-    labs(title = "Boxplot with Outliers", x = variable, y = "") +
+    labs(title = "Boxplot with extreme values", x = variable, y = "") +
     theme_minimal()
   
   # Mostrar gráficos juntos con patchwork
@@ -44,8 +44,8 @@ extreme <- function(data, variable) {
   
   
   # Mostrar información en la consola
-  cat("\n📌 Outliers identified in", variable, ": ", length(outlier_values), "outliers\n")
-  cat("📊 Proportion (%) of outliers:", prop_outliers, "%\n")
+  cat("\n📌 Outliers identified in", variable, ": ", length(outlier_values), "extreme values\n")
+  cat("📊 Proportion (%) of extreme values:", prop_outliers, "%\n")
   
   return(outlier_values)  # Devolver los valores outliers sin modificar los datos
 }

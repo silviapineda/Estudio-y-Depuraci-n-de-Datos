@@ -107,6 +107,6 @@ ggplot(data, aes(x=Pressure_height)) +
   geom_histogram(fill = "skyblue")
 ```
 
-<figure><img src="../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4).png" alt="" width="563"><figcaption></figcaption></figure>
 
 En este caso, vemos como los valores atípicos corresponden a una distribución asimétrica y seguramente en el estudio bivariante encontremos alguna asociación y terminemos no borrando los datos.&#x20;
