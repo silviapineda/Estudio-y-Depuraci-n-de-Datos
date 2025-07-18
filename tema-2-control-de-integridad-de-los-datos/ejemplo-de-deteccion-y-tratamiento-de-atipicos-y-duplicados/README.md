@@ -240,21 +240,4 @@ ggplot(datos, aes(x = MANGANESO, y = SELENIO, colour = lof)) +
 
 En el estudio multivariante se ve como hay 3 observaciones que tienen un LOF completamente elevado, estos corresponden a los outliers de la variable de SELENIO. No se ve en el resto de las variables que estas observaciones se comporten de forma rara, simplemente son tan atípicas en la variable SELENIO, que el algoritmo LOF las ha detectado. Sólo borraremos el valor de SELENIO.
 
-
-
-
-
-**Lectura y comprobación de errores y declaración de variables**
-
-```r
-datos<-read.csv("CEREALES.csv")
-
-str(datos)
-summary(datos)
-datos$VARIEDAD<-factor(datos$VARIEDAD)
-str(datos)
-table(datos$VARIEDAD)
-
-```
-
 
