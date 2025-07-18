@@ -21,9 +21,9 @@
 
 ## Tema 2: Control de integridad de los datos
 
-* [Introducción a los datos atípicos](tema-2-control-de-integridad-de-los-datos/introduccion-a-los-datos-atipicos/README.md)
-  * [Ejercicios](tema-2-control-de-integridad-de-los-datos/introduccion-a-los-datos-atipicos/ejercicios/README.md)
-    * [Resultados](tema-2-control-de-integridad-de-los-datos/introduccion-a-los-datos-atipicos/ejercicios/resultados.md)
+* [Introducción](tema-2-control-de-integridad-de-los-datos/introduccion/README.md)
+  * [Ejercicios](tema-2-control-de-integridad-de-los-datos/introduccion/ejercicios/README.md)
+    * [Resultados](tema-2-control-de-integridad-de-los-datos/introduccion/ejercicios/resultados.md)
 * [Detección y tratamiento de datos atípicos (univariante)](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-datos-atipicos-univariante.md)
 * [Detección y tratamiento de datos atípicos (bivariante)](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-datos-atipicos-bivariante/README.md)
   * [Ejercicio I](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-datos-atipicos-bivariante/ejercicio-i/README.md)
@@ -37,8 +37,7 @@
 * [Detección y tratamiento de duplicados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/README.md)
   * [Ejercicio](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/ejercicio/README.md)
     * [Reusltados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/ejercicio/reusltados.md)
-* [Ejemplo de detección y tratamiento de atípicos y duplicados](tema-2-control-de-integridad-de-los-datos/ejemplo-de-deteccion-y-tratamiento-de-atipicos-y-duplicados/README.md)
-  * [Resultados](tema-2-control-de-integridad-de-los-datos/ejemplo-de-deteccion-y-tratamiento-de-atipicos-y-duplicados/resultados.md)
+* [Ejemplo de detección y tratamiento de atípicos](tema-2-control-de-integridad-de-los-datos/ejemplo-de-deteccion-y-tratamiento-de-atipicos.md)
 * [Detección de datos atípicos en Big Data](tema-2-control-de-integridad-de-los-datos/deteccion-de-datos-atipicos-en-big-data.md)
 * [PRACTICA 2](tema-2-control-de-integridad-de-los-datos/practica-2/README.md)
   * [Resultados](tema-2-control-de-integridad-de-los-datos/practica-2/resultados.md)
