@@ -146,7 +146,7 @@ Para visualizar los datos missing podemos hacer uso de la función <mark style="
 gg_miss_var(data, show_pct = TRUE)
 ```
 
-<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 Si queremos visualizar los datos missing por sexo haríamos uso del arguemnto <mark style="color:green;">**`facet =`**</mark>
 
@@ -154,7 +154,7 @@ Si queremos visualizar los datos missing por sexo haríamos uso del arguemnto <m
 gg_miss_var(data, show_pct = TRUE,facet = gender)
 ```
 
-<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
 
 Una cosa interesante que vemos al clasificar los datos por sexo, es que los valores perdidos de la variable edad corresponden a los valores perdidos de la variable sexo.&#x20;
 
@@ -172,7 +172,7 @@ vis_miss(select(data,outcome,gender,age))
 vis_miss(data, cluster=TRUE)
 ```
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/image (261).png" alt=""><figcaption></figcaption></figure>
 

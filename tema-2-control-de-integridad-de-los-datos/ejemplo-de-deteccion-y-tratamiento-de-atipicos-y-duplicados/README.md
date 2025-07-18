@@ -117,15 +117,15 @@ Veremos los gráficos correspondientes a estas variables:
 
 {% tabs %}
 {% tab title="MANGANESO" %}
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="FIBRA" %}
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="SELENIO" %}
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -137,12 +137,112 @@ En todos los gráficos se ve claramente como las variables están distribuidos d
 
 Para el estudio bivariante hay que pensar en el objetivo principal, en este caso buscamos ver si hay diferencias de la composición entre las distintas variedades de cereal, por tanto la variable principal con la que miraremos los posibles outliers, será con la variable VARIEDAD. Además en el estudio univariante, se ha visto la distribución trimodal correspondiente seguramente a los tres cereales.
 
-```
-/
+MANGANESO
+
+```r
+# Gráfico 1: Manganeso por variedad
+p1 <- ggplot(datos, aes(x = VARIEDAD, y = MANGANESO)) +
+  geom_boxplot(fill = "lightblue") 
+
+p1
 ```
 
-2. Si así lo consideras, borra los datos atípicos y justifica por qué quitas o no los datos atípicos.
-3. Con la base de datos completa, aplica el algoritmo LOF para el estudio de datos atípicos multivariante.&#x20;
+<figure><img src="../../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+
+Los outliers son un 24.28 %, de los cuales un 1.73% (3 valores) son extremos. En el caso de los outliers, se ve que corresponden a la CEBADA y los 3 extremos  no pertenecen a ninguna de las 3 distribuciones parcadas por los 3 cereales, por tanto habrá que borrarlos. &#x20;
+
+FIBRA
+
+```r
+# Gráfico 2: FIBRA por variedad
+p2 <- ggplot(datos, aes(x = VARIEDAD, y = FIBRA)) +
+  geom_boxplot(fill = "lightblue") 
+
+p2
+```
+
+<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+
+El porcentaje de ouliers es de un 8% y además se ve que es debido a una distribución asimétrica ya que los outliers corresponden a la cebada, por tanto, no hay que borrarlos, no son outliers.
+
+SELENIO
+
+```r
+# Gráfico 3: SELENIO por VARIEDAD
+p3 <- ggplot(datos, aes(x = VARIEDAD, y = SELENIO)) +
+  geom_boxplot(fill = "lightblue") 
+
+p3
+```
+
+<figure><img src="../../.gitbook/assets/image (3).png" alt="" width="563"><figcaption></figcaption></figure>
+
+CONCLUSIÓN:
+
+Borrar los outliers de SELENIO y los extremos de MANGANESO
+
+```r
+## MANGANESO
+extreme_values <- boxplot.stats(datos$MANGANESO,coef=3)$out  # extreme values.
+ext_ind <- which(datos$MANGANESO %in% c(extreme_values))
+datos$MANGANESO[ext_ind]<-NA
+
+## SELENIO
+outlier_values <- boxplot.stats(datos$SELENIO)$out  # outlier values.
+out_ind <- which(datos$SELENIO %in% c(outlier_values))
+datos$SELENIO[out_ind]<-NA
+```
+
+**Análisis multivariante con LOF**
+
+```r
+library(dbscan)
+library(class)
+library(ggplot2)
+
+datos <- read.csv("CEREALES.csv")  # import data
+datos$VARIEDAD<-factor(datos$VARIEDAD)
+
+####Aplicamos LOF
+k<-round(log(nrow(datos))) ##calcular la k
+datos_lof<-select(datos,-VARIEDAD,-N_MUESTRA)
+lof_score<-lof(datos_lof,minPts = k) 
+
+##Añadimos el score a la base de datos
+datos$lof_score<-lof_score
+
+##Representamos en un histograma el score
+ggplot(datos, aes(x = lof_score)) +
+  geom_histogram() +
+  labs(title = "Distribución de LOF Scores", x = "LOF score", y = "Frecuencia")
+
+```
+
+<figure><img src="../../.gitbook/assets/image (6).png" alt="" width="563"><figcaption></figcaption></figure>
+
+Se ve como hay unos datos con score LOF muy elevado por encima de 5 que seguramente estén marcando los outliers que hemos visto en el estudio univariente/bivariante. Lo comprobamos:
+
+```r
+datos[lof_score>5,]
+
+      VARIEDAD MANGANESO CALORIAS FIBRA SELENIO FOSFORO N_MUESTRA lof_score
+23	TRIGO	1.11	 187.22	  7.95	55.22	126.64	23	  15.015167
+69	CEBADA	0.60	 130.14	  13.19	66.00	228.88	68	  9.395902
+142	AVENA	1.30	 150.18	  1.08	49.58	168.59	140	  18.772921
+
+ggplot(datos, aes(x = MANGANESO, y = SELENIO, colour = lof)) +
+  geom_point() +
+  scale_color_gradient(low = "blue", high = "red", name = "LOF Score") +
+  labs(title = "Detección de Valores Atípicos con LOF")
+```
+
+<figure><img src="../../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
+
+En el estudio multivariante se ve como hay 3 observaciones que tienen un LOF completamente elevado, estos corresponden a los outliers de la variable de SELENIO. No se ve en el resto de las variables que estas observaciones se comporten de forma rara, simplemente son tan atípicas en la variable SELENIO, que el algoritmo LOF las ha detectado. Sólo borraremos el valor de SELENIO.
+
+
+
+
 
 **Lectura y comprobación de errores y declaración de variables**
 

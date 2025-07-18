@@ -103,7 +103,7 @@ Aunque siempre puedes analizar un conjunto de datos después de eliminar todos l
 
 <figure><img src="../../.gitbook/assets/image (34).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (4) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Es importante pensar en por qué tus datos podrían faltar, además de ver cuánto falta. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser la mejor en tu situación.
 
@@ -315,5 +315,5 @@ ggplot(data, aes(x = temp, fill = "temp")) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
