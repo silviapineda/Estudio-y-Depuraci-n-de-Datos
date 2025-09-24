@@ -186,14 +186,22 @@ n_case_complete(data)
 1579
 ```
 
-En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no los tratamos y solo los borramos, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a 1579 observaciones de las 5888 de las que partíamos, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
+En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no los tratamos y solo los borramos, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a **1579** observaciones de las **5888** de las que partíamos, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
 
 * Borrarlos
 * Imputarlos
 
 La decisión muchas veces vendrá dada por el número de datos perdidos, los análisis posteriores que se quieran realizar, si queremos hacer análisis univariante o multivariante, etc.
 
-La decisión de borrarlos puede tener mucho impacto en nuestros análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**) usando los datos filtrados:
+La decisión de borrarlos puede tener mucho impacto en nuestros análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**)&#x20;
+
+1\) Borrar todas aquellas filas que tienen al menos un missing (n=1579):
+
+```r
+data_complete<-data[complete.cases(data),]
+dim(data_complete)
+[1] 1579   20
+```
 
 ```r
 summary(glm(days_onset_hosp ~ temp, data = data_complete, family = poisson))
@@ -206,22 +214,22 @@ Call:
 glm(formula = days_onset_hosp ~ temp, family = poisson, data = data_complete)
 
 Coefficients:
-             Estimate Std. Error z value Pr(>|z|)
-(Intercept)  0.723321   0.773418   0.935    0.350
-temp        -0.000152   0.020026  -0.008    0.994
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  0.21307    0.72794   0.293     0.77
+temp         0.01302    0.01884   0.691     0.49
 
 (Dispersion parameter for poisson family taken to be 1)
 
-    Null deviance: 2870  on 1381  degrees of freedom
-Residual deviance: 2870  on 1380  degrees of freedom
-AIC: 5784.3
+    Null deviance: 3258.9  on 1578  degrees of freedom
+Residual deviance: 3258.4  on 1577  degrees of freedom
+AIC: 6582.8
 
 Number of Fisher Scoring iterations: 5
 ```
 
-Obtenemos un p-valor no significativo (asumiendo todos los supuestos para aplicar una regresión de Poisson)
+En este caso, vemos como la variable <mark style="color:purple;">`temp`</mark> no está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 0.49) y por tanto no podríamos decir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
 
-Vemos como hemos borrado muchísimos datos y este modelo no nos sirve para nada, pero si solo borramos las filas correspondientes a esas dos variables:&#x20;
+2\) No borramos nada (n=5888)
 
 ```r
 summary(glm(days_onset_hosp ~ temp, data = data, family = poisson))
@@ -247,25 +255,74 @@ Residual deviance: 11457  on 5481  degrees of freedom
 AIC: 22812
 
 Number of Fisher Scoring iterations: 5
+
 ```
 
-Ya podemos intuir que hay un ajuste un poco mejor, con lo que **cuidado borrar todos los datos perdidos cuando solo vas a trabajar con dos variables.**
+En este caso, si podemos decir que la variable <mark style="color:purple;">`temp`</mark>  está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 5.36e-10) y por tanto podemos decir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
 
-###
+**Por tanto es muy importante detectar y tratar de forma adecuada los datos faltantes sino quieres resultados sesgados o incluso falsos.**&#x20;
 
-###
+Para hacer un buen tratamiento es importante pensar en por qué tus datos podrían faltar, además de cuantificarlos. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser la mejor en tu situación.
+
+### Tipos de datos missing
+
+En estadística y ciencia de datos hablamos de tres tipos de datos mmissing:
+
+1.  **Missing Completely at Random (MCAR):** Son datos perdidos completamente aleatorios, es decir, la ausencia de valores en un conjunto de datos es **independiente** tanto **de otras variables** observadas como de las no observadas.&#x20;
+
+    **Ejemplo**: en una encuesta online, algunos participantes olvidan responder una pregunta sobre el **color favorito** porque el sistema falla en un 5% de los casos al guardar la respuesta. El error ocurre de manera aleatoria y no depende de ninguna variable como la edad, género, ni del propio color elegido.
+2.  **Missing at Random (MAR):** Son datos perdidos aleatorios, es decir, la probabilidad de que un valor falte puede **depender de otras variables observadas**, pero no de las no observadas. El nombre puede confundir porque no son realmente aleatorios.
+
+    **Ejemplo**: en un estudio psicológico, las personas más **mayores** son menos propensas a responder a preguntas sobre **uso de redes sociales**. Aquí, la ausencia está relacionada con la variable observada _edad y &#x63;_&#x6F;mo la conocemos, podemos modelar y compensar esta ausencia.
+3. **Missing not at Random (MNAR):** Datos perdidos de forma no aleatoria, es decir, la probabilidad de que falte un valor **depende de una variable no observada**. Esto puede introducir sesgos en los datos y es más complicado de manejar. En otras palabras, la falta de un valor está relacionada con la información que falta y no puede ser modelada únicamente en función de las variables observadas. **Ejemplo**: en una encuesta sobre **ingresos anuales**, los participantes con sueldos muy **altos** tienden a no contestar esa pregunta. La probabilidad de ausencia está directamente relacionada con el valor perdido (el ingreso), por lo que es mucho más difícil de corregir.
+
+Tratar con datos **MNAR** (Missing not at Random) puede ser más complicado que tratar con datos **MCAR** (Missing Completely at Random) o **MAR** (Missing at Random) porque la falta de información está relacionada con la información que falta.&#x20;
 
 ### Visualización&#x20;
 
-Es muy importante visualizar los datos missing para poder clasificar los datos missing en sy poder tratar los datos posteriormente.&#x20;
+Antes de imputar o eliminar, es esencial **ver** dónde y cómo faltan los datos. Con <mark style="color:green;">**`gg_miss_var()`**</mark> cuantificamos el porcentaje de `NA` por variable (y por subgrupos con <mark style="color:green;">**`facet =`**</mark>). Con <mark style="color:green;">**`vis_miss()`**</mark> inspeccionamos patrones fila–columna, y con <mark style="color:green;">**`geom_miss_point()`**</mark> detectamos relaciones entre dos cuantitativas cuando una falta. Las columnas `sombra` creadas con <mark style="color:green;">**`bind_shadow()`**</mark> permiten tratar la ausencia `(NA/no_NA)` como una variable más y estudiar su relación con covariables o con el tiempo.&#x20;
 
-Para visualizar los datos missing podemos hacer uso de la función <mark style="color:green;">**`gg_miss_var()  o vis_miss()`**</mark>que nos muestra el % de valores missing que hay en cada columna. Con esta función se puede:
+1\) **Panorama global por variable**&#x20;
 
 ```r
 gg_miss_var(data, show_pct = TRUE)
 ```
 
-<figure><img src="../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (264).png" alt=""><figcaption></figcaption></figure>
+
+Aquí vemos que <mark style="color:purple;">`infector`</mark> y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de 35% de datos ausentes. <mark style="color:purple;">`hospital`</mark>, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto menos del 5%. Esto es importante porque si el número de datos ausente supera el 5% en las variables, estas pueden ser muy poroblemáyicas y, por tanto, habrá que ver como de relevantes son para el análisis.
+
+* La ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA.\
+  → Esto ya **descarta MCAR global** (completamente aleatorio).
+
+También podemos visulizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no con <mark style="color:green;">**`vis_miss()`**</mark>. Se puede usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.&#x20;
+
+El orden en el que aparecen las observaciones es el mismo que en la base de datos, pero con la opción <mark style="color:green;">**`cluster = TRUE`**</mark>, se pueden identificar grupos de variables con patrones similares.
+
+```r
+vis_miss(data,cluster=TRUE)  + 
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+<figure><img src="../../.gitbook/assets/image (266).png" alt=""><figcaption></figcaption></figure>
+
+En este gráfico vemos una **matriz de observaciones (filas) por variables (columnas)**:
+
+* **Gris** = dato presente.
+* **Negro** = valor perdido.
+
+En este caso, vemos que algunos **bloques verticales** (columnas) concentran los NA.&#x20;
+
+Cuando observamos variables como puntos negros dispersos, normalmente pensamos que son MACR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
+
+En este caso, vemos que los datos faltantes de todos los síntomas faltan en los mismos individuos, esto habrá que ver si la ausencia puede estar ligada a algo observable (MAR). Se podría pensar que los NA en _outcome_ podrían depender de la variable _date\_outcome_ o de si el paciente sigue hospitalizado (MAR). La falta de _date\_infection_ y _infector_ podría depender de la calidad del registro por hospital o del periodo de la epidemia, por tanto ausencias ligadas a otras variables observadas (MAR). Si los casos más graves o sin desenlace son precisamente los que no tienen _outcome_, entonces la ausencia depende del propio valor no observado (ejemplo clásico de MNAR). La edad y gender se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
+
+Para visualizar esto, habría que hacer una visualizació por subgrupos
+
+**2) Visualizar por subgrupos**
+
+```
+```
 
 Si queremos visualizar los datos missing por sexo haríamos uso del arguemnto <mark style="color:green;">**`facet =`**</mark>
 
