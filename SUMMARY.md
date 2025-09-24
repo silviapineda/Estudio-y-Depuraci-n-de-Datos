@@ -36,7 +36,7 @@
     * [Resultados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-datos-atipicos-multivariante/ejercicio-ii/resultados.md)
 * [Detección y tratamiento de duplicados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/README.md)
   * [Ejercicio](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/ejercicio/README.md)
-    * [Reusltados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/ejercicio/reusltados.md)
+    * [Resultados](tema-2-control-de-integridad-de-los-datos/deteccion-y-tratamiento-de-duplicados/ejercicio/resultados.md)
 * [Ejemplo de detección y tratamiento de atípicos](tema-2-control-de-integridad-de-los-datos/ejemplo-de-deteccion-y-tratamiento-de-atipicos.md)
 * [Detección de datos atípicos en Big Data](tema-2-control-de-integridad-de-los-datos/deteccion-de-datos-atipicos-en-big-data.md)
 * [PRACTICA 2](tema-2-control-de-integridad-de-los-datos/practica-2/README.md)
@@ -44,6 +44,7 @@
 
 ## Tema 3: Valores Perdidos
 
+* [Introducción](tema-3-valores-perdidos/introduccion.md)
 * [Detección de datos perdidos](tema-3-valores-perdidos/deteccion-de-datos-perdidos/README.md)
   * [Ejercicios](tema-3-valores-perdidos/deteccion-de-datos-perdidos/ejercicios/README.md)
     * [Resultados](tema-3-valores-perdidos/deteccion-de-datos-perdidos/ejercicios/resultados.md)

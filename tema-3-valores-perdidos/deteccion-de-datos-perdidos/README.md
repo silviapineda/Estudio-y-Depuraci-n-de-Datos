@@ -5,23 +5,13 @@ coverY: 0
 
 # Detección de datos perdidos
 
-El problema de los datos perdidos (missing data)
+En este apartado vamos a ver como cuantificar y visualizar los datos ausentes para su detección, pero antes veamos como se representan los datos ausentes en R
 
-Uno de los problemas que aparece en el análisis de datos con frecuencia es la existencia de **datos** **faltantes** o **ausentes**, también llamados **datos missing** (en inglés).
-
-Se producen cuando las observaciones de nuestros datos no están completas. La presencia de datos missing en una muestra puede ser debida a numerosas causas:
-
-* Ausencia natural de la información que se busca
-* Una observación errónea o dato atípico que habremos convertido en missing en el proceso de detección y tratamiento
-* Una falta de respuesta, por ejemplo en una encuesta
-
-Será importante un buen diseño de la muestra para impedir en lo posible esta información faltante. Por ejemplo, si se trabaja con cuestionarios, es fundamental además de elaborarlos adecuadamente, enseñar al personal para que todas las preguntas sean respondidas.&#x20;
-
-## Datos missing en R
+## Datos ausentes en R
 
 **`NA`**&#x20;
 
-Es como se representa en R los datos perdidos o missing. Recuerda que en el [Tema 1 ](../../tema-1-analisis-exploratorio-de-datos/codificacion-y-transformacion/#deteccion-inicial-de-errores)vimos que los datos missing pueden estar representados de muchas formas (**"99", "Missing", "Unknown", " "**) y hay que detectarlos y convertirlos en `NA`&#x20;
+Es como se representa en R los datos ausentes o missing. Recuerda que en el [Tema 1 ](../../tema-1-analisis-exploratorio-de-datos/codificacion-y-transformacion/#deteccion-inicial-de-errores)vimos que los datos missing pueden estar representados de muchas formas (**"99", "Missing", "Unknown", " "**) y hay que detectarlos y convertirlos en `NA`&#x20;
 
 **Versiones especiales de `NA:`**
 
@@ -46,7 +36,7 @@ max(z, na.rm=T)                  # returns Inf
 max(z[is.finite(z)])             # returns 22
 ```
 
-“NAs introduced by coercion” es un warning común en R. Por ejemplo, si intentas convertir en numérico un vector que tiene caracteres:
+**“NAs introduced by coercion” es un warning común en R. Por ejemplo, si intentas convertir en numérico un vector que tiene caracteres:**
 
 ```r
 as.numeric(c("10", "20", "thirty", "40"))
@@ -103,42 +93,171 @@ mean(my_vector, na.rm = TRUE)
 
 Para ello vamos a usar una base de datos de simulación de una **epidemia de Ebola**&#x20;
 
-{% file src="../../.gitbook/assets/linelist (1).Rdata" %}
+{% file src="../../.gitbook/assets/linelist.Rdata" %}
 
 y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 
-```r
-#install.packages("naniar")
+<pre class="language-r"><code class="lang-r">#install.packages("naniar")
 library(naniar)
 
-load("Tema_3/linelist.Rdata")
-head(data)
-str(data)
-summary(data)
 
+load("linelist.Rdata") ## cargamos los datos
+
+<strong>
+</strong>
+str(data) ## vemos las variables
+'data.frame':	5888 obs. of  20 variables:
+ $ case_id             : chr  "5fe599" "8689b7" "11f8ea" "b8812a" ...
+ $ date_infection      : Date, format: "2014-05-08" NA NA "2014-05-04" ...
+ $ date_onset          : Date, format: "2014-05-13" "2014-05-13" "2014-05-16" "2014-05-18" ...
+ $ date_hospitalisation: Date, format: "2014-05-15" "2014-05-14" "2014-05-18" "2014-05-20" ...
+ $ date_outcome        : Date, format: NA "2014-05-18" "2014-05-30" NA ...
+ $ outcome             : Factor w/ 2 levels "Death","Recover": NA 2 2 NA 2 2 2 1 2 1 ...
+ $ gender              : Factor w/ 2 levels "f","m": 2 1 2 1 2 1 1 1 2 1 ...
+ $ age                 : num  2 3 56 18 3 16 16 0 61 27 ...
+ $ hospital            : Factor w/ 5 levels "Central Hospital",..: 3 NA 5 4 2 4 NA NA NA NA ...
+ $ lon                 : num  -13.2 -13.2 -13.2 -13.2 -13.2 ...
+ $ lat                 : num  8.47 8.45 8.46 8.48 8.46 ...
+ $ infector            : chr  "f547d6" NA NA "f90f5f" ...
+ $ ct_blood            : int  22 22 21 23 23 21 21 22 22 22 ...
+ $ fever               : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
+ $ chills              : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
+ $ cough               : Factor w/ 2 levels "no","yes": 2 NA NA 1 2 2 NA 2 2 2 ...
+ $ aches               : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
+ $ vomit               : Factor w/ 2 levels "no","yes": 2 NA NA 1 2 2 NA 2 2 1 ...
+ $ temp                : num  36.8 36.9 36.9 36.8 36.9 37.6 37.3 37 36.4 35.9 ...
+ $ days_onset_hosp     : int  2 1 2 2 1 1 2 1 1 2 ...
+
+</code></pre>
+
+```r
+summary(data) ## resumimos las variables
+case_id          date_infection         date_onset         date_hospitalisation  date_outcome           outcome      gender    
+ Length:5888        Min.   :2014-03-19   Min.   :2014-04-07   Min.   :2014-04-17   Min.   :2014-04-19   Death  :2582   f   :2807  
+ Class :character   1st Qu.:2014-09-06   1st Qu.:2014-09-16   1st Qu.:2014-09-19   1st Qu.:2014-09-26   Recover:1983   m   :2803  
+ Mode  :character   Median :2014-10-11   Median :2014-10-23   Median :2014-10-23   Median :2014-11-01   NA's   :1323   NA's: 278  
+                    Mean   :2014-10-22   Mean   :2014-11-03   Mean   :2014-11-03   Mean   :2014-11-12                             
+                    3rd Qu.:2014-12-05   3rd Qu.:2014-12-19   3rd Qu.:2014-12-17   3rd Qu.:2014-12-28                             
+                    Max.   :2015-04-27   Max.   :2015-04-30   Max.   :2015-04-30   Max.   :2015-06-04                             
+                    NA's   :2087         NA's   :256                               NA's   :936                                    
+      age                                        hospital         lon              lat          infector            ct_blood      fever     
+ Min.   : 0.00   Central Hospital                    : 454   Min.   :-13.27   Min.   :8.446   Length:5888        Min.   :16.00   no  :1090  
+ 1st Qu.: 6.00   Military Hospital                   : 896   1st Qu.:-13.25   1st Qu.:8.461   Class :character   1st Qu.:20.00   yes :4549  
+ Median :13.00   Other                               : 885   Median :-13.23   Median :8.469   Mode  :character   Median :22.00   NA's: 249  
+ Mean   :16.01   Port Hospital                       :1762   Mean   :-13.23   Mean   :8.470                      Mean   :21.21              
+ 3rd Qu.:23.00   St. Mark's Maternity Hospital (SMMH): 422   3rd Qu.:-13.22   3rd Qu.:8.480                      3rd Qu.:22.00              
+ Max.   :84.00   NA's                                :1469   Max.   :-13.21   Max.   :8.492                      Max.   :26.00              
+ NA's   :85                                                                                                                                 
+  chills      cough       aches       vomit           temp       days_onset_hosp 
+ no  :4540   no  : 773   no  :5095   no  :2836   Min.   :35.20   Min.   : 0.000  
+ yes :1099   yes :4866   yes : 544   yes :2803   1st Qu.:38.20   1st Qu.: 1.000  
+ NA's: 249   NA's: 249   NA's: 249   NA's: 249   Median :38.80   Median : 1.000  
+                                                 Mean   :38.56   Mean   : 2.059  
+                                                 3rd Qu.:39.20   3rd Qu.: 3.000  
+                                                 Max.   :40.80   Max.   :22.000  
+                                                 NA's   :149     NA's   :256     
 ```
 
-Con estos simples comando podemos ver y entender la base de de datos. Asumimos que no hay ni errores ni datos atípicos.&#x20;
+Vemos que el dataframe contiene 5888 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, asumimos que no hay ni errores ni datos atípicos.&#x20;
 
 ### Cuantificación&#x20;
 
-El número de datos missing por variable lo podemos ver con un simple <mark style="color:green;">**`summary()`**</mark>
+El primer interés es saber cuántos datos missing tiene la base de datos, tanto por variable como global.
+
+El número de datos missing por variable lo podemos ver con  <mark style="color:green;">**`summary()`**</mark>
 
 Para saber el **número** y **porcentaje** de valores que son missing a nivel global usamos las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss()`**</mark> y <mark style="color:green;">**`pct_complete_case()`**</mark>
 
 ```r
-# percent of ALL data frame values that are missing
+# Porcentaje de datos missing en todo el dataset
 pct_miss(data)
+8.637908
 
-#Number of missing data
+# Número de datos missing en todo el dataset
 n_miss(data)
+10172
 
-# Percent of rows that are complete (no values missing)  
-pct_complete_case(data) # use n_complete() for counts
+# Porcentaje de filas completas si borramos todas las filas que contienen al menos un datos missing
+pct_complete_case(data) 
+26.81726
+
+# Número de filas completas si borramos todas las filas que contienen al menos un datos missing
+n_case_complete(data)
+1579
+```
+
+En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no los tratamos y solo los borramos, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a 1579 observaciones de las 5888 de las que partíamos, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
+
+* Borrarlos
+* Imputarlos
+
+La decisión muchas veces vendrá dada por el número de datos perdidos, los análisis posteriores que se quieran realizar, si queremos hacer análisis univariante o multivariante, etc.
+
+La decisión de borrarlos puede tener mucho impacto en nuestros análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**) usando los datos filtrados:
+
+```r
+summary(glm(days_onset_hosp ~ temp, data = data_complete, family = poisson))
+```
+
+Usamos regresión de Poisson por como se distribuye la variable <mark style="color:purple;">`days_onset_hosp`</mark>
+
+```r
+Call:
+glm(formula = days_onset_hosp ~ temp, family = poisson, data = data_complete)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept)  0.723321   0.773418   0.935    0.350
+temp        -0.000152   0.020026  -0.008    0.994
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 2870  on 1381  degrees of freedom
+Residual deviance: 2870  on 1380  degrees of freedom
+AIC: 5784.3
+
+Number of Fisher Scoring iterations: 5
+```
+
+Obtenemos un p-valor no significativo (asumiendo todos los supuestos para aplicar una regresión de Poisson)
+
+Vemos como hemos borrado muchísimos datos y este modelo no nos sirve para nada, pero si solo borramos las filas correspondientes a esas dos variables:&#x20;
+
+```r
+summary(glm(days_onset_hosp ~ temp, data = data, family = poisson))
 
 ```
 
+```r
+Call:
+glm(formula = days_onset_hosp ~ temp, family = poisson, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -1.71045    0.38854  -4.402 1.07e-05 ***
+temp         0.06243    0.01006   6.208 5.36e-10 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 11496  on 5482  degrees of freedom
+Residual deviance: 11457  on 5481  degrees of freedom
+  (405 observations deleted due to missingness)
+AIC: 22812
+
+Number of Fisher Scoring iterations: 5
+```
+
+Ya podemos intuir que hay un ajuste un poco mejor, con lo que **cuidado borrar todos los datos perdidos cuando solo vas a trabajar con dos variables.**
+
+###
+
+###
+
 ### Visualización&#x20;
+
+Es muy importante visualizar los datos missing para poder clasificar los datos missing en sy poder tratar los datos posteriormente.&#x20;
 
 Para visualizar los datos missing podemos hacer uso de la función <mark style="color:green;">**`gg_miss_var()  o vis_miss()`**</mark>que nos muestra el % de valores missing que hay en cada columna. Con esta función se puede:
 
