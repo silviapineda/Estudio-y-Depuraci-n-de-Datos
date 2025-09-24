@@ -323,111 +323,80 @@ En este caso, vemos que:
 * Si los casos más graves o sin desenlace son precisamente los que no tienen <mark style="color:purple;">`outcome`</mark>, entonces la ausencia depende del propio valor no observado (MNAR).&#x20;
 * La variable <mark style="color:purple;">`age`</mark> y <mark style="color:purple;">`gender`</mark> se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
 
-Para ver si los datos faltantes de las diferentes variables son de un tipo u otro ahora que ya tenemos una idea global de lo que paso, podríamos hacer anaálisis por subgrupos.&#x20;
+Para ver si los datos faltantes de las diferentes variables son de un tipo u otro ahora que ya tenemos una idea global de lo que pasa, podríamos hacer anaálisis por subgrupos.&#x20;
 
 **2) Visualizar por subgrupos**
 
-Si queremos visualizar los datos missing por <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemnto <mark style="color:green;">**`facet =`**</mark>
+Si queremos visualizar los datos missing por <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemento <mark style="color:green;">**`facet =`**</mark>
 
 ```r
 gg_miss_var(data, show_pct = TRUE,facet = gender)
 ```
 
-<figure><img src="../../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (267).png" alt=""><figcaption></figcaption></figure>
 
-Una cosa interesante que vemos al clasificar los datos por sexo, es que los valores perdidos de la variable edad corresponden a los valores perdidos de la variable sexo.&#x20;
-
-Puedes utilizar <mark style="color:green;">**`vis_miss()`**</mark> para visualizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no. También puedes usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.
-
-El orden en el que aparecen las observaciones es el mismo que en la base de datos, pero con la opción <mark style="color:green;">**`cluster = TRUE`**</mark>, se agrupan las filas con patrones similares de valores faltantes mediante clustering jerárquico.
-
-```r
-vis_miss(data)
-help("vis_miss")
-vis_miss(data)  + 
-  theme(axis.text.x = element_text(angle = 90))
-vis_miss(select(data,outcome,gender,age))
-
-vis_miss(data, cluster=TRUE)
-```
-
-<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (261).png" alt=""><figcaption></figcaption></figure>
+Una cosa interesante que vemos al clasificar los datos por la variable <mark style="color:purple;">`gender`</mark>, es que para <mark style="color:purple;">`age`</mark> también falta en ≈30% de esos casos, por tanto hay dependencia entre la falta de género y de edad.
 
 ## **Exploración y visualización de datos missing entre dos variables**
+
+Una vez que tenemos sospechas de posibles dependencias entre los datos missing, podemos explorar y visualizar las relaciones entre ellas:
 
 ### **Dos variables cuantitativas**
 
 ¿Cómo visualizamos algo que está perdido? <mark style="color:green;">**`ggplot()`**</mark>por ejemplo elimina las observaciones con valores missing.&#x20;
 
-Si creo un gráfico de dispersión entre dos variables cuantitativas, por ejemplo <mark style="color:purple;">age</mark> y <mark style="color:purple;">temp</mark> con <mark style="color:green;">**`ggplot()`**</mark>
+Si creo un gráfico de dispersión entre dos variables cuantitativas, por ejemplo <mark style="color:purple;">`age`</mark> y <mark style="color:purple;">`temp`</mark> con <mark style="color:green;">**`ggplot()`**</mark>
 
 ```r
 library(ggplot2)
 ggplot(data = data, aes (x = age, y = temp)) +  geom_point()
 ```
 
-<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (268).png" alt=""><figcaption></figcaption></figure>
 
-El paquete <mark style="color:green;">**`naniar`**</mark> ofrece una solución con <mark style="color:green;">**`geom_miss_point()`**</mark>. Al crear un gráfico de dispersión de dos columnas, los registros con uno de los valores faltantes y el otro valor presente se muestran configurando los valores faltantes en un 10% menos que el valor más bajo en la columna, y se les asigna un color distintivo.
-
-En el gráfico de dispersión a continuación, los puntos rojos representan registros donde el valor de una columna está presente, pero el valor de la otra columna falta. Esto permite visualizar la distribución de los valores faltantes en relación con los valores no faltantes.
+Vemos con los valores missing de ambas variables no están representados en el gráfico, pero si queremos ver dependencias entre variables, podemos usar la función <mark style="color:green;">**`geom_miss_point()`**</mark>. Al crear un gráfico de dispersión de dos columnas, los registros con uno de los valores faltantes y el otro valor presente se muestran configurando los valores faltantes en un 10% menos que el valor más bajo en la columna, y se les asigna un color distintivo.
 
 ```r
 
 ggplot(data = data, aes (x = age, y = temp)) + geom_miss_point()
+
 ```
 
-<figure><img src="../../.gitbook/assets/image (196).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (270).png" alt=""><figcaption></figcaption></figure>
+
+En este gráfico de dispersión, los puntos rojos representan registros donde el valor de una columna está presente, pero el valor de la otra columna falta. Esto permite visualizar la distribución de los valores faltantes en relación con los valores no faltantes. En este caso, no vemos que haya ninguna dependencia entre los valores missing de las variables con la variable observada.&#x20;
 
 ### **Estratificado por una variable categórica**
 
-Para evaluar la ausencia de datos estratificados por otra variable, podemos utilizar <mark style="color:green;">**`gg_miss_fct()`**</mark>, que devuelve un heatmap del porcentaje de datos faltantes según la variable categórica que le digamos:
-
-```r
-gg_miss_fct(data, age_cat5)
-```
-
-<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
-
-Esta función también la podemos usar para ver la evolución de los datos missing en el tiempo si tenemos variables que nos indiquen fechas:
-
-```
-gg_miss_fct(data, date_onset)
-```
-
-<figure><img src="../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
-
-También se puede hacer uso de la función<mark style="color:green;">**`bind_shadow()`**</mark> para ver la proporción de missing de una variable respecto a la distribución de otra variable. Esta función crea una columna binaria `NA/no_NA` para cada columna existente y une todas estas nuevas columnas al conjunto de datos original con el apéndice `"_NA"`.
+Para evaluar la ausencia de datos estratificados por otra variable, podemos usar la función<mark style="color:green;">**`bind_shadow()`**</mark> para ver la proporción de missing de una variable respecto a la distribución de otra variable. Esta función crea una columna binaria `NA/no_NA` para cada columna existente y une todas estas nuevas columnas al conjunto de datos original con el apéndice `"_NA"`.
 
 ```r
 shadowed_data <- data %>% bind_shadow()
-names(shadowed_data)
 ```
 
 ```r
+ names(shadowed_data)
  [1] "case_id"                 "date_infection"          "date_onset"             
  [4] "date_hospitalisation"    "date_outcome"            "outcome"                
- [7] "gender"                  "age"                     "age_cat"                
-[10] "age_cat5"                "hospital"                "lon"                    
-[13] "lat"                     "infector"                "ct_blood"               
-[16] "fever"                   "chills"                  "cough"                  
-[19] "aches"                   "vomit"                   "temp"                   
-[22] "time_admission"          "days_onset_hosp"         "case_id_NA"             
-[25] "date_infection_NA"       "date_onset_NA"           "date_hospitalisation_NA"
-[28] "date_outcome_NA"         "outcome_NA"              "gender_NA"              
-[31] "age_NA"                  "age_cat_NA"              "age_cat5_NA"            
-[34] "hospital_NA"             "lon_NA"                  "lat_NA"                 
-[37] "infector_NA"             "ct_blood_NA"             "fever_NA"               
-[40] "chills_NA"               "cough_NA"                "aches_NA"               
-[43] "vomit_NA"                "temp_NA"                 "time_admission_NA"      
-[46] "days_onset_hosp_NA"     
+ [7] "gender"                  "age"                     "hospital"               
+[10] "lon"                     "lat"                     "infector"               
+[13] "ct_blood"                "fever"                   "chills"                 
+[16] "cough"                   "aches"                   "vomit"                  
+[19] "temp"                    "days_onset_hosp"         "case_id_NA"             
+[22] "date_infection_NA"       "date_onset_NA"           "date_hospitalisation_NA"
+[25] "date_outcome_NA"         "outcome_NA"              "gender_NA"              
+[28] "age_NA"                  "hospital_NA"             "lon_NA"                 
+[31] "lat_NA"                  "infector_NA"             "ct_blood_NA"            
+[34] "fever_NA"                "chills_NA"               "cough_NA"               
+[37] "aches_NA"                "vomit_NA"                "temp_NA"                
+[40] "days_onset_hosp_NA"     
 ```
 
-Estas variables "shadow" se pueden utilizar para representar la proporción de valores que faltan en relación con otra columna.
+Estas variables <mark style="color:purple;">`shadow`</mark> se pueden utilizar para representar la proporción de valores que faltan en relación con otra columna y luego se pueden utilizar para ver dependencias de los valores missing con variables tanto cuantitativas como cualitativas:
 
-Por ejemplo, el gráfico a continuación muestra la proporción de registros que faltan según el valor del registro del día de hospitalización (<mark style="color:purple;">date\_hospitalisation)</mark> estratificando los resultados (<mark style="color:green;">**`color =`**</mark>) según una columna sombra de interés. En este caso la edad de los pacientes (<mark style="color:purple;">age</mark>).&#x20;
+#### Variables Cuantitativas
+
+Si queremos ver la proporción de pacientes a los que les falta la variable <mark style="color:purple;">`age`</mark> según el valor del registro del día de hospitalización <mark style="color:purple;">`date_hospitalisation`</mark> podemos estratificarla usando la variable shadow en la opción: <mark style="color:green;">**`color =`**</mark>.
 
 ```r
 ggplot (data = shadowed_data, 
@@ -438,9 +407,11 @@ geom_density()
 
 <figure><img src="../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-En este caso observamos que los datos missing de la variable edad se corresponde a fechas mas recientes.&#x20;
+En este caso observamos que los datos missing de la variable edad se corresponde a fechas mas recientes, por lo tanto podríamos sospechar de una relación, aunque el hecho de que no todos los valores faltantes correspondan a esa dependecia, nos hace pensar que sea un MNAR.&#x20;
 
-También se pueden usar variables categóricas para esta representación, por ejemplo si los missing de los síntomas (<mark style="color:purple;">`fever_NA`</mark>) están relacionados con la variable <mark style="color:purple;">`outcome`</mark>.
+#### Variables Categóricas
+
+También se pueden usar variables categóricas para esta representación, por ejemplo para ver si los missing de los síntomas <mark style="color:purple;">`fever_NA`</mark> están relacionados con la variable <mark style="color:purple;">`outcome`</mark>.
 
 ```r
 ggplot(shadowed_data, aes(x = outcome, fill = fever_NA)) +
@@ -448,3 +419,15 @@ ggplot(shadowed_data, aes(x = outcome, fill = fever_NA)) +
 ```
 
 <figure><img src="../../.gitbook/assets/image (262).png" alt=""><figcaption></figcaption></figure>
+
+En este caso, no observamos ninguna relación. En cambio si representamos los NA de cualquiera de los síntomas (<mark style="color:purple;">`chills_NA`</mark>)
+
+```r
+  ggplot (data = shadowed_data, 
+        mapping = aes(x = temp,       
+                      colour = chills_NA)) + geom_density()                  
+```
+
+<figure><img src="../../.gitbook/assets/image (273).png" alt=""><figcaption></figcaption></figure>
+
+Podemos observar que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA correspondian a los mismos individuos, por tanto podemos decir que hay una relación entre los NA de los síntomas con temperatura baja, correspondiendo a quizás individuos más sanos.&#x20;
