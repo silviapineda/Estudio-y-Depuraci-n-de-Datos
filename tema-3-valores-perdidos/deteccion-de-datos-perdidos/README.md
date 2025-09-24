@@ -313,18 +313,21 @@ En este gráfico vemos una **matriz de observaciones (filas) por variables (colu
 
 En este caso, vemos que algunos **bloques verticales** (columnas) concentran los NA.&#x20;
 
-Cuando observamos variables como puntos negros dispersos, normalmente pensamos que son MACR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
+Cuando observamos variables como puntos negros dispersos, normalmente pensamos que son MCAR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
 
-En este caso, vemos que los datos faltantes de todos los síntomas faltan en los mismos individuos, esto habrá que ver si la ausencia puede estar ligada a algo observable (MAR). Se podría pensar que los NA en _outcome_ podrían depender de la variable _date\_outcome_ o de si el paciente sigue hospitalizado (MAR). La falta de _date\_infection_ y _infector_ podría depender de la calidad del registro por hospital o del periodo de la epidemia, por tanto ausencias ligadas a otras variables observadas (MAR). Si los casos más graves o sin desenlace son precisamente los que no tienen _outcome_, entonces la ausencia depende del propio valor no observado (ejemplo clásico de MNAR). La edad y gender se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
+En este caso, vemos que:
 
-Para visualizar esto, habría que hacer una visualizació por subgrupos
+* Los datos faltantes de todos los síntomas (<mark style="color:purple;">`fever, chills, cough, chaes, vomit`</mark>) faltan en los mismos individuos, esto habrá que ver si la ausencia puede estar ligada a algo observable (MAR).&#x20;
+* Se podría pensar que los NA en <mark style="color:purple;">`outcome`</mark> podrían depender de la variable <mark style="color:purple;">`date_outcome`</mark> o de si el paciente sigue hospitalizado (MAR).&#x20;
+* La falta de <mark style="color:purple;">`date_infection`</mark> y <mark style="color:purple;">`infector`</mark> podría depender de la calidad del registro por hospital o del periodo de la epidemia, por tanto ausencias ligadas a otras variables observadas (MAR).&#x20;
+* Si los casos más graves o sin desenlace son precisamente los que no tienen <mark style="color:purple;">`outcome`</mark>, entonces la ausencia depende del propio valor no observado (MNAR).&#x20;
+* La variable <mark style="color:purple;">`age`</mark> y <mark style="color:purple;">`gender`</mark> se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
+
+Para ver si los datos faltantes de las diferentes variables son de un tipo u otro ahora que ya tenemos una idea global de lo que paso, podríamos hacer anaálisis por subgrupos.&#x20;
 
 **2) Visualizar por subgrupos**
 
-```
-```
-
-Si queremos visualizar los datos missing por sexo haríamos uso del arguemnto <mark style="color:green;">**`facet =`**</mark>
+Si queremos visualizar los datos missing por <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemnto <mark style="color:green;">**`facet =`**</mark>
 
 ```r
 gg_miss_var(data, show_pct = TRUE,facet = gender)
