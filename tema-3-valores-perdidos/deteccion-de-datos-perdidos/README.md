@@ -91,9 +91,9 @@ mean(my_vector, na.rm = TRUE)
 
 ## Cuantificar y visualizar datos missing en una base de datos&#x20;
 
-Para ello vamos a usar una base de datos de simulación de una **epidemia de Ebola**&#x20;
+Para ello vamos a usar una base de datos de pacientes que acuden a una clínica universitaria por síntoma gripales.&#x20;
 
-{% file src="../../.gitbook/assets/linelist.Rdata" %}
+{% file src="../../.gitbook/assets/cliniclinelist.Rdata" %}
 
 y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 
@@ -101,32 +101,29 @@ y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 library(naniar)
 
 
-load("linelist.Rdata") ## cargamos los datos
-
+load("cliniclinelist.Rdata") ## cargamos los datos
+str(data)
+'data.frame':	6500 obs. of  16 variables: 
+$ id              : chr  "P00001" "P00002" "P00003" "P00004" ... 
+$ date_onset      : Date, format: "2025-03-16" "2025-03-08" "2025-01-22" "2025-02-04" ... 
+$ date_visit      : Date, format: "2025-03-17" "2025-03-09" "2025-01-24" "2025-02-10" ... 
+$ outcome         : Factor w/ 2 levels "Death","Recover": 2 2 2 2 2 2 2 2 2 2 ... 
+$ gender          : Factor w/ 2 levels "f","m": 2 1 2 1 2 1 1 2 1 2 ... 
+$ age             : num  26 22 27 31 25 21 25 21 20 27 ... 
+$ hospital        : Factor w/ 3 levels "Campus","City",..: 1 1 2 2 2 1 1 1 1 1 ... 
+$ shift           : Factor w/ 3 levels "Afternoon","Morning",..: 2 2 NA 1 2 3 1 2 1 3 ... 
+$ temp            : num  37 38.4 39.2 38.5 39.7 36.9 36.8 37.8 38.3 36.6 ... 
+$ spo2            : num  96.9 97.4 95.7 98 96.5 99.2 97.3 96.7 95 95.9 ... 
+$ wbc             : num  7 8 10.6 9.4 9.2 7.1 3 9.5 8 10.2 ... 
+$ fever           : Factor w/ 2 levels "no","yes": 1 1 1 1 1 NA 1 NA 1 1 ... 
+$ chills          : Factor w/ 2 levels "no","yes": 1 1 1 1 1 1 NA 1 1 NA ... 
+$ cough           : Factor w/ 2 levels "no","yes": 1 1 2 1 2 NA NA 1 1 1 ... 
+$ pain_score      : num  3.72 3.29 8.3 7.82 10 ... 
+$ days_onset_visit: int  1 1 2 6 2 2 1 1 0 0 ... 
 <strong>
 </strong>
-str(data) ## vemos las variables
-'data.frame':	5888 obs. of  20 variables:
- $ case_id             : chr  "5fe599" "8689b7" "11f8ea" "b8812a" ...
- $ date_infection      : Date, format: "2014-05-08" NA NA "2014-05-04" ...
- $ date_onset          : Date, format: "2014-05-13" "2014-05-13" "2014-05-16" "2014-05-18" ...
- $ date_hospitalisation: Date, format: "2014-05-15" "2014-05-14" "2014-05-18" "2014-05-20" ...
- $ date_outcome        : Date, format: NA "2014-05-18" "2014-05-30" NA ...
- $ outcome             : Factor w/ 2 levels "Death","Recover": NA 2 2 NA 2 2 2 1 2 1 ...
- $ gender              : Factor w/ 2 levels "f","m": 2 1 2 1 2 1 1 1 2 1 ...
- $ age                 : num  2 3 56 18 3 16 16 0 61 27 ...
- $ hospital            : Factor w/ 5 levels "Central Hospital",..: 3 NA 5 4 2 4 NA NA NA NA ...
- $ lon                 : num  -13.2 -13.2 -13.2 -13.2 -13.2 ...
- $ lat                 : num  8.47 8.45 8.46 8.48 8.46 ...
- $ infector            : chr  "f547d6" NA NA "f90f5f" ...
- $ ct_blood            : int  22 22 21 23 23 21 21 22 22 22 ...
- $ fever               : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
- $ chills              : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
- $ cough               : Factor w/ 2 levels "no","yes": 2 NA NA 1 2 2 NA 2 2 2 ...
- $ aches               : Factor w/ 2 levels "no","yes": 1 NA NA 1 1 1 NA 1 1 1 ...
- $ vomit               : Factor w/ 2 levels "no","yes": 2 NA NA 1 2 2 NA 2 2 1 ...
- $ temp                : num  36.8 36.9 36.9 36.8 36.9 37.6 37.3 37 36.4 35.9 ...
- $ days_onset_hosp     : int  2 1 2 2 1 1 2 1 1 2 ...
+
+
 
 </code></pre>
 
@@ -158,15 +155,15 @@ case_id          date_infection         date_onset         date_hospitalisation 
                                                  NA's   :149     NA's   :256     
 ```
 
-Vemos que el dataframe contiene 5888 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, asumimos que no hay ni errores ni datos atípicos.&#x20;
+Este dataframe contiene 5,888 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, se asume que no hay ni errores ni datos atípicos.&#x20;
 
 ### Cuantificación&#x20;
 
 El primer interés es saber cuántos datos missing tiene la base de datos, tanto por variable como global.
 
-El número de datos missing por variable lo podemos ver con  <mark style="color:green;">**`summary()`**</mark>
+El número de datos missing por variable se puede ver con  <mark style="color:green;">**`summary()`**</mark>
 
-Para saber el **número** y **porcentaje** de valores que son missing a nivel global usamos las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss()`**</mark> y <mark style="color:green;">**`pct_complete_case()`**</mark>
+Para saber el **número** y **porcentaje** de valores que son missing a nivel global se pueden usar las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss()`**</mark> y <mark style="color:green;">**`pct_complete_case()`**</mark>
 
 ```r
 # Porcentaje de datos missing en todo el dataset
@@ -186,16 +183,16 @@ n_case_complete(data)
 1579
 ```
 
-En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no los tratamos y solo los borramos, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a **1579** observaciones de las **5888** de las que partíamos, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
+En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no se trata y solo se borran, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a **1,579** observaciones de las **5,888** de las que se partía, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
 
 * Borrarlos
 * Imputarlos
 
 La decisión muchas veces vendrá dada por el número de datos perdidos, los análisis posteriores que se quieran realizar, si queremos hacer análisis univariante o multivariante, etc.
 
-La decisión de borrarlos puede tener mucho impacto en nuestros análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**)&#x20;
+La decisión de borrarlos puede tener mucho impacto en los análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**)&#x20;
 
-1\) Borrar todas aquellas filas que tienen al menos un missing (n=1579):
+1\) Si se borran todas aquellas filas que tienen al menos un missing (n=1579):
 
 ```r
 data_complete<-data[complete.cases(data),]
@@ -227,9 +224,9 @@ AIC: 6582.8
 Number of Fisher Scoring iterations: 5
 ```
 
-En este caso, vemos como la variable <mark style="color:purple;">`temp`</mark> no está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 0.49) y por tanto no podríamos decir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
+En este caso, se ve como la variable <mark style="color:purple;">`temp`</mark> no está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 0.49) y por tanto no se podría concluir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
 
-2\) No borramos nada (n=5888)
+2\) Si no se borra nada (n=5888)
 
 ```r
 summary(glm(days_onset_hosp ~ temp, data = data, family = poisson))
@@ -258,15 +255,15 @@ Number of Fisher Scoring iterations: 5
 
 ```
 
-En este caso, si podemos decir que la variable <mark style="color:purple;">`temp`</mark>  está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 5.36e-10) y por tanto podemos decir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
+En este caso, si se puede decir que la variable <mark style="color:purple;">`temp`</mark>  está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 5.36e-10) y por tanto se puede concluir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
 
 **Por tanto es muy importante detectar y tratar de forma adecuada los datos faltantes sino quieres resultados sesgados o incluso falsos.**&#x20;
 
-Para hacer un buen tratamiento es importante pensar en por qué tus datos podrían faltar, además de cuantificarlos. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser la mejor en tu situación.
+Para hacer un buen tratamiento es importante pensar en por qué tus datos podrían faltar, además de cuantificarlos. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser el mejor.&#x20;
 
 ### Tipos de datos missing
 
-En estadística y ciencia de datos hablamos de tres tipos de datos mmissing:
+En estadística y ciencia de datos hablamos de tres tipos de datos missing:
 
 1.  **Missing Completely at Random (MCAR):** Son datos perdidos completamente aleatorios, es decir, la ausencia de valores en un conjunto de datos es **independiente** tanto **de otras variables** observadas como de las no observadas.&#x20;
 
@@ -290,12 +287,11 @@ gg_miss_var(data, show_pct = TRUE)
 
 <figure><img src="../../.gitbook/assets/image (264).png" alt=""><figcaption></figcaption></figure>
 
-Aquí vemos que <mark style="color:purple;">`infector`</mark> y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de 35% de datos ausentes. <mark style="color:purple;">`hospital`</mark>, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto menos del 5%. Esto es importante porque si el número de datos ausente supera el 5% en las variables, estas pueden ser muy poroblemáyicas y, por tanto, habrá que ver como de relevantes son para el análisis.
+Aquí se ve que <mark style="color:purple;">`infector`</mark> y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes. <mark style="color:purple;">`hospital`</mark>, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy poroblemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
 
-* La ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA.\
-  → Esto ya **descarta MCAR global** (completamente aleatorio).
+En este caso, la ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA. Esto ya **descarta MCAR global** (completamente aleatorio).
 
-También podemos visulizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no con <mark style="color:green;">**`vis_miss()`**</mark>. Se puede usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.&#x20;
+También se puede visulizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no con <mark style="color:green;">**`vis_miss()`**</mark>. Se puede usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.&#x20;
 
 El orden en el que aparecen las observaciones es el mismo que en la base de datos, pero con la opción <mark style="color:green;">**`cluster = TRUE`**</mark>, se pueden identificar grupos de variables con patrones similares.
 
@@ -306,19 +302,19 @@ vis_miss(data,cluster=TRUE)  +
 
 <figure><img src="../../.gitbook/assets/image (266).png" alt=""><figcaption></figcaption></figure>
 
-En este gráfico vemos una **matriz de observaciones (filas) por variables (columnas)**:
+En este gráfico se ve una **matriz de observaciones (filas) por variables (columnas)**:
 
 * **Gris** = dato presente.
 * **Negro** = valor perdido.
 
-En este caso, vemos que algunos **bloques verticales** (columnas) concentran los NA.&#x20;
+En este caso, se ve que algunos **bloques verticales** (columnas) concentran los NA.&#x20;
 
-Cuando observamos variables como puntos negros dispersos, normalmente pensamos que son MCAR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
+Cuando se observan variables como puntos negros dispersos, normalmente se puede pensar que son MCAR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
 
 En este caso, vemos que:
 
 * Los datos faltantes de todos los síntomas (<mark style="color:purple;">`fever, chills, cough, chaes, vomit`</mark>) faltan en los mismos individuos, esto habrá que ver si la ausencia puede estar ligada a algo observable (MAR).&#x20;
-* Se podría pensar que los NA en <mark style="color:purple;">`outcome`</mark> podrían depender de la variable <mark style="color:purple;">`date_outcome`</mark> o de si el paciente sigue hospitalizado (MAR).&#x20;
+* Se podría pensar que los NA en <mark style="color:purple;">`outcome`</mark> podrían depender de la variable <mark style="color:purple;">`date_outcome`</mark> ya que parece que los NAs de esta variable corresponden a individuos que no o de si el paciente sigue hospitalizado (MAR).&#x20;
 * La falta de <mark style="color:purple;">`date_infection`</mark> y <mark style="color:purple;">`infector`</mark> podría depender de la calidad del registro por hospital o del periodo de la epidemia, por tanto ausencias ligadas a otras variables observadas (MAR).&#x20;
 * Si los casos más graves o sin desenlace son precisamente los que no tienen <mark style="color:purple;">`outcome`</mark>, entonces la ausencia depende del propio valor no observado (MNAR).&#x20;
 * La variable <mark style="color:purple;">`age`</mark> y <mark style="color:purple;">`gender`</mark> se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
@@ -395,6 +391,18 @@ shadowed_data <- data %>% bind_shadow()
 Estas variables <mark style="color:purple;">`shadow`</mark> se pueden utilizar para representar la proporción de valores que faltan en relación con otra columna y luego se pueden utilizar para ver dependencias de los valores missing con variables tanto cuantitativas como cualitativas:
 
 #### Variables Cuantitativas
+
+Si queremos ver si los síntomas están relacionados con alguna de las variables observadas, se puede representar la variable <mark style="color:purple;">`chills_NA`</mark> con <mark style="color:purple;">`temp`</mark>.&#x20;
+
+```r
+ ggplot (data = shadowed_data, 
+        mapping = aes(x = temp,       
+                      colour = chills_NA)) + geom_density()                  
+```
+
+<figure><img src="../../.gitbook/assets/image (273).png" alt=""><figcaption></figcaption></figure>
+
+Y en este caso se observa que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponde a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja.&#x20;
 
 Si queremos ver la proporción de pacientes a los que les falta la variable <mark style="color:purple;">`age`</mark> según el valor del registro del día de hospitalización <mark style="color:purple;">`date_hospitalisation`</mark> podemos estratificarla usando la variable shadow en la opción: <mark style="color:green;">**`color =`**</mark>.
 
