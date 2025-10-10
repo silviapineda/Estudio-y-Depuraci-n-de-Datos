@@ -91,35 +91,40 @@ mean(my_vector, na.rm = TRUE)
 
 ## Cuantificar y visualizar datos missing en una base de datos&#x20;
 
-Para ello vamos a usar una base de datos de pacientes que acuden a una clínica universitaria por síntoma gripales.&#x20;
+Para ello vamos a usar una base de datos de una epidemia de ebola.&#x20;
 
-{% file src="../../.gitbook/assets/cliniclinelist.Rdata" %}
+{% file src="../../.gitbook/assets/linelist_missing.rds" %}
 
 y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 
-<pre class="language-r"><code class="lang-r">#install.packages("naniar")
-library(naniar)
+<pre class="language-r"><code class="lang-r">library(naniar)
+library(tidyverse)
+library(rio)
 
 
-load("cliniclinelist.Rdata") ## cargamos los datos
+load("linelist_missing.rds") ## cargamos los datos
 str(data)
-'data.frame':	6500 obs. of  16 variables: 
-$ id              : chr  "P00001" "P00002" "P00003" "P00004" ... 
-$ date_onset      : Date, format: "2025-03-16" "2025-03-08" "2025-01-22" "2025-02-04" ... 
-$ date_visit      : Date, format: "2025-03-17" "2025-03-09" "2025-01-24" "2025-02-10" ... 
-$ outcome         : Factor w/ 2 levels "Death","Recover": 2 2 2 2 2 2 2 2 2 2 ... 
-$ gender          : Factor w/ 2 levels "f","m": 2 1 2 1 2 1 1 2 1 2 ... 
-$ age             : num  26 22 27 31 25 21 25 21 20 27 ... 
-$ hospital        : Factor w/ 3 levels "Campus","City",..: 1 1 2 2 2 1 1 1 1 1 ... 
-$ shift           : Factor w/ 3 levels "Afternoon","Morning",..: 2 2 NA 1 2 3 1 2 1 3 ... 
-$ temp            : num  37 38.4 39.2 38.5 39.7 36.9 36.8 37.8 38.3 36.6 ... 
-$ spo2            : num  96.9 97.4 95.7 98 96.5 99.2 97.3 96.7 95 95.9 ... 
-$ wbc             : num  7 8 10.6 9.4 9.2 7.1 3 9.5 8 10.2 ... 
-$ fever           : Factor w/ 2 levels "no","yes": 1 1 1 1 1 NA 1 NA 1 1 ... 
-$ chills          : Factor w/ 2 levels "no","yes": 1 1 1 1 1 1 NA 1 1 NA ... 
-$ cough           : Factor w/ 2 levels "no","yes": 1 1 2 1 2 NA NA 1 1 1 ... 
-$ pain_score      : num  3.72 3.29 8.3 7.82 10 ... 
-$ days_onset_visit: int  1 1 2 6 2 2 1 1 0 0 ... 
+'data.frame':	5888 obs. of  20 variables:
+ $ case_id             : chr  "5fe599" "8689b7" "11f8ea" "b8812a" ...
+ $ date_infection      : Date, format: "2014-05-08" NA NA ...
+ $ date_onset          : Date, format: "2014-05-13" "2014-05-13" "2014-05-16" ...
+ $ date_hospitalisation: Date, format: "2014-05-15" "2014-05-14" "2014-05-18" ...
+ $ date_outcome        : Date, format: NA "2014-05-18" "2014-05-30" ...
+ $ outcome             : chr  NA "Recover" "Recover" NA ...
+ $ gender              : chr  "m" "f" "m" "f" ...
+ $ age                 : num  2 3 56 18 3 16 16 0 61 27 ...
+ $ hospital            : chr  "Other" "Missing" "St. Mark's Maternity Hospital (SMMH)" "Port Hospital" ...
+ $ infector            : chr  "f547d6" NA NA "f90f5f" ...
+ $ wt_kg               : num  27 25 91 41 36 56 47 0 86 69 ...
+ $ ht_cm               : num  48 59 238 135 71 116 87 11 226 174 ...
+ $ ct_blood            : num  22 22 21 23 23 21 21 22 22 22 ...
+ $ fever               : chr  "no" NA NA "no" ...
+ $ chills              : chr  "no" NA NA "no" ...
+ $ cough               : chr  "yes" NA NA "no" ...
+ $ aches               : chr  "no" NA NA "no" ...
+ $ vomit               : chr  "yes" NA NA "no" ...
+ $ temp                : num  36.8 36.9 36.9 36.8 36.9 37.6 37.3 37 36.4 35.9 ...
+ $ days_onset_hosp     : num  2 1 2 2 1 1 2 1 1 2 ...
 <strong>
 </strong>
 
@@ -129,33 +134,33 @@ $ days_onset_visit: int  1 1 2 6 2 2 1 1 0 0 ...
 
 ```r
 summary(data) ## resumimos las variables
-case_id          date_infection         date_onset         date_hospitalisation  date_outcome           outcome      gender    
- Length:5888        Min.   :2014-03-19   Min.   :2014-04-07   Min.   :2014-04-17   Min.   :2014-04-19   Death  :2582   f   :2807  
- Class :character   1st Qu.:2014-09-06   1st Qu.:2014-09-16   1st Qu.:2014-09-19   1st Qu.:2014-09-26   Recover:1983   m   :2803  
- Mode  :character   Median :2014-10-11   Median :2014-10-23   Median :2014-10-23   Median :2014-11-01   NA's   :1323   NA's: 278  
-                    Mean   :2014-10-22   Mean   :2014-11-03   Mean   :2014-11-03   Mean   :2014-11-12                             
-                    3rd Qu.:2014-12-05   3rd Qu.:2014-12-19   3rd Qu.:2014-12-17   3rd Qu.:2014-12-28                             
-                    Max.   :2015-04-27   Max.   :2015-04-30   Max.   :2015-04-30   Max.   :2015-06-04                             
-                    NA's   :2087         NA's   :256                               NA's   :936                                    
-      age                                        hospital         lon              lat          infector            ct_blood      fever     
- Min.   : 0.00   Central Hospital                    : 454   Min.   :-13.27   Min.   :8.446   Length:5888        Min.   :16.00   no  :1090  
- 1st Qu.: 6.00   Military Hospital                   : 896   1st Qu.:-13.25   1st Qu.:8.461   Class :character   1st Qu.:20.00   yes :4549  
- Median :13.00   Other                               : 885   Median :-13.23   Median :8.469   Mode  :character   Median :22.00   NA's: 249  
- Mean   :16.01   Port Hospital                       :1762   Mean   :-13.23   Mean   :8.470                      Mean   :21.21              
- 3rd Qu.:23.00   St. Mark's Maternity Hospital (SMMH): 422   3rd Qu.:-13.22   3rd Qu.:8.480                      3rd Qu.:22.00              
- Max.   :84.00   NA's                                :1469   Max.   :-13.21   Max.   :8.492                      Max.   :26.00              
- NA's   :85                                                                                                                                 
-  chills      cough       aches       vomit           temp       days_onset_hosp 
- no  :4540   no  : 773   no  :5095   no  :2836   Min.   :35.20   Min.   : 0.000  
- yes :1099   yes :4866   yes : 544   yes :2803   1st Qu.:38.20   1st Qu.: 1.000  
- NA's: 249   NA's: 249   NA's: 249   NA's: 249   Median :38.80   Median : 1.000  
-                                                 Mean   :38.56   Mean   : 2.059  
-                                                 3rd Qu.:39.20   3rd Qu.: 3.000  
-                                                 Max.   :40.80   Max.   :22.000  
-                                                 NA's   :149     NA's   :256     
+   case_id          date_infection         date_onset         date_hospitalisation  date_outcome          outcome         
+ Length:5888        Min.   :2014-03-19   Min.   :2014-04-07   Min.   :2014-04-17   Min.   :2014-04-19   Length:5888       
+ Class :character   1st Qu.:2014-09-06   1st Qu.:2014-09-16   1st Qu.:2014-09-19   1st Qu.:2014-09-26   Class :character  
+ Mode  :character   Median :2014-10-11   Median :2014-10-23   Median :2014-10-23   Median :2014-11-01   Mode  :character  
+                    Mean   :2014-10-22   Mean   :2014-11-03   Mean   :2014-11-03   Mean   :2014-11-12                     
+                    3rd Qu.:2014-12-05   3rd Qu.:2014-12-19   3rd Qu.:2014-12-17   3rd Qu.:2014-12-28                     
+                    Max.   :2015-04-27   Max.   :2015-04-30   Max.   :2015-04-30   Max.   :2015-06-04                     
+                    NA's   :2087         NA's   :256                               NA's   :936                            
+    gender               age          hospital           infector             wt_kg            ht_cm        ct_blood    
+ Length:5888        Min.   : 0.00   Length:5888        Length:5888        Min.   :-11.00   Min.   :  4   Min.   :16.00  
+ Class :character   1st Qu.: 6.00   Class :character   Class :character   1st Qu.: 41.00   1st Qu.: 91   1st Qu.:20.00  
+ Mode  :character   Median :13.00   Mode  :character   Mode  :character   Median : 54.00   Median :129   Median :22.00  
+                    Mean   :16.07                                         Mean   : 52.64   Mean   :125   Mean   :21.21  
+                    3rd Qu.:23.00                                         3rd Qu.: 66.00   3rd Qu.:159   3rd Qu.:22.00  
+                    Max.   :84.00                                         Max.   :111.00   Max.   :295   Max.   :26.00  
+                    NA's   :86                                                                                          
+    fever              chills             cough              aches              vomit                temp       days_onset_hosp 
+ Length:5888        Length:5888        Length:5888        Length:5888        Length:5888        Min.   :35.20   Min.   : 0.000  
+ Class :character   Class :character   Class :character   Class :character   Class :character   1st Qu.:38.20   1st Qu.: 1.000  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :38.80   Median : 1.000  
+                                                                                                Mean   :38.56   Mean   : 2.059  
+                                                                                                3rd Qu.:39.20   3rd Qu.: 3.000  
+                                                                                                Max.   :40.80   Max.   :22.000  
+                                                                                                NA's   :149     NA's   :256     
 ```
 
-Este dataframe contiene 5,888 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, se asume que no hay ni errores ni datos atípicos.&#x20;
+Este dataframe contiene 588 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, se asume que no hay ni errores ni datos atípicos.&#x20;
 
 ### Cuantificación&#x20;
 
@@ -163,27 +168,27 @@ El primer interés es saber cuántos datos missing tiene la base de datos, tanto
 
 El número de datos missing por variable se puede ver con  <mark style="color:green;">**`summary()`**</mark>
 
-Para saber el **número** y **porcentaje** de valores que son missing a nivel global se pueden usar las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss()`**</mark> y <mark style="color:green;">**`pct_complete_case()`**</mark>
+Para saber el **número** y **porcentaje** de valores que son missing a nivel global se pueden usar las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss() ,`**</mark> <mark style="color:green;">**`pct_complete_case()`**</mark>**&#x20;**<mark style="color:$primary;">**y**</mark>**&#x20;**<mark style="color:green;">**`n_case_complete()`**</mark>
 
 ```r
 # Porcentaje de datos missing en todo el dataset
 pct_miss(data)
-8.637908
+7.391304
 
 # Número de datos missing en todo el dataset
 n_miss(data)
-10172
+8704
 
 # Porcentaje de filas completas si borramos todas las filas que contienen al menos un datos missing
 pct_complete_case(data) 
-26.81726
+35.37704
 
 # Número de filas completas si borramos todas las filas que contienen al menos un datos missing
 n_case_complete(data)
-1579
+2083
 ```
 
-En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 8.64%), pero si no se trata y solo se borran, nos quedaríamos con sólo el 27% de la base de datos, que corresponden a **1,579** observaciones de las **5,888** de las que se partía, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
+En este caso, vemos que el porcentaje de datos missing global no es demasiado (un 7.4%), pero si no se trata y solo se borran, nos quedaríamos con sólo el 35% de la base de datos, que corresponden a 2,083 observaciones de las **5,888** de las que se partía, por eso, tratar de forma adecuada los datos perdidos es muy importante para los análisis posteriores. Hay dos cosas que se pueden hacer:&#x20;
 
 * Borrarlos
 * Imputarlos
@@ -192,13 +197,12 @@ La decisión muchas veces vendrá dada por el número de datos perdidos, los an�
 
 La decisión de borrarlos puede tener mucho impacto en los análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**)&#x20;
 
-1\) Si se borran todas aquellas filas que tienen al menos un missing (n=1579):
+1\) Si se borran todas aquellas filas que tienen al menos un missing (n=2083):
 
-```r
-data_complete<-data[complete.cases(data),]
-dim(data_complete)
-[1] 1579   20
-```
+<pre class="language-r"><code class="lang-r"><strong>data_complete&#x3C;-data[complete.cases(data),]
+</strong>dim(data_complete)
+[1] 2083   20
+</code></pre>
 
 ```r
 summary(glm(days_onset_hosp ~ temp, data = data_complete, family = poisson))
@@ -212,19 +216,20 @@ glm(formula = days_onset_hosp ~ temp, family = poisson, data = data_complete)
 
 Coefficients:
             Estimate Std. Error z value Pr(>|z|)
-(Intercept)  0.21307    0.72794   0.293     0.77
-temp         0.01302    0.01884   0.691     0.49
+(Intercept) -0.26168    0.63140  -0.414    0.679
+temp         0.02604    0.01633   1.594    0.111
 
 (Dispersion parameter for poisson family taken to be 1)
 
-    Null deviance: 3258.9  on 1578  degrees of freedom
-Residual deviance: 3258.4  on 1577  degrees of freedom
-AIC: 6582.8
+    Null deviance: 4569.2  on 2082  degrees of freedom
+Residual deviance: 4566.6  on 2081  degrees of freedom
+AIC: 8960.1
 
 Number of Fisher Scoring iterations: 5
+
 ```
 
-En este caso, se ve como la variable <mark style="color:purple;">`temp`</mark> no está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 0.49) y por tanto no se podría concluir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
+En este caso, se ve como la variable <mark style="color:purple;">`temp`</mark> no está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 0.111) y por tanto no se podría concluir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
 
 2\) Si no se borra nada (n=5888)
 
@@ -252,7 +257,6 @@ Residual deviance: 11457  on 5481  degrees of freedom
 AIC: 22812
 
 Number of Fisher Scoring iterations: 5
-
 ```
 
 En este caso, si se puede decir que la variable <mark style="color:purple;">`temp`</mark>  está asociada con la variable <mark style="color:purple;">`days_onset_hosp`</mark>  (p-valor = 5.36e-10) y por tanto se puede concluir que un aumento en la temperatura corporal (fiebre) provoca más días de hospitalización.&#x20;
@@ -285,9 +289,9 @@ Antes de imputar o eliminar, es esencial **ver** dónde y cómo faltan los datos
 gg_miss_var(data, show_pct = TRUE)
 ```
 
-<figure><img src="../../.gitbook/assets/image (264).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (275).png" alt=""><figcaption></figcaption></figure>
 
-Aquí se ve que <mark style="color:purple;">`infector`</mark> y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes. <mark style="color:purple;">`hospital`</mark>, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy poroblemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
+Aquí se ve que <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy poroblemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
 
 En este caso, la ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA. Esto ya **descarta MCAR global** (completamente aleatorio).
 
@@ -300,7 +304,7 @@ vis_miss(data,cluster=TRUE)  +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-<figure><img src="../../.gitbook/assets/image (266).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (276).png" alt=""><figcaption></figcaption></figure>
 
 En este gráfico se ve una **matriz de observaciones (filas) por variables (columnas)**:
 
@@ -311,27 +315,31 @@ En este caso, se ve que algunos **bloques verticales** (columnas) concentran los
 
 Cuando se observan variables como puntos negros dispersos, normalmente se puede pensar que son MCAR, y cuando hay patrones muy claros, habrá que investigar si hay posibles MAR o MNAR.&#x20;
 
-En este caso, vemos que:
+**Candidatos MCAR (huecos sueltos, sin patrón compartido y % pequeños):**
 
-* Los datos faltantes de todos los síntomas (<mark style="color:purple;">`fever, chills, cough, chaes, vomit`</mark>) faltan en los mismos individuos, esto habrá que ver si la ausencia puede estar ligada a algo observable (MAR).&#x20;
-* Se podría pensar que los NA en <mark style="color:purple;">`outcome`</mark> podrían depender de la variable <mark style="color:purple;">`date_outcome`</mark> ya que parece que los NAs de esta variable corresponden a individuos que no o de si el paciente sigue hospitalizado (MAR).&#x20;
-* La falta de <mark style="color:purple;">`date_infection`</mark> y <mark style="color:purple;">`infector`</mark> podría depender de la calidad del registro por hospital o del periodo de la epidemia, por tanto ausencias ligadas a otras variables observadas (MAR).&#x20;
-* Si los casos más graves o sin desenlace son precisamente los que no tienen <mark style="color:purple;">`outcome`</mark>, entonces la ausencia depende del propio valor no observado (MNAR).&#x20;
-* La variable <mark style="color:purple;">`age`</mark> y <mark style="color:purple;">`gender`</mark> se podrían deber simplemente a un fallo del registro aleatorio (MCAR).
+* <mark style="color:purple;">`gender`</mark> (\~5%), <mark style="color:purple;">`age`</mark> (\~1%) y  <mark style="color:purple;">`temp`</mark> (\~3%). Los NA aparecen salpicados sin alinearse con otros campos (MCAR).
 
-Para ver si los datos faltantes de las diferentes variables son de un tipo u otro ahora que ya tenemos una idea global de lo que pasa, podríamos hacer anaálisis por subgrupos.&#x20;
+**Candidatos MAR/MNAR (bloques alineados por filas, dependen de algo observado  o no observado):**
+
+* **Síntomas** <mark style="color:purple;">`fever`</mark><mark style="color:purple;">,</mark> <mark style="color:purple;"></mark><mark style="color:purple;">`chills`</mark><mark style="color:purple;">,</mark> <mark style="color:purple;"></mark><mark style="color:purple;">`cough`</mark><mark style="color:purple;">,</mark> <mark style="color:purple;"></mark><mark style="color:purple;">`aches`</mark><mark style="color:purple;">,</mark> <mark style="color:purple;"></mark><mark style="color:purple;">`vomit`</mark> (\~4% cada uno): faltan para los mismos individuos.
+* <mark style="color:purple;">`date_infection`</mark> (\~35%) y <mark style="color:purple;">`infector`</mark> (\~35%): grandes bloques y alineados entre sí → habrá que ver si es un periodo concreto.
+* <mark style="color:purple;">`date_outcome`</mark> (\~16%) y <mark style="color:purple;">`outcome`</mark> (\~22%), y también <mark style="color:purple;">`days_onset_hosp`</mark> (\~4%): patrones por bloques que coinciden con otros campos.&#x20;
+
+Ahora que tenemos una idea más adecuada, podemos hacer análisis por subgrupos buscando posibles asociaciones.&#x20;
 
 **2) Visualizar por subgrupos**
 
-Si queremos visualizar los datos missing por <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemento <mark style="color:green;">**`facet =`**</mark>
+Si queremos visualizar los datos missing por los subgrupos de una variable cualitativa, ejemplo: <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemento <mark style="color:green;">**`facet =`**</mark>
 
 ```r
 gg_miss_var(data, show_pct = TRUE,facet = gender)
 ```
 
-<figure><img src="../../.gitbook/assets/image (267).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (277).png" alt=""><figcaption></figcaption></figure>
 
 Una cosa interesante que vemos al clasificar los datos por la variable <mark style="color:purple;">`gender`</mark>, es que para <mark style="color:purple;">`age`</mark> también falta en ≈30% de esos casos, por tanto hay dependencia entre la falta de género y de edad.
+
+<mark style="background-color:yellow;">**CONTINUAR AQUI**</mark>
 
 ## **Exploración y visualización de datos missing entre dos variables**
 
