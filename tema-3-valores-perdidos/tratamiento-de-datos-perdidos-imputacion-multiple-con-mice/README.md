@@ -122,7 +122,7 @@ ggplot(data = data, aes (x = Ozone, y = Temp)) + geom_miss_point()
 
 {% tabs %}
 {% tab title="Solar.R" %}
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Wind" %}

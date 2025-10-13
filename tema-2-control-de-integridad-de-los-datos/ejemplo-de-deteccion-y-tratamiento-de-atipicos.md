@@ -117,7 +117,7 @@ Veremos los gráficos correspondientes a estas variables:
 
 {% tabs %}
 {% tab title="MANGANESO" %}
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="FIBRA" %}
@@ -161,7 +161,7 @@ p2 <- ggplot(datos, aes(x = VARIEDAD, y = FIBRA)) +
 p2
 ```
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 El porcentaje de ouliers es de un 8% y además se ve que es debido a una distribución asimétrica ya que los outliers corresponden a la cebada, por tanto, no hay que borrarlos, no son outliers.
 
