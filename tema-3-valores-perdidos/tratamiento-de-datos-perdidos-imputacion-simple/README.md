@@ -5,38 +5,20 @@ coverY: 0
 
 # Tratamiento de datos perdidos (Imputación Simple)
 
-
+En este apartado vamos a ver como realizar una imputación simple de los datos perdidos
 
 ## Imputación de datos perdidos
 
-Aunque siempre puedes analizar un conjunto de datos después de eliminar todos los valores perdidos, esto puede causar varios problemas. Aquí tienes dos ejemplos:
+Aunque siempre se puede analizar un conjunto de datos después de eliminar todos los valores perdidos, esto puede causar varios problemas. Aquí tienes dos ejemplos:
 
-* Al eliminar todas las observaciones con valores perdidos o variables con una gran cantidad de datos perdidos, puedes reducir tu poder o capacidad para realizar algunos tipos de análisis, como acabamos de ver.
-* Dependiendo de por qué faltan tus datos, el análisis solo de datos no faltantes podría conducir a resultados **sesgados** o engañosos. Por ejemplo, como vimos anteriormente, nos faltan datos de algunos pacientes sobre si han tenido síntomas importantes como fiebre o tos. Pero, como posibilidad, tal vez esa información no se registró para personas que obviamente no estaban muy enfermas. En ese caso, si simplemente eliminamos esas observaciones, estaríamos excluyendo a algunas de las personas más saludables en nuestro conjunto de datos y eso podría sesgar realmente cualquier resultado.
+* Al eliminar todas las observaciones con valores perdidos o variables con una gran cantidad de datos perdidos, puedes reducir tu poder o capacidad para realizar algunos tipos de análisis, como se ha visto en el apartado anterior.
+* Dependiendo de por qué faltan tus datos, el análisis solo de datos no faltantes podría conducir a resultados **sesgados** o engañosos. Por ejemplo, como vimos anteriormente, nos faltan datos de algunos pacientes sobre si han tenido síntomas importantes como fiebre o tos. Pero, como posibilidad, tal vez esa información no se registró para personas que obviamente no estaban muy enfermas (**MAR/MNAR**). En ese caso, si simplemente eliminamos esas observaciones, estaríamos excluyendo a algunas de las personas más saludables en nuestro conjunto de datos y eso podría sesgar realmente cualquier resultado.
 
 <figure><img src="../../.gitbook/assets/image (34).png" alt="" width="563"><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/image (4) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Es importante pensar en por qué tus datos podrían faltar, además de ver cuánto falta. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser la mejor en tu situación.
-
-### Tipos de datos perdidos
-
-Aquí hay tres tipos generales de datos perdidos:
-
-1.  **Missing Completely at Random (MCAR):** Son datos perdidos completamente aleatorios, es decir, la ausencia de valores en un conjunto de datos es **independiente** tanto **de otras variables** observadas como de las no observadas.&#x20;
-
-    **Ejemplo**: la ausencia de la falta en la fecha que se produjo la infección no está relacionada con ninguna característica de los pacientes, la región, etc....sino que simplemente es un dato que no se sabe.
-2.  **Missing at Random (MAR):** Son datos perdidos aleatorios, es decir, la probabilidad de que un valor falte puede **depender de otras variables observadas**, pero no de las no observadas. El nombre puede confundir porque no son realmente aleatorios.
-
-    **Ejemplo**:  la información sobre la fiebre (si,no) falta en aquellos individuos que la temperatura (fiebre) está por debajo de 37, se puede pensar que fueron individuos más sanos. En este caso, la ausencia de la información sobre la fiebre no es completamente al azar, ya que está relacionada con la falta de fiebre.&#x20;
-
-    A pesar de que la ausencia no es completamente aleatoria, los datos MAR son más manejables que los datos "Missing Not at Random" (MNAR), ya que, en teoría, se puede modelar y abordar la falta de manera sistemática si se conocen las variables relacionadas con la ausencia. Este es un tipo común de datos faltantes.
-3.  **Missing not at Random (MNAR):** Datos perdidos de forma no aleatoria, es decir, la probabilidad de que falte un valor **depende de la variable no observada**. Esto puede introducir sesgos en los datos y es más complicado de manejar. En otras palabras, la falta de un valor está relacionada con la información que falta y no puede ser modelada únicamente en función de las variables observadas.&#x20;
-
-    **Ejemplo**: la falta de información de un hospital es debida al nivel socioeconómico de la región o a la falta de acceso sanitario, etc... por lo que no podríamos tener acceso a esa información ni parece muy fácil de predecir con otras variables.
-
-Tratar con datos **MNAR** (Missing not at Random) puede ser más complicado que tratar con datos **MCAR** (Missing Completely at Random) o **MAR** (Missing at Random) porque la falta de información está relacionada con la información que falta.&#x20;
+Es importante pensar en por qué tus datos podrían faltar y clasificarlos en el tipo de datos faltantes (MCAR/MAR o MNAR), además de ver cuánto falta. Hacer esto puede ayudarte a decidir qué tan importante podría ser imputar datos faltantes y también qué método de imputación de datos faltantes podría ser la mejor en tu situación.
 
 ### Tipos de missing en el ejemplo del Ébola:
 
@@ -44,12 +26,13 @@ Tratar con datos **MNAR** (Missing not at Random) puede ser más complicado que 
 
 * Los datos faltantes de <mark style="color:purple;">`temp`</mark> y <mark style="color:purple;">`outcome`</mark> no parecen estar relacionados con nada
 
-<pre class="language-r"><code class="lang-r"><strong>###Variable temp con v.cuantitativas
-</strong><strong>ggplot(data = data, aes (x = temp, y = age)) + geom_miss_point()
-</strong>ggplot(data = data, aes (x = temp, y = days_onset_hosp)) + geom_miss_point()
+```r
+###Variable temp con v.cuantitativas
+ggplot(data = data, aes (x = temp, y = age)) + geom_miss_point()
+ggplot(data = data, aes (x = temp, y = days_onset_hosp)) + geom_miss_point()
 
 
-shadowed_data &#x3C;- data %>% 
+shadowed_data <- data %>% 
   bind_shadow()
   
 ###Variable temp con v.cualitativas
@@ -76,7 +59,7 @@ ggplot(shadowed_data, aes(x = gender, fill = outcome_NA)) +
  
  ggplot(shadowed_data, aes(x = hospital, fill = outcome_NA)) +
  geom_bar(position = "fill")
-</code></pre>
+```
 
 
 
@@ -132,13 +115,17 @@ table(data$fever,data$chills,useNA = "always")
 
 ### Imputación simple:
 
-#### Imputación usando la media (v.continuas) o moda (v.categóricas)&#x20;
+#### Imputación usando la media (v.continuas) o moda (v.categóricas o v.discretas)&#x20;
 
-Esta es la forma más sencilla de imputación cuando puedes asumir que los datos son **MCAR.** Si las variables son continuas puedes simplemente establecer los valores perdidos usando la media de esa variable. Por ejemplo, asumamos que las mediciones de temperatura (<mark style="color:purple;">`temp`</mark>) faltantes en nuestro conjunto de datos son MCAR y por tanto los podemos imputar con la media.&#x20;
+Esta es la forma más sencilla de imputación cuando puedes asumir que los datos son **MCAR y el % de datos faltante es peqieño.** Si las variables son continuas puedes simplemente establecer los valores perdidos usando la media de esa variable.&#x20;
+
+Vamos a asumir que las mediciones de temperatura (<mark style="color:purple;">`temp`</mark>) faltantes en nuestro conjunto de datos son **MCAR** y que por tanto los podemos imputar con la media.&#x20;
 
 ¡Cuidado! en muchas situaciones reemplazar los datos con la media puede generar sesgos si el porcentaje de missing es elevado.&#x20;
 
-La variable <mark style="color:purple;">`temp`</mark> tiene un 3% de missing, podría ser una candidata a imputar por la media
+**Imputación por la media en variable continuas:**&#x20;
+
+La variable <mark style="color:purple;">`temp`</mark> tiene un 3% de missing, podría ser una candidata a imputar por la media y comprobar gráficamente la distribución.&#x20;
 
 ```r
 data$temp_imp<-data$temp
@@ -154,34 +141,47 @@ geom_density(aes(x = temp_imp, fill = "temp_imp"), alpha = 0.5)
 
 <figure><img src="../../.gitbook/assets/image (202).png" alt=""><figcaption></figcaption></figure>
 
-pero vemos como la distribución se desplaza hacia el valor 38.5 que es el valor de la media.&#x20;
+Tras imputar por la media se ve como la distribución se desplaza hacia el valor 38.5 que es el valor de la media. Quizás esta forma no sea la mejor, puesto que hay claramente una distribución bimodal con un pico en 37 seguramente correspondiente a los que no tienen fiebre y un pico en 39 correspondiente a aquellos que si tienen fiebre. En el sioguiente apartado veremos como mejorar esta imputación.&#x20;
+
+**Imputación por la moda en variables categóricas o discretas:**&#x20;
 
 En el caso de las variables categóricas la forma de imputar valores perdidos de forma sencilla es usando la moda. Por ejemplo, los valores faltantes de la variable <mark style="color:purple;">`gender`</mark> (variable categórica) tienen un 5% de missing y se pueden representar por la categoría más frecuente ("_f_" en este caso):
 
-<pre class="language-r"><code class="lang-r">#Comprobamos la categoría más frecuente
+```r
+#Comprobamos la categoría más frecuente
 prop.table(table(data$gender,useNA = "always"))
-<strong>         f          m       &#x3C;NA> 
-</strong>0.47673234 0.47605299 0.04721467 
+         f          m       <NA> 
+0.47673234 0.47605299 0.04721467 
 
 ## Sustituímos los NA con la categoría más frecuente
-data$gender_imp &#x3C;-data$gender
-data$gender_imp[is.na(data$gender_imp)] &#x3C;- "f"
+data$gender_imp <-data$gender
+data$gender_imp[is.na(data$gender_imp)] <- "f"
 
 
 ## Volvemos a comprobar
 prop.table(table(data$gender_imp,useNA = "always"))
-       f        m     &#x3C;NA> 
+       f        m     <NA> 
 0.523947 0.476053 0.000000 
 
-</code></pre>
+```
 
-#### Regresión lineal
+<mark style="background-color:yellow;">Añadir gráfico</mark>
 
-Un método algo más avanzado es utilizar algún tipo de modelo estadístico para predecir cuál podría ser el valor perdido y reemplazarlo con el valor predicho. Aquí un ejemplo de cómo crear valores predichos para todas las observaciones donde la <mark style="color:purple;">`temp`</mark> tiene datos perdidos, pero <mark style="color:purple;">`fever`</mark> no, utilizando una regresión lineal simple usando la fiebre  como predictores.&#x20;
+#### Regresión lineal para variables continuas
+
+Un método algo más avanzado es utilizar algún tipo de modelo estadístico para predecir cuál podría ser el valor perdido y reemplazarlo con el valor predicho.&#x20;
+
+Vamos a ver como imputar la variable <mark style="color:purple;">`temp`</mark> con valores predichos usando una regresión lineal con la variable <mark style="color:purple;">`fever`</mark>  como predictora.
+
+Lo primero será comprobar que los valores faltantes de la variable temp no lo son en la variable fever, si no, esos valores no se podrán imputar:
 
 ```r
 vis_miss(select(data,temp,fever))
+```
 
+Después ajustamos un modelo de regresión lineal de la forma `temp ~ fever`
+
+```r
 #Ajustar un modelo de regresión lineal de temperatura ~ fiebre
 model1 <- lm(temp ~ fever, data = data)
 
@@ -192,6 +192,12 @@ predictions <- predict(model1,newdata = data [is.na(data$temp),])
 data$temp_imp_model1 <- data$temp  
 data$temp_imp_model1[is.na(data$temp)]<- predictions
 
+
+```
+
+<mark style="background-color:yellow;">Poner el resultado de la regresion</mark>
+
+```r
 #Hacer un gráfico para comparar las observaciones
 ggplot(data, aes(x = temp, fill = "temp")) +  geom_density(alpha = 0.5) +  
 geom_density(aes(x = temp_imp_model1, fill = "temp_imp_model1"), alpha = 0.5)
@@ -205,6 +211,8 @@ geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 <figure><img src="../../.gitbook/assets/image (31).png" alt="" width="563"><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/image (203).png" alt="" width="563"><figcaption></figcaption></figure>
+
+
 
 #### Regresión lineal + error estocástico
 
