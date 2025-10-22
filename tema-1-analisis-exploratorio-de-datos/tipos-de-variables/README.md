@@ -264,6 +264,6 @@ str(datos)
 
 Ahora es tu turno: Realiza los siguientes ejercicios:
 
-{% content-ref url="ejercicio-tipos-de-datos/" %}
-[ejercicio-tipos-de-datos](ejercicio-tipos-de-datos/)
+{% content-ref url="ejercicio-1.1-tipos-de-datos/" %}
+[ejercicio-1.1-tipos-de-datos](ejercicio-1.1-tipos-de-datos/)
 {% endcontent-ref %}

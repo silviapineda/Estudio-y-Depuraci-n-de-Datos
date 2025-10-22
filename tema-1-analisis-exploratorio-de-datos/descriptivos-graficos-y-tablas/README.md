@@ -221,7 +221,7 @@ ggplot(datos, aes(x = genero, y = edad, fill = genero)) +
 
 Ahora es tu turno: Realiza los siguientes ejercicios:
 
-{% content-ref url="ejercicio-graficos-y-tablas/" %}
-[ejercicio-graficos-y-tablas](ejercicio-graficos-y-tablas/)
+{% content-ref url="ejercicio-1.3-graficos-y-tablas/" %}
+[ejercicio-1.3-graficos-y-tablas](ejercicio-1.3-graficos-y-tablas/)
 {% endcontent-ref %}
 

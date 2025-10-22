@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # Ejercicios
 
 Con la misma base de datos de la epidemia de ébola haz los siguientes ejercicios:

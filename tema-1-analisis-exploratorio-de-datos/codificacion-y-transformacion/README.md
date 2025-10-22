@@ -251,6 +251,6 @@ Ahora es tu turno: Realiza los siguientes ejercicios:
 
 
 
-{% content-ref url="ejercicio-codificacion-y-transformacion/" %}
-[ejercicio-codificacion-y-transformacion](ejercicio-codificacion-y-transformacion/)
+{% content-ref url="ejercicio-1.2-codificacion-y-transformacion/" %}
+[ejercicio-1.2-codificacion-y-transformacion](ejercicio-1.2-codificacion-y-transformacion/)
 {% endcontent-ref %}

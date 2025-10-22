@@ -4,7 +4,7 @@ cover: >-
 coverY: 0
 ---
 
-# Introducción a los datos atípicos
+# Introducción
 
 Un **dato atípico**, llamado **outlier** en inglés, es un valor de una de las variables que se observan en un conjunto de datos, que se diferencia de forma notable de los valores que toma dicha variable. También podemos considerar que los datos atípicos son observaciones cuyo comportamiento es distinto del comportamiento medio del resto de observaciones.&#x20;
 
@@ -164,8 +164,8 @@ Los cambios producidos por una única observación son catastróficos. Para evit
 
 Vamos a realizar los siguientes ejercicios:
 
-{% content-ref url="ejercicios/" %}
-[ejercicios](ejercicios/)
+{% content-ref url="ejercicio-2.1/" %}
+[ejercicio-2.1](ejercicio-2.1/)
 {% endcontent-ref %}
 
 Antes de ver cómo tratar los datos atípcio, nos preguntamos como los podemos clasificar&#x20;
