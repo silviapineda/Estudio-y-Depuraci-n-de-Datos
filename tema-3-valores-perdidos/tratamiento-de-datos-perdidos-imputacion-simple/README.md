@@ -127,6 +127,8 @@ Multiple R-squared:  0.7459,	Adjusted R-squared:  0.7459
 F-statistic: 1.611e+04 on 1 and 5488 DF,  p-value: < 2.2e-16
 ```
 
+
+
 ```r
 #Hacer un gráfico para comparar las observaciones
 ggplot(data, aes(x = temp, fill = "temp")) +  geom_density(alpha = 0.5) +  
@@ -138,9 +140,9 @@ geom_density(aes(x = temp_imp_model1, fill = "temp_imp_model1"), alpha = 0.5) +
 geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 ```
 
-<figure><img src="../../.gitbook/assets/image (280).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (280).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (281).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (281).png" alt="" width="563"><figcaption></figcaption></figure>
 
 #### Regresión lineal + error estocástico
 
