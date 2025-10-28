@@ -18,17 +18,30 @@ Algunas **desventajas** son:&#x20;
 * Tiene poca interpretabilidad ya que hereda la “caja negra” del Random Forest.
 * No genera un “modelo” final reutilizable y por tanto hay que re-ejecutar el algoritmo cada vez que se necesite imputar, lo que puede ser un problema.
 
-Para evaluar la calidad de imputación se hace de dos formas:
+### **Evaluación mediante métrica OOB (interna del algoritmo)**
 
-1. **Métrica OOB (interna del algoritmo).**\
-   &#xNAN;_&#x6D;issForest_ devuelve un **error OOB** (_out-of-bag_) que estima cómo de bien bien predicen los bosques:
-   1. Variables numéricas: **NRMSE** (_Normalized RMSE_) que cuanto más pequeño mejor, siendo el 0 la imputación perfecta.&#x20;
-   2. Variables categóricas: **PFC** (_Percentage Falsely Classified)_ que cuanto más pequeño mejor, siendo el 0 la imputación perfecta. \
-      Si usas <mark style="color:green;">`variablewise = TRUE`</mark> obtienes el error por variable con NA (muy útil para detectar variables problemáticas).
-2. **Validación externa.**\
-   Se seleccionan al azar algunos valores conocidos, se imputa con _missForest_ y se comparan imputaciones vs. valores reales, esto habría que repetirlo un mínimo de 10 veces.&#x20;
+_missForest_ devuelve un **error OOB** (_out-of-bag_) qusando las muestras no usadas para entrenar cada árbol. Este error mide cómo de bien predicen los bosques sin necesidad de un conjunto externo de validación.
 
-Un ejemplo de como se aplicaría este algoritmo es el siguiente:
+1. Para las **variables numéricas** se mide el **NRMSE** (_Normalized Root Mean Square Error)_
+
+$$\mathrm{RMSE}=\sqrt{\frac{1}{|S|}\sum_{i\in S}\big(\hat y_i-y_i\big)^2}$$
+
+donde S es el número de celdas evaluadas (aquellas con valor real conocido) y luego se normaliza dividiendo por la desviación estándar de los valores reales (para quedar sin unidades y ser comparable entre variables):
+
+$$\mathrm{NRMSE}=\frac{\mathrm{RMSE}}{\,\mathrm{sd}(y)\,}$$.&#x20;
+
+Interpretación: cuanto más pequeño es este valor mejor, siendo el 0 la imputación perfecta.&#x20;
+
+2. Para las **variables categóricas** se midel el **PFC** (_Percentage Falsely Classified)_ que es la proporción mal clasificada:
+
+$$
+\mathrm{PFC}=\frac{1}{|S|}\sum_{i\in S}\mathbf{1}\!\left[\hat y_i \neq y_i\right]
+$$
+
+De nuevo, cuanto más bajo mejor, siendo 0 la clasificación perfecta.
+
+\
+Si usas <mark style="color:green;">`variablewise = TRUE`</mark> obtienes el error por cada variable con NA (muy útil para detectar variables problemáticas).&#x20;
 
 ### Ejemplo
 
@@ -66,18 +79,52 @@ imp$OOBerror
 0.5280747 
 ```
 
-Como todas las variables son continuas, sólo nos muestra el error NRMSE&#x20;
+Como todas las variables son continuas, sólo nos muestra el error NRMSE, para poder ver los errores propios de cada variable hay que usar la opción <mark style="color:green;">`variablewise = TRUE`</mark> <mark style="color:green;"></mark><mark style="color:green;">.</mark> Esta opción nos da simplemente el MSE, habrá que dividirla por la desviación típica para hacerla comparable entre variables&#x20;
 
-Comparación por la imputación por la media:
+```r
+imp <- missForest(data,variablewise = TRUE)
+imp$OOBerror 
+        MSE         MSE         MSE         MSE 
+ 311.221941 7083.740928    8.251267   39.682168 
+# Calcular la Standard Deviation para normalizar
+SD<-sapply(data,sd,na.rm=TRUE)
 
+# Calcular el NMRSE
+NRMSE<-sqrt(imp$OOBerror)/SD
+names(NRMSE)<-colnames(data)
+NRMSE
+    Ozone   Solar.R      Wind      Temp 
+0.5347867 0.9345596 0.8349439 0.6778429 
 ```
-data$temp_imp<-data$temp #Nueva variable
-mean(data$temp_imp, na.rm = TRUE) #Media
-# 38.55829
-data$temp_imp[is.na(data$temp_imp)] <- mean(data$temp_imp, na.rm = TRUE) #Imputación
 
-##Gráfico para representar las diferencias  
-ggplot(data, aes(x = temp, fill = "temp")) +  
-geom_density(alpha = 0.5) +  
-geom_density(aes(x = temp_imp, fill = "temp_imp"), alpha = 0.5) 
+En este caso, podemos ver el error individual por variable siendo la variable Ozone la que menor valor tiene y la de Solar.R la que peor.&#x20;
+
+Comparando gráficamente:
+
+```r
+g1<-ggplot(data, aes(x = data$Ozone, fill = "Ozone")) +
+  geom_density(alpha = 0.5) +
+  geom_density(aes(x = imp$ximp$Ozone, fill = "Ozone_imp"), alpha = 0.5) 
+
+g2<-ggplot(data, aes(x = data$Solar.R, fill = "Solar.R")) +
+  geom_density(alpha = 0.5) +
+  geom_density(aes(x = imp$ximp$Solar.R, fill = "Solar.R_imp"), alpha = 0.5) 
+
+g3<-ggplot(data, aes(x = data$Wind, fill = "Wind")) +
+  geom_density(alpha = 0.5) +
+  geom_density(aes(x = imp$ximp$Wind, fill = "Wind_imp"), alpha = 0.5) 
+
+g4<-ggplot(data, aes(x = data$Temp, fill = "Temp")) +
+  geom_density(alpha = 0.5) +
+  geom_density(aes(x = imp$ximp$Temp, fill = "Temp_imp"), alpha = 0.5) 
+
+library(patchwork)
+g1+g2+g3+g4
 ```
+
+<figure><img src="../../.gitbook/assets/image (283).png" alt=""><figcaption></figcaption></figure>
+
+
+
+Todas las imputaciones se asemejan a la distribución original de datos.
+
