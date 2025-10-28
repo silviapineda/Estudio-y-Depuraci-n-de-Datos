@@ -430,7 +430,7 @@ ggplot(shadowed_data, aes(x = fever, fill = outcome_NA)) +
   geom_bar(position = "fill")
 ```
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 En este caso, no observamos ninguna relación por tanto podríamos decir que los missing de outcome podrían ser **MCAR**.&#x20;
 

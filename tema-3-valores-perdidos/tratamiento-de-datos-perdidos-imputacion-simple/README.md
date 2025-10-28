@@ -16,9 +16,7 @@ Aunque siempre se puede analizar un conjunto de datos después de eliminar todos
 
 A continucación veremos distintas formas de imputación y cuándo son más recomendables unas respecto a otras.&#x20;
 
-### Imputación simple:
-
-#### Imputación usando la media (v.continuas) o moda (v.categóricas o v.discretas)&#x20;
+### Imputación usando la media (v.continuas) o moda (v.categóricas o v.discretas)&#x20;
 
 Esta es la forma más sencilla de imputación cuando puedes asumir que los datos son **MCAR y el % de datos faltante es pequeño.** Si las variables son continuas puedes simplemente establecer los valores perdidos usando la media de esa variable.&#x20;
 
@@ -26,7 +24,7 @@ Vamos a asumir que las mediciones de temperatura (<mark style="color:purple;">`t
 
 ¡Cuidado! en muchas situaciones reemplazar los datos con la media puede generar sesgos si el porcentaje de missing es elevado.&#x20;
 
-**Imputamos por la media y comprobamos gráficamente la distribución:**
+#### **Imputamos por la media y comprobamos gráficamente la distribución:**
 
 ```r
 data$temp_imp<-data$temp #Nueva variable
@@ -44,7 +42,7 @@ geom_density(aes(x = temp_imp, fill = "temp_imp"), alpha = 0.5)
 
 Tras imputar por la media se ve como la distribución se desplaza hacia el valor 38.5 que es el valor de la media. Quizás esta forma no sea la mejor, puesto que hay claramente una distribución bimodal con un pico en 37 seguramente correspondiente a los que no tienen fiebre y un pico en 39 correspondiente a aquellos que si tienen fiebre. En el siguiente apartado veremos como mejorar esta imputación.&#x20;
 
-**Imputación por la moda en variables categóricas o discretas:**&#x20;
+#### **Imputación por la moda en variables categóricas o discretas:**&#x20;
 
 En el caso de las variables categóricas la forma de imputar valores perdidos de forma sencilla es usando la moda. Por ejemplo, asumimos que los valores faltantes de la variable <mark style="color:purple;">`gender`</mark> (variable categórica) son MCAR y sólo tienen un 5% de missing, por tanto se podrían representar por la categoría más frecuente ("_f_" en este caso):
 
@@ -75,15 +73,15 @@ barplot(prop.table(table(data$gender_imp)), main = "Después de la imputación",
 
 Vemos que la categoría female "f" aumenta respecto a la de male "m" ya que un 5% ya es un número considerable, pero no distorsiona demasiado, así que se podría dar por válido en el caso de querer un método de imputación muy sencillo.&#x20;
 
-#### Imputación usando modelos de regresión
+### Imputación usando modelos de regresión
 
 Un método algo más avanzado es utilizar algún tipo de modelo estadístico para predecir cuál podría ser el valor perdido y reemplazarlo con el valor predicho.&#x20;
 
 Dependiendo de si la variable que queremos imputar es continua o categórica, usaremos un modelo de **regresión lineal** (continua) o **regresión logística/multinomial** (categórica).&#x20;
 
-En este caso, vamos a ver como imputar la variable <mark style="color:purple;">`temp`</mark> con valores predichos usando una regresión lineal con la variable <mark style="color:purple;">`fever`</mark>  como predictora para compararlo con la imputación por la media que veiamos en el apartado anterior.&#x20;
+En este caso, vamos a ver como imputar la variable <mark style="color:purple;">`temp`</mark> con valores predichos usando una regresión lineal con la variable <mark style="color:purple;">`fever`</mark>  como predictora para compararlo con la imputación por la media que veíamos en el apartado anterior.&#x20;
 
-Lo primero será comprobar que los valores faltantes de la variable temp no lo son en la variable fever, si no, esos valores no se podrán imputar:
+Lo primero será comprobar que los valores faltantes de la variable <mark style="color:purple;">`temp`</mark> no lo son en la variable <mark style="color:purple;">`fever`</mark>, si no, esos valores no se podrán imputar:
 
 ```r
 vis_miss(select(data,temp,fever))
@@ -92,7 +90,7 @@ vis_miss(select(data,temp,fever))
 Después ajustamos un modelo de regresión lineal de la forma <mark style="color:purple;">`temp ~ fever`</mark>
 
 ```r
-#Ajustar un modelo de regresión lineal de temperatura ~ fiebre
+#Ajustar un modelo de regresión lineal de temp ~ fever
 model1 <- lm(temp ~ fever, data = data)
 
 #Predecir los valores solo para las observaciones faltantes 
@@ -127,7 +125,13 @@ Multiple R-squared:  0.7459,	Adjusted R-squared:  0.7459
 F-statistic: 1.611e+04 on 1 and 5488 DF,  p-value: < 2.2e-16
 ```
 
+En esta regresión, el modelo explica un un 74% de la variabilidad de temp (R<sup>2</sup> = 0.74) con un p-valor muy pequeño, señalando que existe una asociación entre las dos variables. Por tanto este modelo se puede usar para predecir de la siguiente forma:
 
+$$
+temp = 36.97 + 2.05*(fever=yes)
+$$
+
+Cuando los individuos no tiene fiebre (`fever=no`) la predicción será 36.97 y cuando si tengan (`fever=yes`) la predicción será 36.97+2.05 = 39.02
 
 ```r
 #Hacer un gráfico para comparar las observaciones
@@ -142,13 +146,17 @@ geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 
 <figure><img src="../../.gitbook/assets/image (280).png" alt="" width="563"><figcaption></figcaption></figure>
 
+
+
 <figure><img src="../../.gitbook/assets/image (281).png" alt="" width="563"><figcaption></figcaption></figure>
 
-#### Regresión lineal + error estocástico
+En el prmer gráfico se pueden ver los dos picos correspondientes a los dos valores de la predicción y en el segundo la comparación con la imputación por la media, viendo claramente como el modelo de regresión hace una imputación mucho más robusto ya que tiene en cuanto información extra sobre si los individuos tienen o no tienen fiebre.&#x20;
 
-A veces cuando los datos faltantes tienen mucha relación con algunos valores específicos de la variable que se va a usar para imputar, podemos querer añadir un error estocástico.&#x20;
+### Imputación mediantte regresión lineal + error estocástico
 
-Este error lo añadimos como un término de error estocástico a nuestras predicciones. Este error estocástico es una variable aleatoria que sigue una distribución normal con media cero y desviación estándar para la que podemos usar el error estándar de la propia regresión lineal.&#x20;
+La imputación por regresión reemplaza los valores perdidos por la predicción puntual del modelo. Eso suele infraestimar la variabilidad (las imputaciones quedan “demasiado perfectas”). Para aproximar mejor la dispersión real, podemos añadir un término aleatorio a cada predicción:
+
+Este término aleatorio añade un error estocástico a nuestras predicciones. Este error estocástico es una variable aleatoria que sigue una distribución normal $$\varepsilon_i^{\ast} \sim \mathcal{N}(0,\sigma^2)\$$donde  $$\hat{\sigma}$$ es el error estándar residual del modelo de ajuste
 
 ```r
 summary(model1) ##Cogemos el residual standard error
@@ -166,5 +174,6 @@ ggplot(data, aes(x = temp, fill = "temp")) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (5) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
+En este caso, como se ha metido un error estocástico, vemos un ajuste casi igual a la distribución original de la variable sin imputar

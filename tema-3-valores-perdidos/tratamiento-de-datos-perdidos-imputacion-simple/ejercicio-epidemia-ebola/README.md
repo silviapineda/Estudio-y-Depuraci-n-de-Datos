@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # Ejercicio - Epidemia Ébola
 
 1. Imputa la variable <mark style="color:purple;">`temp`</mark> con las 3 formas que hemos visto en la teoría y comparalas.

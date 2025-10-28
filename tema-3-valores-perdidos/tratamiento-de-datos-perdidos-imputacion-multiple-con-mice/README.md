@@ -5,9 +5,9 @@ coverY: 0
 
 # Tratamiento de datos perdidos (Imputación Múltiple con MICE)
 
-Imputación múltiple:
+## Imputación múltiple
 
-En R podemos usar distintos paquetes muy útiles para ello: <mark style="color:green;">**`Mmisc`**</mark>, <mark style="color:green;">**`missForest`**</mark> (usa Random Forests para imputar datos missing), and <mark style="color:green;">**`mice`**</mark> (Multiple Imputation by Chained Equations). Uno de los paquetes más usados es <mark style="color:green;">**`mice`**</mark>.&#x20;
+La imputación múltiple afronta los datos faltantes creando m copias del conjunto de datos donde cada valor perdido se imputa de forma estocástica. En R podemos usar el paquete  <mark style="color:green;">**`mice`**</mark> (Multiple Imputation by Chained Equations) para ello.&#x20;
 
 ### Multiple Imputation by Chained Equations (Paquete <mark style="color:green;">`mice`</mark>):
 
@@ -15,7 +15,7 @@ El paquete <mark style="color:green;">**`mice`**</mark> en R te ayuda a imputar 
 
 La **imputación múltiple** es un método que aborda el problema de los valores faltantes en los conjuntos de datos al generar múltiples conjuntos de datos completos, cada uno con valores imputados de manera diferente. Luego, los resultados se combinan para obtener estimaciones finales y varianzas que reflejen la incertidumbre de la imputación.
 
-<figure><img src="../../.gitbook/assets/image (213).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (213).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ### Principio detrás de MICE:
 
@@ -47,13 +47,13 @@ La función <mark style="color:green;">**`mice()`**</mark> se encarga del proces
 
 Los parámetros más importantes a tener en cuenta son:
 
-_**m**_ que representa el número de datasets que son imputados. Por defecto es 5.
+<mark style="color:green;">`m`</mark> que representa el número de datasets que son imputados. Por defecto es 5.
 
-_**maxit**_ el número máximo de iteraciones que se van a realizar.
+<mark style="color:green;">`maxit`</mark> el número máximo de iteraciones que se van a realizar.
 
-_**seed**_ que marca la semilla con la que se va a iniciar la imputación.
+<mark style="color:green;">`seed`</mark> que marca la semilla con la que se va a iniciar la imputación.
 
-_**method**_ que indica el método de imputación.
+<mark style="color:green;">`method`</mark> que indica el método de imputación.
 
 La diferencia entre el número de conjuntos de datos imputados y el número de iteraciones en el algoritmo MICE es:
 
@@ -70,7 +70,9 @@ La diferencia entre el número de conjuntos de datos imputados y el número de i
 
 Puedes adaptar los métodos según las características específicas de tus datos y el tipo de variables que estás imputando. Además, puedes combinar métodos para diferentes variables utilizando el argumento _**method**_ de manera apropiada.
 
-**Ten en cuenta que todos los métodos combina la predicción con el muestreo aleatorio para generar bases de datos distintas y así poder medir una incertidumbre.**&#x20;
+{% hint style="info" %}
+Ten en cuenta que todos los métodos combina la predicción con el muestreo aleatorio para generar bases de datos distintas y así poder medir una incertidumbre.&#x20;
+{% endhint %}
 
 ### **Ejemplo de la aleatoriedad con PMM:**
 
@@ -108,7 +110,7 @@ library(naniar)
 vis_miss(data)
 ```
 
-<figure><img src="../../.gitbook/assets/image (207).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (207).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Observamos que la varianble <mark style="color:purple;">`ozone`</mark> tiene casi el 25% de los puntos de datos faltantes, por lo tanto, podríamos considerar excluirla del análisis o recopilar más medidas. Las otras variables están por debajo del umbral del 5%, por lo que podemos conservarlas.&#x20;
 
@@ -122,7 +124,7 @@ ggplot(data = data, aes (x = Ozone, y = Temp)) + geom_miss_point()
 
 {% tabs %}
 {% tab title="Solar.R" %}
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Wind" %}
@@ -134,7 +136,7 @@ ggplot(data = data, aes (x = Ozone, y = Temp)) + geom_miss_point()
 {% endtab %}
 {% endtabs %}
 
-Podríamos decir según estos gráficos que los datos faltantes de Ozone y Solar.R son MCAR ya que no hay ninguna relación con las demás variables, pero los datos de Wind y Temp corresponden a datos que tienen valores bajos de Ozone pero no son todos los valores bajos de Ozone, por tanto serían MNAR ya que parece que hay una relación no observada, pero poco pronunciada.
+Podríamos decir según estos gráficos que los datos faltantes de Ozone y Solar.R son MCAR ya que no hay ninguna relación con las demás variables, pero los datos de Wind y Temp corresponden a datos que tienen valores bajos de Ozone por tanto se podrían clasificar como MAR o MNAR. El hecho que que exista una asociación con lo valores bajos de Ozone, pero este asoaciación no se vea exclusiva, puede hacer indicar que existe una relación no observada inidicativo de MNAR.&#x20;
 
 3. **Patrón de los datos faltantes. ¿Hay alguna observación con todo datos faltantes?**
 
@@ -148,7 +150,7 @@ md.pattern(data)
 
 <figure><img src="../../.gitbook/assets/image (209).png" alt=""><figcaption></figcaption></figure>
 
-Vemos que hay una observación para el que todas las variables son faltantes y por tanto esta observación habría que borrarla.
+Se ve que hay una observación para el que todas las variables son faltantes y por tanto esta observación habría que borrarla.
 
 ```r
 data <- data[rowSums(is.na(data)) < ncol(data), ]
@@ -176,8 +178,7 @@ impData$imp$Wind
 Y para visualizar la base de datos complete hay que ejecutar la función <mark style="color:green;">**`complete()`**</mark>:
 
 ```r
-
-completedData <- complete(impData,1)
+completedData <- complete(impData,1)
 ```
 
 Los valores faltantes han sido reemplazados con los valores imputados en el primer conjunto de los cinco datasets. Si deseas utilizar otro, simplemente cambia el segundo parámetro en la función<mark style="color:green;">**`complete()`**</mark>
@@ -250,7 +251,7 @@ summary(pool(modelFit1))
 
 Para evaluar la calidad del ajuste con las imputaciones, se puede usar el valor <mark style="color:orange;">**`fmi`**</mark> que proporciona la **fracción de información perdida debida a los valores faltantes** y el <mark style="color:orange;">**`lambda`**</mark> que es la **proporción de la varianza total atribuible a los datos faltantes**.  Aparentemente, solo la variable <mark style="color:purple;">`Ozone`</mark> es estadísticamente significativa.
 
-Recuerda que inicializamos la función <mark style="color:green;">`mice()`</mark> con una semilla específica, por lo tanto, los resultados dependen en cierta medida de nuestra elección inicial. Para reducir este efecto, podemos imputar un mayor número de conjuntos de datos, cambiando el parámetro m (por defecto, **m=5**) en la función <mark style="color:green;">**`mice()`**</mark> de la siguiente manera:
+Recuerda que inicializamos la función <mark style="color:green;">**`mice()`**</mark> con una semilla específica, por lo tanto, los resultados dependen en cierta medida de nuestra elección inicial. Para reducir este efecto, podemos imputar un mayor número de conjuntos de datos, cambiando el parámetro m (por defecto, **m=5**) en la función <mark style="color:green;">**`mice()`**</mark> de la siguiente manera:
 
 ```r
 impData2 <- mice(data,m=50,seed=245435)

@@ -1,6 +1,6 @@
 # Ejercicio - MICE
 
-La siguiente base de datos perteneciente al paquete mice `nhanes` contine 25 observaciones y 4 variables:_<mark style="color:purple;">`age group`</mark> (3 categorías)_ , _<mark style="color:purple;">`body mass index`</mark>_, _<mark style="color:purple;">`hypertension`</mark> (1:No, 2: Sí)_ y _<mark style="color:purple;">cholesterol</mark> (mg/dL)_.
+La siguiente base de datos perteneciente al paquete mice <mark style="color:orange;">**`nhanes`**</mark> contine 25 observaciones y 4 variables:_<mark style="color:purple;">`age group`</mark> (3 categorías)_ , _<mark style="color:purple;">`body mass index`</mark>_, _<mark style="color:purple;">`hypertension`</mark> (1:No, 2: Sí)_ y _<mark style="color:purple;">cholesterol</mark> (mg/dL)_.
 
 ```r
 #Carga la base de datos
