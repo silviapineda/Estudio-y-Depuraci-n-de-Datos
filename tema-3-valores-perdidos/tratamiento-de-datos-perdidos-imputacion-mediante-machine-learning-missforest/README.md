@@ -27,3 +27,57 @@ Para evaluar la calidad de imputación se hace de dos formas:
       Si usas <mark style="color:green;">`variablewise = TRUE`</mark> obtienes el error por variable con NA (muy útil para detectar variables problemáticas).
 2. **Validación externa.**\
    Se seleccionan al azar algunos valores conocidos, se imputa con _missForest_ y se comparan imputaciones vs. valores reales, esto habría que repetirlo un mínimo de 10 veces.&#x20;
+
+Un ejemplo de como se aplicaría este algoritmo es el siguiente:
+
+### Ejemplo
+
+Vamos a utilizar los datos de airquality de R que son datos de mediciones de la calidad del aire medidos en EEUU que hemos visto en la imputación con MICE:&#x20;
+
+{% file src="../../.gitbook/assets/airquality.csv" %}
+
+Se ejecuta el algoritmo de forma muy sencilla con la función <mark style="color:green;">`missForest()`</mark>
+
+```r
+data<-read.csv("airquality.csv")
+str(data)
+
+#install.packages("missForest")
+library(missForest)
+
+set.seed(123)
+imp <- missForest(data)
+```
+
+Nos da por un lado la base de datos imputada y por otro lado los errores OOB:
+
+```r
+head(imp$ximp)
+     Ozone  Solar.R      Wind     Temp
+1 41.00000 190.0000  7.400000 81.10023
+2 36.00000 118.0000  8.000000 80.30992
+3 12.00000 149.0000 12.600000 71.89835
+4 18.00000 313.0000 12.638919 66.89062
+5 40.14696 211.4715  9.496077 81.45118
+6 28.00000 216.2286 10.360952 66.00000
+
+imp$OOBerror 
+  NRMSE 
+0.5280747 
+```
+
+Como todas las variables son continuas, sólo nos muestra el error NRMSE&#x20;
+
+Comparación por la imputación por la media:
+
+```
+data$temp_imp<-data$temp #Nueva variable
+mean(data$temp_imp, na.rm = TRUE) #Media
+# 38.55829
+data$temp_imp[is.na(data$temp_imp)] <- mean(data$temp_imp, na.rm = TRUE) #Imputación
+
+##Gráfico para representar las diferencias  
+ggplot(data, aes(x = temp, fill = "temp")) +  
+geom_density(alpha = 0.5) +  
+geom_density(aes(x = temp_imp, fill = "temp_imp"), alpha = 0.5) 
+```
