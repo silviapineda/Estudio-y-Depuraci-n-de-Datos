@@ -5,8 +5,6 @@ coverY: 0
 
 # Pruebas de Normalidad
 
-## **Introducción a las Pruebas de Normalidad**
-
 En el ámbito de la estadística, las pruebas de normalidad desempeñan un papel fundamental al evaluar la idoneidad de los datos para ciertos análisis estadísticos. Estas pruebas ofrecen información clave sobre la distribución de los datos y la variabilidad entre grupos, aspectos críticos para la validez de muchos métodos estadísticos.
 
 La **normalidad** es una suposición fundamental en muchos métodos estadísticos, ya que muchos de ellos se basan en la distribución normal. Las pruebas de normalidad son herramientas cruciales para evaluar si un conjunto de datos sigue o no una distribución normal. Nos centraremos en métodos gráficos y numéricos para comprobar la normalidad.&#x20;
