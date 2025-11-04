@@ -152,7 +152,7 @@ geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 
 En el prmer gráfico se pueden ver los dos picos correspondientes a los dos valores de la predicción y en el segundo la comparación con la imputación por la media, viendo claramente como el modelo de regresión hace una imputación mucho más robusto ya que tiene en cuanto información extra sobre si los individuos tienen o no tienen fiebre.&#x20;
 
-### Imputación mediantte regresión lineal + error estocástico
+### Imputación mediante regresión lineal + error estocástico
 
 La imputación por regresión reemplaza los valores perdidos por la predicción puntual del modelo. Eso suele infraestimar la variabilidad (las imputaciones quedan “demasiado perfectas”). Para aproximar mejor la dispersión real, podemos añadir un término aleatorio a cada predicción:
 

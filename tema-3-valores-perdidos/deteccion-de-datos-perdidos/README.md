@@ -5,7 +5,7 @@ coverY: 0
 
 # Detección de datos perdidos
 
-En este apartado vamos a ver como cuantificar y visualizar los datos ausentes para su detección, pero antes veamos como se representan los datos ausentes en R
+En este apartado vamos a ver cómo cuantificar y visualizar los datos ausentes para su detección, pero antes veamos cómo se representan los datos ausentes en R
 
 ## Datos ausentes en R
 
@@ -48,7 +48,7 @@ as.numeric(c("10", "20", "thirty", "40"))
 
 #### <mark style="color:green;">`is.na()`</mark> y <mark style="color:green;">`!is.na()`</mark>
 
-Estas funciones devuelven un valor lógico (**`TRUE`** or **`FALSE`**)
+Estas funciones devuelven un valor lógico (**`TRUE`** o **`FALSE`**)
 
 ```r
 my_vector <- c(1, 4, 56, NA, 5, NA, 22)
@@ -77,7 +77,7 @@ na.omit (my_vector)
 
 #### <mark style="color:green;">`na.rm = TRUE`</mark>
 
-Cuando se utilizan funciones matemáticas como <mark style="color:green;">**`max()`**</mark><mark style="color:green;">**,**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`min()`**</mark><mark style="color:green;">**,**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`sum()`**</mark> <mark style="color:green;"></mark><mark style="color:green;">or</mark> <mark style="color:green;"></mark><mark style="color:green;">**`mean()`**</mark>si hay valores NA los eliminara para hacer el cálculo
+Cuando se utilizan funciones matemáticas como <mark style="color:green;">**`max()`**</mark><mark style="color:green;">**,**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`min()`**</mark><mark style="color:green;">**,**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`sum()`**</mark> <mark style="color:green;"></mark><mark style="color:green;">or</mark> <mark style="color:green;"></mark><mark style="color:green;">**`mean()`**</mark>si hay valores NA los eliminará para hacer el cálculo
 
 ```r
 my_vector <- c (1, 4, 56, NA, 5, NA, 22)
@@ -91,13 +91,14 @@ mean(my_vector, na.rm = TRUE)
 
 ## Cuantificar y visualizar datos missing en una base de datos&#x20;
 
-Para ello vamos a usar una base de datos de una epidemia de ebola.&#x20;
+Para ello vamos a usar una base de datos de una epidemia de Ébola.&#x20;
 
 {% file src="../../.gitbook/assets/linelist_missing.rds" %}
 
 y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 
-<pre class="language-r"><code class="lang-r">library(naniar)
+```r
+library(naniar)
 library(tidyverse)
 library(rio)
 
@@ -124,13 +125,8 @@ str(data)
  $ aches               : chr  "no" NA NA "no" ...
  $ vomit               : chr  "yes" NA NA "no" ...
  $ temp                : num  36.8 36.9 36.9 36.8 36.9 37.6 37.3 37 36.4 35.9 ...
- $ days_onset_hosp     : num  2 1 2 2 1 1 2 1 1 2 ...
-<strong>
-</strong>
-
-
-
-</code></pre>
+ $ days_onset_hosp     : num  2 1 2 2 1 1 2 1 1 2 ...
+```
 
 ```r
 summary(data) ## resumimos las variables
@@ -160,7 +156,7 @@ summary(data) ## resumimos las variables
                                                                                                 NA's   :149     NA's   :256     
 ```
 
-Este dataframe contiene 588 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, se asume que no hay ni errores ni datos atípicos.&#x20;
+Este dataframe contiene 5888 observaciones y  20 variables, con númerosos `NA's` en muchas de sus variables. En este caso, se asume que no hay ni errores ni datos atípicos.&#x20;
 
 ### Cuantificación&#x20;
 
@@ -171,15 +167,15 @@ El número de datos missing por variable se puede ver con  <mark style="color:gr
 Para saber el **número** y **porcentaje** de valores que son missing a nivel global se pueden usar las funciones <mark style="color:green;">**`pct_miss()`**</mark> , <mark style="color:green;">**`n_miss() ,`**</mark> <mark style="color:green;">**`pct_complete_case()`**</mark>**&#x20;**<mark style="color:$primary;">**y**</mark>**&#x20;**<mark style="color:green;">**`n_case_complete()`**</mark>
 
 ```r
-# Porcentaje de datos missing en todo el dataset
-pct_miss(data)
+# Porcentaje de celdas missing en todo el dataset
+pct_miss(data) 
 7.391304
 
-# Número de datos missing en todo el dataset
+# Número de celdas missing en todo el dataset
 n_miss(data)
 8704
 
-# Porcentaje de filas completas si borramos todas las filas que contienen al menos un datos missing
+# Porcentaje de filas completas si borramos todas las filas que contienen al menos un dato missing
 pct_complete_case(data) 
 35.37704
 
@@ -195,14 +191,15 @@ En este caso, vemos que el porcentaje de datos missing global no es demasiado (u
 
 La decisión muchas veces vendrá dada por el número de datos perdidos, los análisis posteriores que se quieran realizar, si queremos hacer análisis univariante o multivariante, etc.
 
-La decisión de borrarlos puede tener mucho impacto en los análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ebola** (**`linelist`**)&#x20;
+La decisión de borrarlos puede tener mucho impacto en los análisis posteriores. Imagina que queremos ajustar una recta de regresión para predecir los días desde la aparición de síntomas hasta la hospitalización (<mark style="color:purple;">`days_onset_hosp`</mark>) con la temperatura (fiebre) (<mark style="color:purple;">`temp`</mark>) en el ejemplo de la **epidemia de Ébola** (**`linelist`**)&#x20;
 
 1\) Si se borran todas aquellas filas que tienen al menos un missing (n=2083):
 
-<pre class="language-r"><code class="lang-r"><strong>data_complete&#x3C;-data[complete.cases(data),]
-</strong>dim(data_complete)
+```r
+data_complete<-data[complete.cases(data),]
+dim(data_complete)
 [1] 2083   20
-</code></pre>
+```
 
 ```r
 summary(glm(days_onset_hosp ~ temp, data = data_complete, family = poisson))
@@ -291,11 +288,11 @@ gg_miss_var(data, show_pct = TRUE)
 
 <figure><img src="../../.gitbook/assets/image (275).png" alt=""><figcaption></figcaption></figure>
 
-Aquí se ve que <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy poroblemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
+Aquí se ve que <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy problemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
 
 En este caso, la ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA. Esto ya **descarta MCAR global** (completamente aleatorio).
 
-También se puede visulizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no con <mark style="color:green;">**`vis_miss()`**</mark>. Se puede usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.&#x20;
+También se puede visualizar el dataframe como un heatmap donde se muestra en forma de matriz de datos si cada valor está ausente o no con <mark style="color:green;">**`vis_miss()`**</mark>. Se puede usar <mark style="color:green;">**`select()`**</mark> para elegir ciertas columnas del dataframe y proporcionar solo esas columnas a la función.&#x20;
 
 El orden en el que aparecen las observaciones es el mismo que en la base de datos, pero con la opción <mark style="color:green;">**`cluster = TRUE`**</mark>, se pueden identificar grupos de variables con patrones similares.
 
@@ -329,7 +326,7 @@ Ahora que tenemos una idea más adecuada, podemos hacer análisis por subgrupos 
 
 #### **2) Visualizar por subgrupos de una variable cualitativa**
 
-Si queremos visualizar los datos missing por los subgrupos de una variable cualitativa, ejemplo: <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del arguemento <mark style="color:green;">**`facet =`**</mark>
+Si queremos visualizar los datos missing por los subgrupos de una variable cualitativa, ejemplo: <mark style="color:purple;">`gender`</mark> o <mark style="color:purple;">`outcome`</mark> haríamos uso del argumento <mark style="color:green;">**`facet =`**</mark>
 
 ```r
 gg_miss_var(data, show_pct = TRUE,facet = gender)
@@ -352,7 +349,7 @@ ggplot(data = data, aes (x = age, y = temp)) +  geom_point()
 
 <figure><img src="../../.gitbook/assets/image (268).png" alt=""><figcaption></figcaption></figure>
 
-Se ve con los valores missing de ambas variables no están representados en el gráfico, pero si queremos ver dependencias entre variables, podemos usar la función <mark style="color:green;">**`geom_miss_point()`**</mark>. Al crear un gráfico de dispersión de dos columnas, los registros con uno de los valores faltantes y el otro valor presente se muestran configurando los valores faltantes en un 10% menos que el valor más bajo en la columna, y se les asigna un color distintivo.
+Se ve cómo los valores missing de ambas variables no están representados en el gráfico, pero si queremos ver dependencias entre variables, podemos usar la función <mark style="color:green;">**`geom_miss_point()`**</mark>. Al crear un gráfico de dispersión de dos columnas, los registros con uno de los valores faltantes y el otro valor presente se muestran configurando los valores faltantes en un 10% menos que el valor más bajo en la columna, y se les asigna un color distintivo.
 
 ```r
 
@@ -362,7 +359,7 @@ ggplot(data = data, aes (x = age, y = temp)) + geom_miss_point()
 
 <figure><img src="../../.gitbook/assets/image (270).png" alt=""><figcaption></figcaption></figure>
 
-En este gráfico de dispersión, los puntos rojos representan registros donde el valor de una columna está presente, pero el valor de la otra columna falta. Esto permite visualizar la distribución de los valores faltantes en relación con los valores no faltantes. En este caso, se puede percibir que hay más los valores faltantes en la variable <mark style="color:purple;">`age`</mark> para aquellos que tienen <mark style="color:purple;">`temp`</mark> alta, pero también habría que ver si es simplemente debido a que hay más datos cuando la variable <mark style="color:purple;">`temp`</mark> es alta y es simplemente por probabilidad. Usaremos las variables sombra para esto.&#x20;
+En este gráfico de dispersión, los puntos rojos representan registros donde el valor de una columna está presente, pero el valor de la otra columna falta. Esto permite visualizar la distribución de los valores faltantes en relación con los valores no faltantes. En este caso, se puede percibir que hay más valores faltantes en la variable <mark style="color:purple;">`age`</mark> para aquellos que tienen <mark style="color:purple;">`temp`</mark> alta, pero también habría que ver si es simplemente debido a que hay más datos cuando la variable <mark style="color:purple;">`temp`</mark> es alta y es simplemente por probabilidad. Usaremos las variables sombra para esto.&#x20;
 
 #### **4) Estratificado por una variable sombra** &#x20;
 
@@ -402,7 +399,7 @@ Si queremos ver si los síntomas están relacionados con alguna de las variables
 
 <figure><img src="../../.gitbook/assets/image (273).png" alt=""><figcaption></figcaption></figure>
 
-En este caso se observa que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR/MNAR**. Es difícil saber si son MAR o MNAR sin saber la realidad, muchas veces lo podemos pensar por el cotexto o por si hay o no datos además de los NA. En este caso, la mayoría de NAs es en aquellos que no tuvieron fiebre, se podría pensar que no fueron anotados aquellos síntomas de los individuos que no tenían fiebre, pero quizás la relación es más compleja porque algunos individuos que no tenían fiebre, si se les anotaron los síntomas. Por tanto, puede que haya algo no observado (MNAR) o una combinación más compleja de lo obsevado (MAR)
+En este caso se observa que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR/MNAR**. Es difícil saber si son MAR o MNAR sin saber la realidad, muchas veces lo podemos pensar por el contexto o por si hay o no datos además de los NA. En este caso, la mayoría de NAs es en aquellos que no tuvieron fiebre, se podría pensar que no fueron anotados aquellos síntomas de los individuos que no tenían fiebre, pero quizás la relación es más compleja porque algunos individuos que no tenían fiebre, si se les anotaron los síntomas. Por tanto, puede que haya algo no observado (MNAR) o una combinación más compleja de lo observado (MAR)
 
 <mark style="color:orange;">**Ejemplo 2**</mark>
 
@@ -417,7 +414,7 @@ geom_density()
 
 <figure><img src="../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-En este caso observamos que los datos missing de la variable edad se corresponde a fechas mas recientes, por lo tanto podríamos sospechar de una relación del tipo que en fechs más tardías (con más desborde hospitalario), no se apuntaba la edad de algunas personas por falta de medios. En este caso el hecho de que no todos los valores faltantes correspondan a esa dependecia, nos hace pensar que podría ser un **MNAR**.&#x20;
+En este caso observamos que los datos missing de la variable edad se corresponde a fechas más recientes, por lo tanto podríamos sospechar de una relación del tipo que en fechas más tardías (con más desborde hospitalario), no se apuntaba la edad de algunas personas por falta de medios. En este caso el hecho de que no todos los valores faltantes correspondan a esa dependecia, nos hace pensar que podría ser un **MNAR**.&#x20;
 
 #### Variables Categóricas
 
