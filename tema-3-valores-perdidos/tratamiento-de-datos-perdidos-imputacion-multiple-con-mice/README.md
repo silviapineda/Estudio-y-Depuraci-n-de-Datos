@@ -207,9 +207,8 @@ La densidad de los datos imputados para cada conjunto de datos imputados se mues
 
 Otra forma visual útil de observar las distribuciones se puede obtener utilizando la función <mark style="color:green;">**`stripplot()`**</mark>, que muestra las distribuciones de las variables como puntos individuales.
 
-```r
-stripplot(impData, pch = 20, cex = 1.2)
-```
+<pre class="language-r"><code class="lang-r"><strong>stripplot(impData, pch = 20, cex = 1.2)
+</strong></code></pre>
 
 <figure><img src="../../.gitbook/assets/image (176).png" alt=""><figcaption></figcaption></figure>
 

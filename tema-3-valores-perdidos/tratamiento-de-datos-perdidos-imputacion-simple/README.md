@@ -102,9 +102,8 @@ data$temp_imp_model1[is.na(data$temp)]<- predictions
 
 ```
 
-```r
-summary(model1)
-
+<pre class="language-r"><code class="lang-r"><strong>summary(model1)
+</strong>
 Call:
 lm(formula = temp ~ fever, data = data)
 
@@ -114,16 +113,16 @@ Residuals:
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 36.97314    0.01451  2548.3   <2e-16 ***
-feveryes     2.04798    0.01613   126.9   <2e-16 ***
+(Intercept) 36.97314    0.01451  2548.3   &#x3C;2e-16 ***
+feveryes     2.04798    0.01613   126.9   &#x3C;2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.4701 on 5488 degrees of freedom
   (398 observations deleted due to missingness)
 Multiple R-squared:  0.7459,	Adjusted R-squared:  0.7459 
-F-statistic: 1.611e+04 on 1 and 5488 DF,  p-value: < 2.2e-16
-```
+F-statistic: 1.611e+04 on 1 and 5488 DF,  p-value: &#x3C; 2.2e-16
+</code></pre>
 
 En esta regresión, el modelo explica un un 74% de la variabilidad de temp (R<sup>2</sup> = 0.74) con un p-valor muy pequeño, señalando que existe una asociación entre las dos variables. Por tanto este modelo se puede usar para predecir de la siguiente forma:
 
@@ -161,10 +160,10 @@ Este término aleatorio añade un error estocástico a nuestras predicciones. Es
 ```r
 summary(model1) ##Cogemos el residual standard error
 set.seed(3)
-rnorm(sum(is.na(data$temp)), 0, sd = 0.47) 
+inc<-rnorm(sum(is.na(data$temp)), 0, sd = 0.47) 
 
 data$temp_imp_model1_inc <- data$temp  
-data$temp_imp_model1_inc[is.na(data$temp)]<- predictions + rnorm(sum(is.na(data$temp)), 0, sd = 0.47) 
+data$temp_imp_model1_inc[is.na(data$temp)]<- predictions + inc
 
 #Hacer un gráfico para comparar las observaciones con la media y la regresión
 ggplot(data, aes(x = temp, fill = "temp")) +
