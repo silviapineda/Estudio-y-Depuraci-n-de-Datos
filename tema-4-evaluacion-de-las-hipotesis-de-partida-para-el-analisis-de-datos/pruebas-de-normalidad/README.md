@@ -66,11 +66,12 @@ summary(datos_sim_norm)
 
 Lo primero que vemos en los datos simulados como una distribución normal es que la media y la media son muy similares alrededor de 5 que es la media con la que se han simulado los datos.
 
-<pre class="language-r"><code class="lang-r"><strong>##Datos simulados exponenciales
-</strong>set.seed(123)
-datos_sim_exp &#x3C;- rexp(1000, rate = 0.5)
+```r
+##Datos simulados exponenciales
+set.seed(123)
+datos_sim_exp <- rexp(1000, rate = 0.5)
 summary(datos_sim_exp)
-</code></pre>
+```
 
 ```r
     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
@@ -275,13 +276,15 @@ En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$ y por tanto los 
 
 Recuerda que el test de Kolmogorov-Smirnov es sensible al **tamaño de la muestra**, por lo que con muestras grandes, es más probable que encuentres diferencias estadísticas significativas. En tales casos, otros métodos y gráficos de diagnóstico pueden ser útiles para evaluar la normalidad.
 
-> ¿Y qué ocurres si los datos no siguen una distribución Normal?&#x20;
+> ¿Y qué ocurre si los datos no siguen una distribución Normal?&#x20;
 >
-> Podemos transformarlos para que si sigan
+> Podemos transformarlos para que si la sigan
 
 ## Transformación Box-Cox
 
-La transformación de Box-Cox es una técnica utilizada para estabilizar la varianza y hacer que los datos se aproximen más a una distribución normal. Fue propuesta por George Box y David Cox. La transformación es definida por la siguiente fórmula:
+La transformación de Box–Cox es una familia de transformaciones propuesta por **George Box** y **David Cox (1964)** para estabilizar la varianza y aproximar los datos a una **distribución normal**.
+
+Para una variable positiva $$y>0$$,  la transformación se define como:
 
 $$
 y(\lambda) = 
@@ -293,7 +296,7 @@ $$
 
 Donde $$y$$ es la variable original y $$λ$$ es el parámetro de transformación.&#x20;
 
-Como parte de la propuesta de Box y Cox (1964) considera logaritmos, la transformación Box-Cox se puede generalizar introduciendo un segundo parámetro que permite trasladar los valores antes de aplicar la anterior expresión:
+En muchos casos los datos pueden tomar valores **cero o negativos**. Box y Cox propusieron entonces una versión generalizada introduciendo un parámetro de desplazamiento $$\lambda_2$$ :
 
 $$
 y(\lambda) = 
@@ -303,7 +306,7 @@ y(\lambda) =
 \end{cases}
 $$
 
-En la práctica se elige $$\lambda_2$$para que $$y_i+\lambda_2>0$$ de manera que $$\lambda_1$$es el único parámetro.
+En la práctica se elige $$\lambda_2$$ para que $$y_i+\lambda_2>0$$ de manera que $$\lambda_1$$es el único parámetro a estimar.
 
 La elección de $$λ$$ es crucial, y la transformación de Box-Cox busca el valor de $$λ$$ que maximiza la normalidad y la homocedasticidad de los datos. Sin embargo, las **transformaciones más habituales** se describen en la siguiente tabla:
 
@@ -313,11 +316,11 @@ La transformación $$log(y)$$ y $$\sqrt{y}$$ son apropiadas para corregir distri
 
 La transformación de los valores en sus _recíprocos_ $$1/y$$  $$1/y^2$$ son adecuadas cuando existen valores muy extremos por el lado positivo.&#x20;
 
-Las transformaciones _cuadrado_ $$y^2$$permiten corregir la asimetría negativa.&#x20;
+Las transformaciones $$y^2$$permiten corregir la asimetría negativa.&#x20;
 
-Si el parámetro de la transformación estimado es **cercano a los valores de la tabla anterior, en la práctica es recomendable utilizar el valor de la tabla** en lugar del exacto, ya que será más fácil de interpretar.&#x20;
+En la implementación de Box–Cox se estima λ y luego, si el valor óptimo es cercano a 0, 0.5, 1, etc., puede elegirse uno de estos valores por simplicidad e interpretabilidad
 
-Para estimar el parámetro λ, los autores Box y Cox (1964) propusieron fundamentalmente dos formas: el **Método de Máxima Verosimilitud** y el Método Bayesiano. En el primer caso, se pretende encontrar un valor de λ que minimice la suma de cuadrados de los residuos. Con frecuencia, se espera que los valores de λ vayan de -2 a 2.
+Para estimar el parámetro λ, los autores Box y Cox (1964) propusieron fundamentalmente dos formas: el **Método de Máxima Verosimilitud** y el Método Bayesiano. En el primer caso, se busca el valor de λ que maximiza la verosimilitud (o la log-verosimilitud), lo que equivale a minimizar la suma de cuadrados de los residuos del modelo ajustado con los datos transformados. Con frecuencia se explora λ en un rango entre -2 y 2.&#x20;
 
 Usando R, podemos hacer uso de la función <mark style="color:green;">**`boxcox()`**</mark> de la librería **`MASS`** para estimar el parámetro de transformación por estimación de máxima verosimilitud.&#x20;
 
@@ -347,15 +350,16 @@ boxcox(lm(datos_prueba ~ 1))
 
 <figure><img src="../../.gitbook/assets/image (156).png" alt="" width="375"><figcaption></figcaption></figure>
 
-El log likelihood (logaritmo de la función de verosimilitud) en el contexto de la transformación Box-Cox se refiere a la medida de la adecuación de un modelo estadístico a los datos observados después de aplicar un modelo de regresión lineal, específicamente en el caso de la transformación Box-Cox, se utiliza para evaluar qué tan bien se ajusta la transformación a los datos.
+La log-verosimilitud (log-likelihood) mide qué tan bien se ajusta el modelo a los datos transformados. En el contexto de la transformación Box–Cox, para cada posible λ se ajusta un modelo lineal y se calcula la log-verosimilitud asociada; el λ óptimo es el que **maximiza** esta cantidad (equivalente a minimizar la suma de cuadrados de los residuos). En términos más simples, cuanto mayor sea el log likelihood, mejor será el ajuste de la transformación Box-Cox a los datos.
 
-En el contexto de la transformación Box-Cox, se busca encontrar el valor de lambda (λ) que maximice el log likelihood. El lambda óptimo es aquel que maximiza esta medida de verosimilitud. En términos más simples, cuanto mayor sea el log likelihood, mejor será el ajuste de la transformación Box-Cox a los datos.
+Como estamos trabajando en el contexto de una variable, la regresión lineal que usaremos se ajusta a un modelo sólo con la constante $$Y=β_0​+ε$$ (`~ 1`).
 
-Como estamos trabajando en el contexto de una variable, la regresión lineal que usaremos se ajusta a un modelo sólo con la constante $$Y=β_0​+ε$$
+En el gráfico que devuelve <mark style="color:green;">**`boxcox()`**</mark>:
 
-Ten en cuenta que la línea vertical punteada central representa el parámetro estimado λ mientras que las otras dos representan su intervalo de confianza al 95%.
+* la línea vertical punteada central representa el parámetro estimado λ;
+* las otras dos líneas punteadas representan su intervalo de confianza al 95%.
 
-Como el gráfico anterior muestra que el 0 está dentro del intervalo de confiaza del λ óptimo y la estimación está realmente cerca del 0, en este ejemplo la mejor opción es aplicar la transformación logarítmica a los datos (ver tabla de la primera sección).
+Si el gráfico muestra que el valor 0 está dentro del intervalo de confianza del λ óptimo y, además, la estimación de λ está muy cerca de 0, la mejor opción suele ser aplicar la transformación logarítmica a los datos (véase la tabla de transformaciones habituales).
 
 ```r
 # Datos transformados
@@ -367,14 +371,14 @@ hist(datos_prueba_trans)
 
 <figure><img src="../../.gitbook/assets/image (158).png" alt="" width="375"><figcaption></figcaption></figure>
 
-Ahora los datos parece que puedan seguir una distribución normal, pero lo podemos comprobar realizando, por ejemplo, el test estadístico Shapiro-Wilk:
+Ahora los datos parece que puedan seguir una distribución normal, pero se puede comprobar realizando, por ejemplo, el test estadístico Shapiro-Wilk:
 
 ```r
 shapiro.test(new.x)
 #W = 0.9, p-value = 0.2
 ```
 
-No podemos rechazar la hipótesis nula de normalidad.
+En este caso, no se rechaza la hipótesis nula de normalidad.
 
 En el caso de querer extraer el parámetro λ exacto:
 
@@ -385,7 +389,9 @@ b<-boxcox(lm(datos_prueba ~ 1))
 datos_prueba_trans_exact <- (datos_prueba ^ lambda - 1) / lambda
 ```
 
-En el caso especial de tener valores negativos, podemos convertir todos nuestros datos en positivos previo a la transformación box-cox
+Pero si λ es muy cercano a 0, por simplicidad e interpretabilidad se suele preferir usar directamente la transformación logarítmica.
+
+En el caso especial de tener valores negativos, podemos convertir todos nuestros datos en positivos antes de aplicar la transformación Box–Cox. Por ejemplo:
 
 ```r
 ###box-cox con datos negativos
@@ -410,7 +416,7 @@ La elección entre el test de Shapiro-Wilk y el test de Kolmogorov-Smirnov depen
 
 Ahora vamos a realizar los siguientes <mark style="color:purple;">**ejercicios**</mark>:
 
-{% content-ref url="ejercicio.md" %}
-[ejercicio.md](ejercicio.md)
+{% content-ref url="ejercicio-4.1-pruebas-de-normalidad.md" %}
+[ejercicio-4.1-pruebas-de-normalidad.md](ejercicio-4.1-pruebas-de-normalidad.md)
 {% endcontent-ref %}
 

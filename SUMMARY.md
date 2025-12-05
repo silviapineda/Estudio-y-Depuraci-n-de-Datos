@@ -74,7 +74,7 @@
 
 * [Introducción](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/introduccion.md)
 * [Pruebas de Normalidad](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/pruebas-de-normalidad/README.md)
-  * [Ejercicio](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/pruebas-de-normalidad/ejercicio.md)
+  * [Ejercicio 4.1: Pruebas de Normalidad](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/pruebas-de-normalidad/ejercicio-4.1-pruebas-de-normalidad.md)
 * [Pruebas de homogeneidad de varianzas (homocedasticidad)](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/pruebas-de-homogeneidad-de-varianzas-homocedasticidad/README.md)
   * [Ejercicios](tema-4-evaluacion-de-las-hipotesis-de-partida-para-el-analisis-de-datos/pruebas-de-homogeneidad-de-varianzas-homocedasticidad/ejercicios.md)
 
