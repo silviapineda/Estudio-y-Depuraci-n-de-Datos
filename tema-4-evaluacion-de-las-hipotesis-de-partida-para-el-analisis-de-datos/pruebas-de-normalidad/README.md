@@ -404,14 +404,31 @@ hist(datos_sim_norm_pos)
 {% hint style="info" %}
 **¿Cuándo usar un test u otro?**
 
-1. **Test de Shapiro-Wilk:**
-   * Se recomienda para muestras pequeñas (generalmente menos de 50 observaciones), ya que tiene una buena potencia en muestras pequeñas. También es eficaz cuando se sospecha que los datos pueden provenir de una distribución normal.
-   * **Limitaciones:** A medida que el tamaño de la muestra aumenta, la prueba puede volverse demasiado sensible y detectar diferencias pequeñas de la normalidad, lo que puede llevar al rechazo de la hipótesis nula incluso cuando las desviaciones de la normalidad son pequeñass.
-2. **Test de Kolmogorov-Smirnov:**
-   * Es adecuado cuando se trabaja con muestras más grandes o cuando la normalidad no es un supuesto crítico.&#x20;
-   * **Limitaciones:** Es sensible a desviaciones en la forma de la distribución, no solo en términos de normalidad, por lo que puede ser demasiado conservador en ciertos casos.
 
-La elección entre el test de Shapiro-Wilk y el test de Kolmogorov-Smirnov depende del tamaño de la muestra y de la naturaleza de los datos. Para muestras pequeñas y cuando se está específicamente interesado en la normalidad, el test de Shapiro-Wilk puede ser preferible. Para muestras más grandes o cuando la normalidad no es el foco principal, el test de Kolmogorov-Smirnov puede ser una opción más adecuada. Sin embargo, siempre es importante considerar otras herramientas de diagnóstico y realizar una evaluación global de la normalidad.
+
+**Test de Shapiro–Wilk**
+
+* Es el test recomendado cuando queremos comprobar si una variable sigue una distribución normal.
+* Tiene **alta potencia** para detectar desviaciones de la normalidad, especialmente en **muestras pequeñas y medianas** (por ejemplo, menos de 50–100 observaciones).
+* Es adecuado cuando la normalidad es un supuesto importante del análisis que vamos a realizar.
+
+**Limitaciones:**\
+A medida que el tamaño muestral aumenta, el test se vuelve muy sensible y puede detectar desviaciones muy pequeñas de la normalidad. En muestras grandes esto puede llevar a rechazar la hipótesis nula incluso cuando las desviaciones son poco relevantes desde el punto de vista práctico.
+
+
+
+**Test de Kolmogorov–Smirnov**
+
+* Es un test de **bondad de ajuste** más general: compara la distribución empírica de los datos con una distribución teórica (no sólo la normal).
+* Puede utilizarse con muestras más grandes, especialmente cuando se quiere contrastar una distribución específica y la normalidad no es el foco principal.
+
+**Limitaciones:**
+
+En su versión estándar, asume que los parámetros de la distribución teórica son conocidos; Para el caso concreto de normalidad, suele tener **menos potencia** que el test de Shapiro–Wilk, por lo que puede pasar por alto algunas desviaciones.
+
+
+
+En cualquier caso, la decisión no debe basarse sólo en un p-valor: es fundamental combinar los **tests estadísticos** con herramientas gráficas (histograma, Q–Q plot) y realizar una **evaluación global** de la normalidad.
 {% endhint %}
 
 Ahora vamos a realizar los siguientes <mark style="color:purple;">**ejercicios**</mark>:
