@@ -42,7 +42,7 @@ colSums(breast.cancer.data == 0)
 
 ```
 
-Ahora vamos con los outliers. Para ver los outliers podríamos aplicar la función descrita en este [tema](broken-reference), pero ir tomando la decisión uno a uno puede ser muy tedioso:
+Ahora vamos con los outliers. Para ver los outliers podríamos aplicar la función descrita en este [tema](/broken/pages/I4jkN01jSoWh684mZ7T5), pero ir tomando la decisión uno a uno puede ser muy tedioso:
 
 ```r
 numeric_integer_vars <- names(which(sapply(breast.cancer.data.filter, is.numeric) | sapply(breast.cancer.data.filter, is.integer)))

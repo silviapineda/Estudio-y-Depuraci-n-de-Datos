@@ -1,3 +1,8 @@
+---
+cover: ../../.gitbook/assets/missing (1).jpeg
+coverY: 0
+---
+
 # Tratamiento de datos perdidos (Imputación mediante Machine Learning MissForest)
 
 ## Imputación mediante algoritmo de Machine Learning

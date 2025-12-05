@@ -162,4 +162,4 @@ boxplot(datos[3:ncol(datos)])
 
 <figure><img src="../.gitbook/assets/image (75).png" alt=""><figcaption></figcaption></figure>
 
-En el primero no detectamos nada que llame la atención por tanto no parece que los pacientes tengan que pasar ningún filtro, pero en el de genes observamos que algunos genes tienen muchos ceros o valores muy cercanos a cero. En este tipo de datos esto es un problema ya que un gen con muchos ceros o valores cercanos a cero puede ser indicativo de que la secuenciación ha fallado para ese gen y por tanto habría que quitarlo. Esto lo veremos en el [Tema 2. ](broken-reference)
+En el primero no detectamos nada que llame la atención por tanto no parece que los pacientes tengan que pasar ningún filtro, pero en el de genes observamos que algunos genes tienen muchos ceros o valores muy cercanos a cero. En este tipo de datos esto es un problema ya que un gen con muchos ceros o valores cercanos a cero puede ser indicativo de que la secuenciación ha fallado para ese gen y por tanto habría que quitarlo. Esto lo veremos en el [Tema 2. ](/broken/pages/URTDCDyfevgBm2fPJCWA)

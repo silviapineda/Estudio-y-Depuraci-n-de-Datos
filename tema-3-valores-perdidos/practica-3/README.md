@@ -20,4 +20,4 @@ En el dataset de Titanic las variables disponibles son:​
 | Cabin       | identificador del camarote asignado al pasajero                                                                              |
 | Embarked    | puerto en el que embarcó el pasajero                                                                                         |
 
-\
+<br>

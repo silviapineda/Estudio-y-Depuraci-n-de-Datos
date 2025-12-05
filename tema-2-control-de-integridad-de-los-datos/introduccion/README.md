@@ -10,7 +10,7 @@ Un **dato atípico**, llamado **outlier** en inglés, es un valor de una de las 
 
 El problema de los datos atípicos es que distorsionan de forma importante los análisis en los que interviene la variable que contiene dichos datos.
 
-Es muy importante no confundir un dato atípico con un dato erróneo. Por ejemplo una persona que mida 2.1 metros, aunque poco frecuente, no tiene porque tratarse de valor erróneo, pues se trata de un valor válido, y será un dato atípico si se compara con otros individuos de menor altura, pero no si forma parte de un conjunto de datos de jugadores de baloncesto. Es importante tratar primero los errores como hemos vissto en el [Tema 1](broken-reference) y luego los datos atípicos como vamos a ver en este tema.
+Es muy importante no confundir un dato atípico con un dato erróneo. Por ejemplo una persona que mida 2.1 metros, aunque poco frecuente, no tiene porque tratarse de valor erróneo, pues se trata de un valor válido, y será un dato atípico si se compara con otros individuos de menor altura, pero no si forma parte de un conjunto de datos de jugadores de baloncesto. Es importante tratar primero los errores como hemos vissto en el [Tema 1](/broken/pages/otB3m10mPPVd8kmdfZ1t) y luego los datos atípicos como vamos a ver en este tema.
 
 <mark style="color:orange;">**Ejemplo 1**</mark>
 

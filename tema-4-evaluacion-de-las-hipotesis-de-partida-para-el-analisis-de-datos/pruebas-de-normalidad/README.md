@@ -5,9 +5,9 @@ coverY: 0
 
 # Pruebas de Normalidad
 
-En el ámbito de la estadística, las pruebas de normalidad desempeñan un papel fundamental al evaluar la idoneidad de los datos para ciertos análisis estadísticos. Estas pruebas ofrecen información clave sobre la distribución de los datos y la variabilidad entre grupos, aspectos críticos para la validez de muchos métodos estadísticos.
+En estadística, las **pruebas de normalidad** desempeñan un papel fundamental a la hora de evaluar si los datos son adecuados para aplicar determinados métodos de análisis. Estas pruebas proporcionan información sobre la **forma de la distribución** de una variable (simetría, colas, presencia de valores extremos) y nos ayudan a decidir si es razonable asumir que los datos proceden de una población aproximadamente normal.
 
-La **normalidad** es una suposición fundamental en muchos métodos estadísticos, ya que muchos de ellos se basan en la distribución normal. Las pruebas de normalidad son herramientas cruciales para evaluar si un conjunto de datos sigue o no una distribución normal. Nos centraremos en métodos gráficos y numéricos para comprobar la normalidad.&#x20;
+La **normalidad** es una suposición clave en muchos procedimientos clásicos, como los contrastes paramétricos de medias o los modelos de regresión, cuyos resultados (p-valores, intervalos de confianza, etc.) se derivan bajo el supuesto de distribución normal. Por ello, antes de aplicar estos métodos, es importante comprobar hasta qué punto esta suposición resulta aceptable en nuestros datos. En este tema nos centraremos en **herramientas gráficas** (histogramas, gráficos de probabilidad normal, etc.) y en **pruebas numéricas** específicas de normalidad, analizando sus ventajas, limitaciones y cómo interpretar sus resultados en la práctica.
 
 ## Distribución normal
 
@@ -56,13 +56,28 @@ Para ver los métodos gráficos vamos a simular dos conjuntos de datos, unos sig
 ##Datos simulados normales
 set.seed(123)
 datos_sim_norm <- rnorm(1000, mean = 5, sd = 2)
-head(datos_sim_norm)
-
-##Datos simulados exponenciales
-set.seed(123)
-datos_sim_exp <- rexp(1000, rate = 0.5)
-head(datos_sim_exp)
+summary(datos_sim_norm)
 ```
+
+```r
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-0.6195  3.7434  5.0184  5.0323  6.3292 11.4821 
+```
+
+Lo primero que vemos en los datos simulados como una distribución normal es que la media y la media son muy similares alrededor de 5 que es la media con la que se han simulado los datos.
+
+<pre class="language-r"><code class="lang-r"><strong>##Datos simulados exponenciales
+</strong>set.seed(123)
+datos_sim_exp &#x3C;- rexp(1000, rate = 0.5)
+summary(datos_sim_exp)
+</code></pre>
+
+```r
+    Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+ 0.001652  0.613385  1.462333  2.059959  2.853270 14.422015 
+```
+
+En el caso de la exponencial, ya se ve como la media y la mediana no son iguales y la media se desvía de la mediana.&#x20;
 
 #### Histograma
 
@@ -89,6 +104,10 @@ lines(density(datos_sim_exp), col = "red")
 <figure><img src="../../.gitbook/assets/image (63).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
+
+En el **histograma de los datos normales,** se ve una distribución aproximadamente simétrica, con la mayoría de los valores concentrados alrededor del centro y una forma en “campana”. La línea suave en rojo representa la densidad empírica de los datos y se ajusta razonablemente a esa forma simétrica típica de la distribución normal.
+
+En cambio, en el **histograma de los datos exponenciales,** la distribución es claramente asimétrica: muchas observaciones se acumulan cerca de 0 y la cola se extiende hacia la derecha. La densidad en rojo muestra una caída rápida al principio y una cola larga, una forma muy distinta de la campana normal. Este contraste permite visualizar qué tipo de distribuciones se alejan claramente de la normalidad.
 
 ### **Gráfico de Probabilidad Normal (Q-Q plot)**
 
@@ -125,7 +144,9 @@ qqline(datos_sim_exp, col = "red")
 {% endtab %}
 {% endtabs %}
 
-Este es un enfoque básico del Q-Q plot, y hay variaciones y extensiones disponibles dependiendo de las necesidades específicas.&#x20;
+En el **Q-Q plot de los datos normales**, la mayoría de los puntos se sitúan muy cerca de la recta roja, con solo pequeñas desviaciones al principio y al final. Esto indica que los cuantiles de la muestra se parecen mucho a los cuantiles teóricos de una distribución normal, por lo que la suposición de normalidad resulta razonable.
+
+En el **Q-Q plot de los datos exponenciales**, los puntos se apartan de forma sistemática de la recta roja, especialmente en las colas: al principio se curvan por debajo y al final por encima de la recta. Este patrón de curvatura refleja una distribución claramente asimétrica y con cola larga, lo que indica que la distribución de los datos está lejos de ser normal.
 
 ### Métodos númericos
 
@@ -133,7 +154,7 @@ Además de comprobar la normalidad de forma gráfica, a veces es necesario evalu
 
 #### Prueba de Shapiro-Wilk
 
-Es una prueba de normalidad utilizada para determinar si una muestra proviene de una población normalmente distribuida. El test es especialmente eficaz para muestras de tamaño pequeño a moderado.
+Es una prueba de normalidad utilizada para determinar si una muestra proviene de una población normalmente distribuida. El test es especialmente eficaz para **muestras de tamaño pequeño a moderado**.
 
 La prueba se plantea como un contraste de hipótesis donde:
 
@@ -161,24 +182,36 @@ Valores pequeños de $$W$$ tienden a rechazar la hipótesis de Normalidad.&#x20;
 
 La distribución de $$W$$ es asimétrica por lo que a veces valores relativamente altos de $$W_n$$ (como 0.9) pueden llegar a considerarse no suficientes como para aceptar Normalidad y por tanto rechazar la hipótesis nula.
 
-Es importante destacar que el cálculo exacto de la prueba de Shapiro-Wilk puede ser complejo y generalmente se realiza mediante software estadístico. Además, la interpretación del resultado debe hacerse considerando el tamaño de la muestra entre otros factores.
+Es importante destacar que la interpretación del resultado debe hacerse considerando el tamaño de la muestra entre otros factores.
 
 ```r
 ###Test Shapiro - Wilk
 ##Datos normales
 shapiro.test(datos_sim_norm)
-## W = 0.99838, p-value = 0.4765
-
-
-##Datos exponenciales
-shapiro.test(datos_sim_exp)
-## W = 0.82872, p-value < 2.2e-16
-
 ```
 
-En el primero ($$p-valor=0.4765$$): NO podemos rechazar la $$H_0$$y por tanto los datos siguen una distribución normal
+```r
+	Shapiro-Wilk normality test
 
-En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$y por tanto los datos no siguen una distribución normal.&#x20;
+data:  datos_sim_norm
+W = 0.99838, p-value = 0.4765
+```
+
+```r
+##Datos exponenciales
+shapiro.test(datos_sim_exp)
+```
+
+```r
+	Shapiro-Wilk normality test
+
+data:  datos_sim_exp
+W = 0.82872, p-value < 2.2e-16
+```
+
+En el primero ($$p-valor=0.4765$$): No podemos rechazar la $$H_0$$ y por tanto los datos siguen una distribución normal
+
+En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$ y por tanto los datos no siguen una distribución normal.&#x20;
 
 ### Prueba de Kolmogorov-Smirnov
 
@@ -205,24 +238,46 @@ H_0: \text{La muestra proviene de una distribución normal.}  \\  H_1: \text{La 
 $$
 
 * Se compara el valor observado de <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line"> con los valores críticos de la tabla de Kolmogorov-Smirnov para decidir si se rechaza o no la hipótesis nula.
-* Si el valor observado de <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza  <img src="../../.gitbook/assets/image (139).png" alt="" data-size="line"> indicando que la muestra no sigue una distribución normal.
+* Si el valor observado de <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza $$H_0$$ $$f(x) = x * e^{2 pi i \xi$$ indicando que la muestra no sigue una distribución normal.
 
 ```r
 ###Test Kolmogorov-Smirnov para normalidad
 ##Datos normales
-ks.test(datos_sim_norm, "pnorm",mean = mean(datos_sim_norm), sd = sd(datos_sim_norm))
-#D = 0.014963, p-value = 0.9786
-
-##Datos exponenciales
-ks.test(datos_sim_exp, "pnorm",mean = mean(datos_sim_norm), sd = sd(datos_sim_norm))
-#D = 0.62383, p-value < 2.2e-16
+ks.test(datos_sim_norm, "pnorm",mean = mean(datos_sim_norm), 
+        sd = sd(datos_sim_norm))
 ```
 
-En el primero ($$p-valor=0.9786$$): NO podemos rechazar la $$H_0$$y por tanto los datos siguen una distribución normal
+```r
+	Asymptotic one-sample Kolmogorov-Smirnov test
 
-En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$y por tanto los datos no siguen una distribución normal.&#x20;
+data:  datos_sim_norm
+D = 0.014963, p-value = 0.9786
+alternative hypothesis: two-sided
+```
 
-**Recuerda que el test de Kolmogorov-Smirnov es sensible al tamaño de la muestra, por lo que con muestras grandes, es más probable que encuentres diferencias estadísticas significativas. En tales casos, otros métodos y gráficos de diagnóstico pueden ser útiles para evaluar la normalidad.**
+```r
+##Datos exponenciales
+ks.test(datos_sim_exp, "pnorm",mean = mean(datos_sim_norm), 
+        sd = sd(datos_sim_norm))
+```
+
+```r
+	Asymptotic one-sample Kolmogorov-Smirnov test
+
+data:  datos_sim_exp
+D = 0.62383, p-value < 2.2e-16
+alternative hypothesis: two-sided
+```
+
+En el primero ($$p-valor=0.9786$$): No podemos rechazar la $$H_0$$ y por tanto los datos siguen una distribución normal
+
+En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$ y por tanto los datos no siguen una distribución normal.&#x20;
+
+Recuerda que el test de Kolmogorov-Smirnov es sensible al **tamaño de la muestra**, por lo que con muestras grandes, es más probable que encuentres diferencias estadísticas significativas. En tales casos, otros métodos y gráficos de diagnóstico pueden ser útiles para evaluar la normalidad.
+
+> ¿Y qué ocurres si los datos no siguen una distribución Normal?&#x20;
+>
+> Podemos transformarlos para que si sigan
 
 ## Transformación Box-Cox
 
