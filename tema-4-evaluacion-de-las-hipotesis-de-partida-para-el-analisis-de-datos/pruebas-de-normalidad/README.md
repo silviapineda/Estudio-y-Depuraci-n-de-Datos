@@ -433,7 +433,7 @@ En cualquier caso, la decisión no debe basarse sólo en un p-valor: es fundamen
 
 Ahora vamos a realizar los siguientes <mark style="color:purple;">**ejercicios**</mark>:
 
-{% content-ref url="ejercicio-4.1-pruebas-de-normalidad.md" %}
-[ejercicio-4.1-pruebas-de-normalidad.md](ejercicio-4.1-pruebas-de-normalidad.md)
+{% content-ref url="ejercicio-4.1-pruebas-de-normalidad/" %}
+[ejercicio-4.1-pruebas-de-normalidad](ejercicio-4.1-pruebas-de-normalidad/)
 {% endcontent-ref %}
 
