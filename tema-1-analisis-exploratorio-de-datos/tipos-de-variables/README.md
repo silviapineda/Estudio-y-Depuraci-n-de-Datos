@@ -156,7 +156,7 @@ Los factores juegan un papel muy importante en la elaboración de modelos estad�
 
 Los niveles de un factor puede estar codificados como valores numéricos o como caracteres. Independientemente de que el factor sea numérico o carácter, sus valores son siempre almacenados internamente por R como números enteros, con lo que se consigue economizar memoria.
 
-_<mark style="color:orange;">Ejemplo</mark>_
+<mark style="color:orange;">**Ejemplo**</mark>
 
 ```r
 sexo <- factor(sexo,levels=c("H","M"),labels=c("Hombre","Mujer"))
@@ -180,7 +180,7 @@ Las variables lógicas constituyen un tipo particular de factor en R, que se car
 
 **ATENCIÓN: No debe confundirse el operador de asignación `=` con el de comparación `==`**.
 
-_<mark style="color:orange;">**Ejemplo**</mark>_
+<mark style="color:orange;">**Ejemplo**</mark>
 
 Podemos realizar la tabla de frecuencias anterior pero teniendo sólo en cuenta aquellos individuos que estén solteros:
 
@@ -207,7 +207,7 @@ R almacena las **fechas** en la clase _**Date**._  Esta clase almacena los valor
 
 Para crear una fecha en R el modo más sencillo es utilizar la función <mark style="color:green;">**`as.Date()`**</mark>. Esta función recibe como argumento un dato de fecha en modo carácter y la convierte a la clase `Date`. En esta clase, el estándar de fecha que se utiliza (en el que se leen y muestran las fechas si no se indica otra cosa) es _“año-mes-día”_ (yyyy-mm-dd).&#x20;
 
-_<mark style="color:orange;">Ejemplo</mark>_
+<mark style="color:orange;">**Ejemplo**</mark>
 
 ```r
 navidad=as.Date("2013-12-25")
