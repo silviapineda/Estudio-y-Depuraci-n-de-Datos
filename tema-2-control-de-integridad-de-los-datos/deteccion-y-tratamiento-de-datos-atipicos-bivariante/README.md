@@ -59,7 +59,7 @@ summary(lm(data$Pressure_height~data$Temperature_Sandburg))
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ```r
 Call:

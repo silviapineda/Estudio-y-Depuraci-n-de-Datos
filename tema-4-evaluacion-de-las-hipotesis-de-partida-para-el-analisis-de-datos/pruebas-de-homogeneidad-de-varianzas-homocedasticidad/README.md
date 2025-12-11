@@ -45,33 +45,68 @@ $$F = \frac{\sigma^2_2}{\sigma^2_1} \times \frac{S^2_1}{S^2_2} \sim F_{n_1-1, n_
 
 En R usaremos la función <mark style="color:green;">**`var.test()`**</mark>&#x20;
 
+### <mark style="color:orange;">Ejemplo</mark>
+
+Vamos a ver un ejemplo con los datos de R <mark style="color:orange;">**`iris`**</mark>
+
 ```r
 #Cargamos los datos de iris
 data("iris")
+
 #Filtramos para tener solo dos grupos por facilidad
-
-data <- filter(.data = iris, Species %in% c("versicolor", "virginica"))
+library(dplyr)
+data <- filter(iris, Species %in% c("versicolor", "virginica"))
 data$Species<-factor(data$Species)
+```
 
-##Vamos a estudiar la variable Petal.Length
+Estudiaremos la variable Petal.Length
+
+```r
 #Primero ver NORMALIDAD
 hist(data$Petal.Length)
 shapiro.test(data$Petal.Length)
+```
 
+<figure><img src="../../.gitbook/assets/image.png" alt="" width="375"><figcaption></figcaption></figure>
+
+```r
 ##Segundo ver su comportamiento por la variable factor
 boxplot(data$Petal.Length~data$Species)
 hist(data$Petal.Length[which(data$Species=="versicolor")])
 hist(data$Petal.Length[which(data$Species=="virginica")])
-by(data$Petal.Length, data$Species, var)
+by(data$Petal.Length, data$Species, var)
+```
 
+```r
+data$Species: versicolor
+[1] 0.2208163
+---------------------------------------------------------------------------
+data$Species: virginica
+[1] 0.3045878
+```
+
+A nivel gráfico y según el test de Shapiro, la variable Petal.Length muestra un comportamiento compatible con normalidad dentro de cada grupo, lo que permite aplicar el F-test para comparar varianzas.
+
+```r
 ##Finalmentet aplicamos el test de la razón de varianzas
 var.test(x = data[data$Species == "versicolor", "Petal.Length"],         
          y = data[data$Species == "virginica", "Petal.Length"] )
 ```
 
-<figure><img src="../../.gitbook/assets/image (234).png" alt=""><figcaption></figcaption></figure>
+```r
+	F test to compare two variances
 
-El test no encuentra diferencias significativas entre las varianzas de los dos grupos.&#x20;
+data:  data[data$Species == "versicolor", "Petal.Length"] and data[data$Species == "virginica", "Petal.Length"]
+F = 0.72497, num df = 49, denom df = 49, p-value = 0.2637
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+ 0.411402 1.277530
+sample estimates:
+ratio of variances 
+         0.7249678 
+```
+
+El F-test no detecta diferencias significativas entre las varianzas (p > 0.05), por lo que podemos asumir homogeneidad de varianza entre los dos grupos.
 
 ## Test de Levene
 
@@ -79,34 +114,47 @@ El test de Levene se basa en comparar las desviaciones absolutas de las observac
 
 El estadístico de prueba se calcula como la relación de la media de las desviaciones absolutas de cada observación respecto a la media o mediana del grupo, dependiendo de la variante del test.
 
-* Para la versión basada en la media, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la media de cada grupo.
-* Para la versión basada en la mediana, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la mediana de cada grupo.
+* **Para la versión basada en la medi**a, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la media de cada grupo.
+* **Para la versión basada en la mediana**, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la mediana de cada grupo.
 
 El estadístico de prueba sigue aproximadamente una distribución $$χ^2$$ con $$k−1$$ grados de libertad bajo la hipótesis nula de igualdad de varianzas entre los grupos.
 
-El test de Levene se puede aplicar con la función <mark style="color:green;">**`leveneTest()`**</mark> del paquete `car`. Se caracteriza, además de por poder comparar 2 o más poblaciones, por permitir elegir entre diferentes estadísticos de centralidad: mediana (por defecto), media, media truncada. Esto es importante a la hora de contrastar la homocedasticidad dependiendo de si los grupos se distribuyen de forma normal o no.
+El test de Levene se puede aplicar con la función <mark style="color:green;">**`leveneTest()`**</mark> del paquete <mark style="color:green;">**`car`**</mark>. Se caracteriza, por poder comparar 2 o más poblaciones y por permitir elegir entre diferentes estadísticos de centralidad: mediana (por defecto), media, media truncada. Esto es importante a la hora de contrastar la homocedasticidad dependiendo de si los grupos se distribuyen de forma normal o no.
 
 ```r
 library(car)
 leveneTest(y = data$Petal.Length, group = data$Species, center = "median")
 ```
 
-<figure><img src="../../.gitbook/assets/image (235).png" alt="" width="563"><figcaption></figcaption></figure>
+```r
+Levene's Test for Homogeneity of Variance (center = "median")
+      Df F value Pr(>F)
+group  1  1.0674 0.3041
+      98               
+```
+
+El test de Levene no detecta diferencias significativas entre varianzas (p = 0.3041); se asume homogeneidad de varianza.
 
 ## Test de Bartlett
 
 Permite contrastar la igualdad de varianza en 2 o más poblaciones sin necesidad de que el tamaño de los grupos sea el mismo. Es más sensible que el test de _Levene_ a la falta de normalidad, pero si se está seguro de que los datos provienen de una distribución normal, es la mejor opción.
 
 ```r
-data("iris")
 a <- iris[iris$Species == "versicolor", "Petal.Length"]
 b <- iris[iris$Species == "virginica", "Petal.Length"]
 bartlett.test(list(a,b))
 ```
 
-El test no encuentra diferencias significativas entre las varianzas de los dos grupos.
+```r
+	Bartlett test of homogeneity of variances
 
-Si se aplica a los 3 grupos a la vez, sí hay evidencias de que la varianza no es la misma en todos ellos. Idea que se puede intuir a partir del tamaño de la caja y bigotes del boxplot.
+data:  list(a, b)
+Bartlett's K-squared = 1.249, df = 1, p-value = 0.2637
+```
+
+Bartlett no detecta diferencias en las varianzas (p = 0.2637); se asume homogeneidad de varianza
+
+Ahora lo aplicamos a los 3 grupos a la vez
 
 ```r
 ##Ploteamos las 3 
@@ -115,8 +163,20 @@ boxplot(iris$Petal.Length~iris$Species)
 bartlett.test(iris$Sepal.Length ~ iris$Species)
 ```
 
-<figure><img src="../../.gitbook/assets/image (236).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="375"><figcaption></figcaption></figure>
+
+```r
+
+	Bartlett test of homogeneity of variances
+
+data:  iris$Sepal.Length by iris$Species
+Bartlett's K-squared = 16.006, df = 2, p-value = 0.0003345
+```
+
+El boxplot sugiere diferencias de variabilidad entre especies y el test de Bartlett rechaza claramente la hipótesis de igualdad de varianzas (p < 0.001). Esto indica que _<mark style="color:purple;">`Sepal.Length`</mark>_ presenta **varianzas significativamente distintas entre las tres especies**, por lo que no se puede asumir homogeneidad de varianzas.
 
 {% hint style="info" %}
-Si se tiene seguridad de que las muestras a comparar proceden de poblaciones que siguen una distribución normal, son recomendables el _F-test_ y el _test de Bartlet_, pareciendo ser el segundo más recomendable ya que el primero es muy potente pero extremadamente sensible a desviaciones de la normal. Si no se tiene la seguridad de que las poblaciones de origen son normales, se recomiendan el _test de Leven_ utilizando la mediana.
+Si se tiene la seguridad de que las muestras proceden de poblaciones normalmente distribuidas, pueden emplearse el **F-test** y el **test de Bartlett**, siendo este último más recomendable porque el F-test es muy potente pero demasiado sensible a pequeñas desviaciones de la normalidad.<br>
+
+En cambio, si no se puede asumir normalidad en las poblaciones de origen, es preferible utilizar el **test de Levene** (especialmente en su versión basada en la mediana), ya que es más robusto frente a distribuciones no normales.
 {% endhint %}
