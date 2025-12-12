@@ -1,8 +1,9 @@
-# Ejercicio
+# Ejercicio 2.5: Detección de duplicados
 
 Con la siguiente base de datos generada en R, realiza los siguientes ejercicios:
 
 ```r
+library(tidyverse)
 set.seed(123)  # Para reproducibilidad
 df <- data.frame(  ID = c(1, 2, 3, 4, 5, 3, 4, 6, 7, 8, 2, 9, 10),  # ID con duplicados  
     Nombre = c("Ana", "Luis", "Carlos", "Marta", "Sofía", "Carlos", "Marta", "Jorge", "Elena", "Daniel", "Luis", "Raúl", "Clara"),  

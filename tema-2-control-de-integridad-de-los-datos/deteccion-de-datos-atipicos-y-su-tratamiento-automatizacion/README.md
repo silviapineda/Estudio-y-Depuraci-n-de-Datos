@@ -49,8 +49,6 @@ outliers <- function(data, variable) {
   
   return(outlier_values)  # Devolver los valores outliers sin modificar los datos
 }
-
-
 
 ```
 

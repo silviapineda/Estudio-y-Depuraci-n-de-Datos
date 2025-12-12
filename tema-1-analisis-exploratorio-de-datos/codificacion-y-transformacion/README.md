@@ -128,7 +128,7 @@ Así quedaría la base de datos corregida
 
 En ocasiones nos puede interesar incorporar nuevas variables a nuestra base de datos, como ya vimos con la creación de la variable edad
 
-_<mark style="color:orange;">Ejemplo</mark>_&#x20;
+<mark style="color:orange;">**Ejemplo**</mark>&#x20;
 
 Para este ejemplo vamos a utilizar el dataset <mark style="color:orange;">**TiposDatos.csv**</mark>
 
@@ -153,8 +153,6 @@ any(is.na(datos))
 
 ## 4. valores correctos
 summary(datos)
-
-
 ```
 
 Cuando una base de datos contiene la fecha de nacimiento, es mucho más útil generar la edad, más fácil de interpretar, analizar como variable en si misma y manejar numéricamente:
@@ -183,7 +181,7 @@ datos$IMC  <- datos$peso / (datos$altura/100)^2
 
 Esta opción suele ser muy habitual ya que muchas veces queremos trabajar con las categorías de una variable en vez de la variable cuantitativa.&#x20;
 
-_<mark style="color:orange;">Ejemplo</mark>_&#x20;
+<mark style="color:orange;">**Ejemplo**</mark>&#x20;
 
 La variable cuantitativa IMC que acabamos de crear se suele usar en cuatro grupos:
 
@@ -209,10 +207,7 @@ datos <- datos |>
       IMC > 30 ~ "obesidad"
     ),
     IMC_grupos = factor(IMC_grupos, levels = c("bajo peso", "normal", "sobrepeso", "obesidad"))
-  )
-
-
-
+  )
 ```
 
 ¿Cuántas personas tenemos en cada uno de los grupos?
@@ -230,7 +225,7 @@ bajo peso     normal     sobrepreso   obesidad
 
 Nos puede interesar trabajar de forma diferente sobre una de las variables que ya tenemos&#x20;
 
-_<mark style="color:orange;">Ejemplo</mark>_
+<mark style="color:orange;">**Ejemplo**</mark>
 
 Queremos ver la probabilidad de estar casado o de tener un determinado peso si la persona tiene más de 40 años o menos y queremos poder predecir dicha variable, para aplicar en este caso una regresión logística necesitaremos tener una variable codificada como: 0 (<40), 1 (>=40). Esto con el comando <mark style="color:green;">**`if_else()`**</mark> del paquete **`dplyr`** es muy fácil:
 

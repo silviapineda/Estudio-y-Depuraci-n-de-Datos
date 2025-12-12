@@ -1,4 +1,4 @@
-# Ejercicio: Codificación y Transformación
+# Ejercicio 1.2: Codificación y Transformación
 
 En la base de datos <mark style="color:orange;">**estres.csv**</mark> se incluye información sobre los niveles de estrés de un grupo de trabajadores y trabajadoras, así como otras variables de interés.
 
@@ -21,7 +21,7 @@ Realiza las siguientes actividades en R:
 1. Clasifica las variables en cuantitativas y cualitativas
 2. Examina la estructura de los datos (_<mark style="color:green;">**`str`**</mark>_) ¿Cómo son los tipos de variables? ¿Cambiarías alguna?
 3. ¿Hay algún `NA`? Utiliza <mark style="color:green;">**`any(is.na(datos))`**</mark>
-4. ¿Qué ID tiene la persona con mejor sueldo? Utiliza <mark style="color:green;">**`which()`**</mark>
+4. ¿Qué ID tiene la persona con mejor sueldo? puedes usar  <mark style="color:green;">**`which()`**</mark>
 5. ¿Cuántos trabajadores tienen un nivel de estrés mayor de 5? Utiliza <mark style="color:green;">**`length()`**</mark>
 6. ¿Cuántos trabajadores tienen estrés mayor de 5 y además una carga física > 3?
 7. Nos hemos equivocado en la introducción de datos y para todos los valores _2_ de carga física, queríamos haber puesto un _3_. _Recodifica_ esta variable incluyendo este cambio. Recuerda recodificar en una nueva variable. Utiliza <mark style="color:green;">**`if_else()`**</mark>del paquete **`dplyr`**

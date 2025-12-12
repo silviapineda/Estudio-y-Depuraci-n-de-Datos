@@ -1,10 +1,6 @@
 # Resultados
 
 ```r
-
-```
-
-```r
 extreme <- function(data, variable) {
   var_name <- data[[variable]]  # Acceder a la variable por nombre
   

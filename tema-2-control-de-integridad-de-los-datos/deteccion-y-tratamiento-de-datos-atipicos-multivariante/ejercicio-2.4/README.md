@@ -1,4 +1,4 @@
-# Ejercicio II
+# Ejercicio 2.4:
 
 Con la misma base de datos <mark style="color:orange;">**`ozone`**</mark> de R  comprueba si hay datos atípicos de forma multivariante
 
@@ -6,8 +6,4 @@ Con la misma base de datos <mark style="color:orange;">**`ozone`**</mark> de R  
 
 ```r
 data <- read.csv("ozone.csv")  # import data
-```
-
-```r
-
 ```
