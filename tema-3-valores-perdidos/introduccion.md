@@ -1,6 +1,6 @@
 # Introducción
 
-En el análisis de datos, rara vez se dispone de un conjunto de datos completo y perfecto. Es muy común encontrarse con **valores ausentes o perdidos** (missing values), es decir, celdas en la matriz  de datos que no contienen ninguna información válida. Estos valores pueden aparecer por múltiples razones:
+Aunque un conjunto de datos parezca limpio (tipos correctos, codificaciones consistentes, sin duplicados evidentes y con atípicos revisados), rara vez se dispone de un conjunto de datos completo y perfecto. Es muy común encontrarse con **valores ausentes o perdidos** (_missing values_), es decir, celdas en la matriz  de datos que no contienen ninguna información válida. Estos valores pueden aparecer por múltiples razones:
 
 * Errores en la recogida de información
 * Fallos en sistemas de registro
@@ -8,12 +8,13 @@ En el análisis de datos, rara vez se dispone de un conjunto de datos completo y
 * Restricciones de privacidad
 * etc
 
-Los valores perdidos constituyen un problema relevante porque afectan directamente a la **calidad del análisis**. Un dataset con muchos valores ausentes puede llevar a resultados sesgados, reducir la precisión de los modelos predictivos, o incluso hacer que ciertos algoritmos no funcionen correctamente. Por ello, en cualquier proyecto de análisis o depuración de datos es esencial abordar de manera sistemática este fenómeno.
+Los valores perdidos constituyen un problema relevante porque afectan directamente a la **calidad del análisis**. Una base de datos con muchos valores ausentes puede llevar a resultados sesgados, reducir la precisión de los modelos predictivos, o incluso hacer que ciertos algoritmos no funcionen correctamente. Por ello, en cualquier proyecto de análisis o depuración de datos es esencial abordar de manera sistemática este fenómeno.
 
 En este tema se abordarán:
 
-1. Cómo identificar y cuantificar la presencia de datos ausentes.
-2. Métodos básicos y avanzados para tratarlos, desde la eliminación de registros hasta técnicas de imputación simple y múltiple.
+1. Cómo detectar, cuantificar y visualizar el patrón de datos ausentes.
+2. Cómo interpretar los mecanismos de ausencia y qué implican.
+3. Estrategias de tratamiento: desde eliminación controlada hasta imputación simple, imputación múltiple (MICE) y enfoques basados en Machine Learning (missForest), con sus ventajas, limitaciones y cuándo usar cada una.
 
 #### <mark style="color:orange;">Ejemplo</mark>
 

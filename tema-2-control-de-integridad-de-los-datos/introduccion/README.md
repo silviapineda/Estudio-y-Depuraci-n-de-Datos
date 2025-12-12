@@ -6,11 +6,19 @@ coverY: 0
 
 # Introducción
 
-Un **dato atípico**, llamado **outlier** en inglés, es un valor de una de las variables que se observan en un conjunto de datos, que se diferencia de forma notable de los valores que toma dicha variable. También podemos considerar que los datos atípicos son observaciones cuyo comportamiento es distinto del comportamiento medio del resto de observaciones.&#x20;
+Una vez que conocida la estructura del conjunto de datos y corregido los problemas básicos de tipos y codificación, el siguiente paso es comprobar su integridad, es decir, si los valores y registros son coherentes con el fenómeno que estamos estudiando. En esta fase suelen aparecer dos problemas muy comunes: **valores atípicos** que distorsionan los resultados y **duplicados** que inflan artificialmente la muestra y sesgan estimaciones y modelos.
+
+Empecemos por definir un **dato atípico**, llamado _outlier_ en inglés. Un dato atípico es un valor de una de las variables que se observan en un conjunto de datos, que se diferencia de forma notable de los valores que toma dicha variable. También podemos considerar que los datos atípicos son observaciones cuyo comportamiento es distinto del comportamiento medio del resto de observaciones.&#x20;
 
 El problema de los datos atípicos es que distorsionan de forma importante los análisis en los que interviene la variable que contiene dichos datos.
 
-Es muy importante no confundir un dato atípico con un dato erróneo. Por ejemplo una persona que mida 2.1 metros, aunque poco frecuente, no tiene porque tratarse de valor erróneo, pues se trata de un valor válido, y será un dato atípico si se compara con otros individuos de menor altura, pero no si forma parte de un conjunto de datos de jugadores de baloncesto. Es importante tratar primero los errores como hemos vissto en el [Tema 1](/broken/pages/otB3m10mPPVd8kmdfZ1t) y luego los datos atípicos como vamos a ver en este tema.
+Es muy importante no confundir un dato atípico con un dato erróneo. Por ejemplo una persona que mida 2.1 metros, aunque poco frecuente, no tiene porque tratarse de valor erróneo, pues se trata de un valor válido, y será un dato atípico si se compara con otros individuos de menor altura, pero no si forma parte de un conjunto de datos de jugadores de baloncesto.  La diferencia no la decide un umbral automático, sino la combinación de **contexto, exploración gráfica y criterios estadísticos**. Por eso, en este tema trabajaremos con una lógica de decisión: detectar → interpretar → actuar (corregir, excluir, o conservar justificadamente).
+
+Es importante tratar primero los errores como hemos visto en el [Tema 1](/broken/pages/otB3m10mPPVd8kmdfZ1t) y luego los datos atípicos como vamos a ver en este tema. En este tema abordaremos:
+
+1. Detección y tratamiento de atípicos **univariante y bivariante** (gráficos + reglas cuantitativas).
+2. Detección de atípicos **multivariante** (cuando lo “raro” aparece en la combinación de variables, por ejemplo con LOF).
+3. Identificación y tratamiento de **duplicados**, diferenciando duplicados exactos y duplicados “por clave” (IDs).
 
 <mark style="color:orange;">**Ejemplo 1**</mark>
 
