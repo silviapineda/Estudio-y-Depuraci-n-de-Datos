@@ -6,7 +6,7 @@ coverY: 0
 
 # Ejemplo de detección y tratamiento de atípicos
 
-Vam<mark style="background-color:yellow;">os a ver un ejemplo con la siguiente base de datos (CEREALES) que contiene datos sobre la composición de diferentes variedades de cereales:</mark>&#x20;
+Vamos a ver un ejemplo con la siguiente base de datos (CEREALES) que contiene datos sobre la composición de diferentes variedades de cereales:&#x20;
 
 {% file src="../.gitbook/assets/CEREALES.csv" %}
 
@@ -130,8 +130,6 @@ Veremos los gráficos correspondientes a estas variables:
 {% endtabs %}
 
 En todos los gráficos se ve claramente como las variables están distribuidos de forma trimodal, posiblemente correspondiendo a los tres tipos de cereal. Esto lo veremos en el estudio bivariante. La gran cantidad de datos outliers en MANGANESO con valores pequeños, posiblemente correspondan a un tipo de cereal, siendo sólo posibles outliers los 3 valores extremos que se alejan con valores altos de la distribución. En el caso de FIBRA parece que el % de outlier corresponde a la distribución trimodal correspondiente a los tres tipos de cereales y en SELENIO, parece todos outliers.
-
-
 
 2. **Estudio** **bivariante**:
 
