@@ -1,6 +1,10 @@
+---
+hidden: true
+---
+
 # Resultados
 
 
 
-{% file src="../../../.gitbook/assets/Ejercicio_TiposDatos.pdf" %}
+{% file src="../../../.gitbook/assets/Ejercicio1.1.pdf" %}
 

@@ -1,4 +1,8 @@
+---
+hidden: true
+---
+
 # Resultados
 
-{% file src="../../../.gitbook/assets/Ejercicio_Ozone.pdf" %}
+{% file src="../../../.gitbook/assets/Ejercicio2.3.pdf" %}
 

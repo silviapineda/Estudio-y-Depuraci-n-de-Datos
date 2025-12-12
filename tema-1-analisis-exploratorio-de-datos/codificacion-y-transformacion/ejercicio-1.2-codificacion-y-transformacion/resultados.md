@@ -1,4 +1,8 @@
+---
+hidden: true
+---
+
 # Resultados
 
-{% file src="../../../.gitbook/assets/Ejercicio_CodificacionTransformacion.pdf" %}
+{% file src="../../../.gitbook/assets/Ejercicio1.2.pdf" %}
 
