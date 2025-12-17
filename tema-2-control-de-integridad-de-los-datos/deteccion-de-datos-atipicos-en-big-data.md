@@ -25,7 +25,7 @@ Aquí vamos a diferenciar entre las variables que tiene "cosas raras" y las que 
 
 Primero vemos que hay unos cuantos genes que tienen muchos ceros y luego unos pocos atípicos:
 
-<figure><img src="../.gitbook/assets/image (39).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (59).png" alt=""><figcaption></figcaption></figure>
 
 Para hacer esto de una forma automatizada, podemos primero contar cuantos ceros hay por variable y luego filtrar los que tengan muchos.
 

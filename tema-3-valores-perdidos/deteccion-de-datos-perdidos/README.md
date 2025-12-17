@@ -286,7 +286,7 @@ Antes de imputar o eliminar, es esencial **ver** dónde y cómo faltan los datos
 gg_miss_var(data, show_pct = TRUE)
 ```
 
-<figure><img src="../../.gitbook/assets/image (275).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
 Aquí se ve que <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy problemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
 
@@ -301,7 +301,7 @@ vis_miss(data,cluster=TRUE)  +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-<figure><img src="../../.gitbook/assets/image (276).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (296).png" alt=""><figcaption></figcaption></figure>
 
 En este gráfico se ve una **matriz de observaciones (filas) por variables (columnas)**:
 
@@ -332,7 +332,7 @@ Si queremos visualizar los datos missing por los subgrupos de una variable cuali
 gg_miss_var(data, show_pct = TRUE,facet = gender)
 ```
 
-<figure><img src="../../.gitbook/assets/image (277).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (297).png" alt=""><figcaption></figcaption></figure>
 
 Una cosa interesante que vemos al clasificar los datos por la variable <mark style="color:purple;">`gender`</mark>, es que para <mark style="color:purple;">`age`</mark> también falta en ≈30% de esos casos, por tanto hay dependencia entre la falta de género y de edad.
 
@@ -347,7 +347,7 @@ library(ggplot2)
 ggplot(data = data, aes (x = age, y = temp)) +  geom_point()
 ```
 
-<figure><img src="../../.gitbook/assets/image (268).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (288).png" alt=""><figcaption></figcaption></figure>
 
 Se ve cómo los valores missing de ambas variables no están representados en el gráfico, pero si queremos ver dependencias entre variables, podemos usar la función <mark style="color:green;">**`geom_miss_point()`**</mark>. Al crear un gráfico de dispersión de dos columnas, los registros con uno de los valores faltantes y el otro valor presente se muestran configurando los valores faltantes en un 10% menos que el valor más bajo en la columna, y se les asigna un color distintivo.
 
@@ -357,7 +357,7 @@ ggplot(data = data, aes (x = age, y = temp)) + geom_miss_point()
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (270).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
 En este gráfico de dispersión, los puntos rojos representan registros donde el valor de una columna está presente, pero el valor de la otra columna falta. Esto permite visualizar la distribución de los valores faltantes en relación con los valores no faltantes. En este caso, se puede percibir que hay más valores faltantes en la variable <mark style="color:purple;">`age`</mark> para aquellos que tienen <mark style="color:purple;">`temp`</mark> alta, pero también habría que ver si es simplemente debido a que hay más datos cuando la variable <mark style="color:purple;">`temp`</mark> es alta y es simplemente por probabilidad. Usaremos las variables sombra para esto.&#x20;
 
@@ -397,7 +397,7 @@ Si queremos ver si los síntomas están relacionados con alguna de las variables
                       colour = chills_NA)) + geom_density()                  
 ```
 
-<figure><img src="../../.gitbook/assets/image (273).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (293).png" alt=""><figcaption></figcaption></figure>
 
 En este caso se observa que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR/MNAR**. Es difícil saber si son MAR o MNAR sin saber la realidad, muchas veces lo podemos pensar por el contexto o por si hay o no datos además de los NA. En este caso, la mayoría de NAs es en aquellos que no tuvieron fiebre, se podría pensar que no fueron anotados aquellos síntomas de los individuos que no tenían fiebre, pero quizás la relación es más compleja porque algunos individuos que no tenían fiebre, si se les anotaron los síntomas. Por tanto, puede que haya algo no observado (MNAR) o una combinación más compleja de lo observado (MAR)
 
@@ -412,7 +412,7 @@ ggplot (data = shadowed_data,
 geom_density()                  
 ```
 
-<figure><img src="../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
 
 En este caso observamos que los datos missing de la variable edad se corresponde a fechas más recientes, por lo tanto podríamos sospechar de una relación del tipo que en fechas más tardías (con más desborde hospitalario), no se apuntaba la edad de algunas personas por falta de medios. En este caso el hecho de que no todos los valores faltantes correspondan a esa dependecia, nos hace pensar que podría ser un **MNAR**.&#x20;
 
@@ -427,7 +427,7 @@ ggplot(shadowed_data, aes(x = fever, fill = outcome_NA)) +
   geom_bar(position = "fill")
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 En este caso, no observamos ninguna relación por tanto podríamos decir que los missing de outcome podrían ser **MCAR**.&#x20;
 

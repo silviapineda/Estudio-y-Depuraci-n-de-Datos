@@ -1,5 +1,5 @@
 ---
-cover: ../.gitbook/assets/image (112).png
+cover: ../.gitbook/assets/image (132).png
 coverY: 0
 ---
 
@@ -104,7 +104,7 @@ hist(datos$CloruroSodico,xlab="CloruroSodico")
 
 
 
-<figure><img src="../.gitbook/assets/image (91).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (111).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Queda claro que ese dato es erróneo, lo convertimos en `NA`
 

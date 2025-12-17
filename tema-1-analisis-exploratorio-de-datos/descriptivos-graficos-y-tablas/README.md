@@ -1,5 +1,5 @@
 ---
-cover: ../../.gitbook/assets/image (112).png
+cover: ../../.gitbook/assets/image (132).png
 coverY: 0
 ---
 
@@ -173,7 +173,7 @@ Estos serían las cuatro representaciones gráficas más sencillas para las vari
 pie(table(datos$estudios))
 ```
 
-<figure><img src="../../.gitbook/assets/image (17).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (37).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ```r
 barplot(table(datos$genero),col=rainbow(10))
@@ -183,15 +183,15 @@ ggplot(datos, aes(x = sexo)) +
   geom_bar(aes(fill=sexo))
 ```
 
-<figure><img src="../../.gitbook/assets/image (18).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (38).png" alt="" width="375"><figcaption></figcaption></figure>
 
 <pre class="language-r"><code class="lang-r"><strong>hist(datos$edad,col="skyblue")
 </strong>hist(datos$horas_ejercicio,col="orange")
 </code></pre>
 
-<figure><img src="../../.gitbook/assets/image (19).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (39).png" alt="" width="375"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (20).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (40).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Si recordamos lo que veíamos con el <mark style="color:green;">**`summary()`**</mark> y ahora con los plots, podemos corregir los errores que encontramos en estas dos variables
 
@@ -217,7 +217,7 @@ ggplot(datos, aes(x = genero, y = edad, fill = genero)) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (21).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (41).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Ahora es tu turno: Realiza los siguientes ejercicios:
 

@@ -1,4 +1,4 @@
-# Ejercicio: Tipos de Datos
+# Ejercicio 1.1: Tipos de Datos
 
 Con el fichero de datos <mark style="color:orange;">**TiposDatos.csv**</mark> que hemos leido en este tema:
 
@@ -8,7 +8,7 @@ Realizar los siguientes ejercicios.
 
 Antes de empezar, inicia un fichero quarto para renderizar en formato HTML. Una vez hayas terminado el ejercicio, sube al campus el html.
 
-<figure><img src="../../../.gitbook/assets/image (231).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (251).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Para que me puedas enviar solo el fichero que se genera HTML y aparezcan todos los gráficos y tablas, debes poner la siguiente cabecera:
 

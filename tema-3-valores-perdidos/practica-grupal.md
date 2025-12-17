@@ -14,7 +14,7 @@ El enlace a la encuesta está aquí: [Percepciones sobre la igualdad entre hombr
 
 En la parte de documentos a descargar tenéis toda la información:
 
-<figure><img src="../.gitbook/assets/image (232).png" alt="" width="286"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (252).png" alt="" width="286"><figcaption></figcaption></figure>
 
 En cuestionario tenéis la definición de las variables y en Fichero datos, son los datos de la encuesta. Para descargarlos tenéis que rellenar unos datos, los rellenáis y os da acceso. En el fichero que se os descarga hay dos ficheros (3428\_etiq.csv y 3428\_num.csv) Son los mismos datos, solo que en el caso de etiq.csv las variables vienen con etiquetas. La numeración de las variables viene dado en el cuestionario.&#x20;
 

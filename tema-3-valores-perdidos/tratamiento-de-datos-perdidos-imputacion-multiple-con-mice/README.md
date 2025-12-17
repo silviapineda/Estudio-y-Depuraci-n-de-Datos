@@ -15,7 +15,7 @@ El paquete <mark style="color:green;">**`mice`**</mark> en R te ayuda a imputar 
 
 La **imputación múltiple** es un método que aborda el problema de los valores faltantes en los conjuntos de datos al generar múltiples conjuntos de datos completos, cada uno con valores imputados de manera diferente. Luego, los resultados se combinan para obtener estimaciones finales y varianzas que reflejen la incertidumbre de la imputación.
 
-<figure><img src="../../.gitbook/assets/image (213).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (233).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ### Principio detrás de MICE:
 
@@ -27,19 +27,19 @@ En este algoritmo, de forma iterativa, se harán progresivamente cada vez mejore
 
 {% tabs %}
 {% tab title="Iteración 1" %}
-<figure><img src="../../.gitbook/assets/image (215).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Iteración 2" %}
-<figure><img src="../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (237).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Iteración 3" %}
-<figure><img src="../../.gitbook/assets/image (218).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (238).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Iteración 4" %}
-<figure><img src="../../.gitbook/assets/image (219).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (239).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -110,7 +110,7 @@ library(naniar)
 vis_miss(data)
 ```
 
-<figure><img src="../../.gitbook/assets/image (207).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (227).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Observamos que la varianble <mark style="color:purple;">`ozone`</mark> tiene casi el 25% de los puntos de datos faltantes, por lo tanto, podríamos considerar excluirla del análisis o recopilar más medidas. Las otras variables están por debajo del umbral del 5%, por lo que podemos conservarlas.&#x20;
 
@@ -124,15 +124,15 @@ ggplot(data = data, aes (x = Ozone, y = Temp)) + geom_miss_point()
 
 {% tabs %}
 {% tab title="Solar.R" %}
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Wind" %}
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Temp" %}
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -148,7 +148,7 @@ library(mice)
 md.pattern(data)
 ```
 
-<figure><img src="../../.gitbook/assets/image (209).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (229).png" alt=""><figcaption></figcaption></figure>
 
 Se ve que hay una observación para el que todas las variables son faltantes y por tanto esta observación habría que borrarla.
 
@@ -191,7 +191,7 @@ Primero, podemos utilizar un diagrama de dispersión (scatterplot) y representar
 xyplot(impData, Ozone ~ Wind+Temp+Solar.R,pch=18,cex=1)
 ```
 
-<figure><img src="../../.gitbook/assets/image (210).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (230).png" alt=""><figcaption></figcaption></figure>
 
 Lo que nos gustaría ver es que la forma de los puntos magenta (imputados) coincida con la forma de los azules (observados). La coincidencia de formas nos indica que los valores imputados son efectivamente "valores plausibles".
 
@@ -201,7 +201,7 @@ Otro gráfico útil es el gráfico de densidad
 densityplot(impData)
 ```
 
-<figure><img src="../../.gitbook/assets/image (175).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (195).png" alt=""><figcaption></figcaption></figure>
 
 La densidad de los datos imputados para cada conjunto de datos imputados se muestra en magenta, mientras que la densidad de los datos observados se muestra en azul. Nuevamente, bajo nuestras suposiciones anteriores, esperamos que las distribuciones sean similares.
 
@@ -210,7 +210,7 @@ Otra forma visual útil de observar las distribuciones se puede obtener utilizan
 <pre class="language-r"><code class="lang-r"><strong>stripplot(impData, pch = 20, cex = 1.2)
 </strong></code></pre>
 
-<figure><img src="../../.gitbook/assets/image (176).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (196).png" alt=""><figcaption></figcaption></figure>
 
 5. **Ajustar un modelo de regresión lineal**
 

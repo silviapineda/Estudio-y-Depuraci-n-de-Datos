@@ -28,13 +28,13 @@ Cada uno de estos elementos se traduce a enormes cantidades de datos que generan
 
 **Genómica**:
 
-<figure><img src="../.gitbook/assets/image (50).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (70).png" alt=""><figcaption></figcaption></figure>
 
 
 
 **Transcriptómica**:
 
-<figure><img src="../.gitbook/assets/image (52).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (72).png" alt=""><figcaption></figcaption></figure>
 
 
 
@@ -98,7 +98,7 @@ which(type=="integer")
 summary(datos[,which(type=="integer")])
 ```
 
-<figure><img src="../.gitbook/assets/image (183).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (203).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Vemos que uno de los _integer_ es la variable que nos indica si la muestra corresponde a mujer con cáncer o sana. Ésta debería ser un factor. Los otros tres corresponden a genes que o tienen todo ceros o tienen todo unos. Esto claramente son genes que son erróneos y por tanto procederemos a eliminarlos.&#x20;
 
@@ -136,7 +136,7 @@ pie(table(datos$tumor_type),
     main="Proporción de pacientes con tumor vs. normal")
 ```
 
-![](<../.gitbook/assets/image (184).png>)
+![](<../.gitbook/assets/image (204).png>)
 
 Para comprobar el resto de variables podemos hacer algunos gráficos:
 
@@ -152,7 +152,7 @@ Para comprobar que no haya cosas raras podemos representar un boxplot e intentar
 boxplot(t(datos[3:ncol(datos)]))
 ```
 
-<figure><img src="../.gitbook/assets/image (74).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (94).png" alt=""><figcaption></figcaption></figure>
 
 Y otro por genes:
 
@@ -160,6 +160,6 @@ Y otro por genes:
 boxplot(datos[3:ncol(datos)])
 ```
 
-<figure><img src="../.gitbook/assets/image (75).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (95).png" alt=""><figcaption></figcaption></figure>
 
 En el primero no detectamos nada que llame la atención por tanto no parece que los pacientes tengan que pasar ningún filtro, pero en el de genes observamos que algunos genes tienen muchos ceros o valores muy cercanos a cero. En este tipo de datos esto es un problema ya que un gen con muchos ceros o valores cercanos a cero puede ser indicativo de que la secuenciación ha fallado para ese gen y por tanto habría que quitarlo. Esto lo veremos en el [Tema 2. ](/broken/pages/URTDCDyfevgBm2fPJCWA)

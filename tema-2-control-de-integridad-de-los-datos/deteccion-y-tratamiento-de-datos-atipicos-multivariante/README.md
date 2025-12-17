@@ -22,7 +22,7 @@ En la práctica, la densidad local se obtiene de los k vecinos más cercanos. La
 
 En un **KNN**, lo que hacemos es clasificar a un nuevo miembro a una _clase_ o categoría que ya existe. Lo determina según que sus atributos se parezcan a los casos de una categoría u otra. Supongamos los grupos que se presentan en la siguiente gráfica. Se quiere asignar un nuevo punto, en negro. KNN buscará los _k_ puntos más cercanos a éste para encontrar la clase dominante del grupo. Para garantizar la existencia de una clase dominante, k debe ser un número impar.<br>
 
-<figure><img src="../../.gitbook/assets/image (15).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (35).png" alt="" width="375"><figcaption></figcaption></figure>
 
 En este ejemplo se utilizaron las cinco observaciones más cercanas ($$𝐾=5$$), para determinar a qué grupo asignar al nuevo _individuo_. Hay muchas maneras de _medir distancias_. Cada manera se adapta de mejor o peor manera al tipo de atributos con que cuentan los individuos o casos. Esto lo estudiaréis en asignaturas más adelante.&#x20;
 
@@ -86,9 +86,9 @@ ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (189).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (209).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (259).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (279).png" alt=""><figcaption></figcaption></figure>
 
 ```r
 # Aplica LOF para detección de valores atípicos
@@ -132,8 +132,8 @@ Sepal.Length Sepal.Width Petal.Length Petal.Width    Species      lof
 151          7.0         5.0          5.0         0.7    Atipico 5.176055
 ```
 
-<figure><img src="../../.gitbook/assets/image (190).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (210).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (260).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (280).png" alt=""><figcaption></figcaption></figure>
 
 En el gráfico vemos claramente el valor atípico con un lof muy alto y en la tabla, donde hemos pintado todos los datos que están por encima de lof score > 1.5 vemos como el dato atípico tiene un claro valor que se va del reso con un lof score = 5.17. En este caso no tenemos que borrar todos los valores que estén por encima de 1.5 sino ser capaces de identificar que ese valor dista mucho del resto tanto en valor como en el gráfico. Además en este caso vemos que los valores son raros para casi todas las variables, por tanto podemos sospechar que lo que deberíamos borrar es la observación entera.&#x20;

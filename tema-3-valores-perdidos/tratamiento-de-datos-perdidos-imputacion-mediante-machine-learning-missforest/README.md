@@ -127,7 +127,7 @@ library(patchwork)
 g1+g2+g3+g4
 ```
 
-<figure><img src="../../.gitbook/assets/image (283).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (303).png" alt=""><figcaption></figcaption></figure>
 
 
 

@@ -117,15 +117,15 @@ Veremos los gráficos correspondientes a estas variables:
 
 {% tabs %}
 {% tab title="MANGANESO" %}
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="FIBRA" %}
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="SELENIO" %}
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -145,7 +145,7 @@ p1 <- ggplot(datos, aes(x = VARIEDAD, y = MANGANESO)) +
 p1
 ```
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Los outliers son un 24.28 %, de los cuales un 1.73% (3 valores) son extremos. En el caso de los outliers, se ve que corresponden a la CEBADA y los 3 extremos  no pertenecen a ninguna de las 3 distribuciones parcadas por los 3 cereales, por tanto habrá que borrarlos. &#x20;
 
@@ -159,7 +159,7 @@ p2 <- ggplot(datos, aes(x = VARIEDAD, y = FIBRA)) +
 p2
 ```
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
 
 El porcentaje de ouliers es de un 8% y además se ve que es debido a una distribución asimétrica ya que los outliers corresponden a la cebada, por tanto, no hay que borrarlos, no son outliers.
 
@@ -173,7 +173,7 @@ p3 <- ggplot(datos, aes(x = VARIEDAD, y = SELENIO)) +
 p3
 ```
 
-<figure><img src="../.gitbook/assets/image (3).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9).png" alt="" width="563"><figcaption></figcaption></figure>
 
 CONCLUSIÓN:
 
@@ -216,7 +216,7 @@ ggplot(datos, aes(x = lof_score)) +
 
 ```
 
-<figure><img src="../.gitbook/assets/image (6).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Se ve como hay unos datos con score LOF muy elevado por encima de 5 que seguramente estén marcando los outliers que hemos visto en el estudio univariente/bivariante. Lo comprobamos:
 
@@ -234,7 +234,7 @@ ggplot(datos, aes(x = MANGANESO, y = SELENIO, colour = lof)) +
   labs(title = "Detección de Valores Atípicos con LOF")
 ```
 
-<figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13).png" alt="" width="563"><figcaption></figcaption></figure>
 
 En el estudio multivariante se ve como hay 3 observaciones que tienen un LOF completamente elevado, estos corresponden a los outliers de la variable de SELENIO. No se ve en el resto de las variables que estas observaciones se comporten de forma rara, simplemente son tan atípicas en la variable SELENIO, que el algoritmo LOF las ha detectado. Sólo borraremos el valor de SELENIO.
 

@@ -26,7 +26,7 @@ La **distribución normal**, también conocida como distribución gaussiana, es 
 
 
 
-    <figure><img src="../../.gitbook/assets/image (60).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/image (80).png" alt=""><figcaption></figcaption></figure>
 3. **Media, Mediana y Moda Igual:**
    * La media, mediana y moda de la distribución normal son iguales y se encuentran en el centro de la campana.
 4. **Parámetros:**
@@ -98,11 +98,11 @@ lines(density(datos_sim_exp), col = "red")
 
 {% tabs %}
 {% tab title="Histograma datos normales" %}
-<figure><img src="../../.gitbook/assets/image (64).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (84).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Histograma datos exponenciales" %}
-<figure><img src="../../.gitbook/assets/image (63).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (83).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -137,11 +137,11 @@ qqline(datos_sim_exp, col = "red")
 
 {% tabs %}
 {% tab title="QQ plot datos normales" %}
-<figure><img src="../../.gitbook/assets/image (133).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (153).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="QQ plot datos exponenciales" %}
-<figure><img src="../../.gitbook/assets/image (134).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (154).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -226,11 +226,11 @@ $$
 
 donde:
 
-* <img src="../../.gitbook/assets/image (147).png" alt="" data-size="line"> es la ECDF de la muestra.
-* <img src="../../.gitbook/assets/image (148).png" alt="" data-size="line">es la función de distribución acumulativa teórica.
-* <img src="../../.gitbook/assets/image (149).png" alt="" data-size="line"> denota el supremo (o la mayor disparidad) sobre todos los puntos <img src="../../.gitbook/assets/image (150).png" alt="" data-size="line"> en el dominio de la distribución.
+* <img src="../../.gitbook/assets/image (167).png" alt="" data-size="line"> es la ECDF de la muestra.
+* <img src="../../.gitbook/assets/image (168).png" alt="" data-size="line">es la función de distribución acumulativa teórica.
+* <img src="../../.gitbook/assets/image (169).png" alt="" data-size="line"> denota el supremo (o la mayor disparidad) sobre todos los puntos <img src="../../.gitbook/assets/image (170).png" alt="" data-size="line"> en el dominio de la distribución.
 
-En palabras, el estadístico de prueba<img src="../../.gitbook/assets/image (151).png" alt="" data-size="line">representa la mayor discrepancia entre la ECDF observada y la ECDF teórica. Cuanto mayor sea <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line">, mayor será la evidencia de que la muestra no sigue la distribución teórica.
+En palabras, el estadístico de prueba<img src="../../.gitbook/assets/image (171).png" alt="" data-size="line">representa la mayor discrepancia entre la ECDF observada y la ECDF teórica. Cuanto mayor sea <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line">, mayor será la evidencia de que la muestra no sigue la distribución teórica.
 
 Para el caso de usar la prueba para una **distribución normal** se plantea el siguiente contraste de hipótesis:
 
@@ -238,8 +238,8 @@ $$
 H_0: \text{La muestra proviene de una distribución normal.}  \\  H_1: \text{La muestra no proviene de una distribución normal.}
 $$
 
-* Se compara el valor observado de <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line"> con los valores críticos de la tabla de Kolmogorov-Smirnov para decidir si se rechaza o no la hipótesis nula.
-* Si el valor observado de <img src="../../.gitbook/assets/image (152).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza $$H_0$$ $$f(x) = x * e^{2 pi i \xi$$ indicando que la muestra no sigue una distribución normal.
+* Se compara el valor observado de <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line"> con los valores críticos de la tabla de Kolmogorov-Smirnov para decidir si se rechaza o no la hipótesis nula.
+* Si el valor observado de <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza $$H_0$$ $$f(x) = x * e^{2 pi i \xi$$ indicando que la muestra no sigue una distribución normal.
 
 ```r
 ###Test Kolmogorov-Smirnov para normalidad
@@ -340,7 +340,7 @@ datos_prueba <- c(0.103, 0.528, 0.221, 0.260, 0.091,
 hist(datos_prueba)
 ```
 
-<figure><img src="../../.gitbook/assets/image (157).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (177).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Para calcular el λ óptimo hay que ejecutar un modelo lineal con la función <mark style="color:green;">**`lm`**</mark> y pasarlo a la función <mark style="color:green;">**`boxcox`**</mark> de la siguiente manera:
 
@@ -348,7 +348,7 @@ Para calcular el λ óptimo hay que ejecutar un modelo lineal con la función <m
 boxcox(lm(datos_prueba ~ 1))
 ```
 
-<figure><img src="../../.gitbook/assets/image (156).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (176).png" alt="" width="375"><figcaption></figcaption></figure>
 
 La log-verosimilitud (log-likelihood) mide qué tan bien se ajusta el modelo a los datos transformados. En el contexto de la transformación Box–Cox, para cada posible λ se ajusta un modelo lineal y se calcula la log-verosimilitud asociada; el λ óptimo es el que **maximiza** esta cantidad (equivalente a minimizar la suma de cuadrados de los residuos). En términos más simples, cuanto mayor sea el log likelihood, mejor será el ajuste de la transformación Box-Cox a los datos.
 
@@ -369,7 +369,7 @@ datos_prueba_trans <- log(datos_prueba)
 hist(datos_prueba_trans)
 ```
 
-<figure><img src="../../.gitbook/assets/image (158).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (178).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Ahora los datos parece que puedan seguir una distribución normal, pero se puede comprobar realizando, por ejemplo, el test estadístico Shapiro-Wilk:
 

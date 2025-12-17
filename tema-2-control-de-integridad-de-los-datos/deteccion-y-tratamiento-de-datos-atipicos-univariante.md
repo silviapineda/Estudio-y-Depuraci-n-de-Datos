@@ -43,7 +43,7 @@ Esta regla se representa visualmente en el **diagrama de cajas** (_boxplot_), do
 * Los "bigotes" del diagrama terminan en los límites definidos por ±1.5 × IQR.
 * Los puntos fuera de los bigotes se marcan como atípicos (normalmente con un punto o un asterisco).
 
-<figure><img src="../.gitbook/assets/image (79).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (99).png" alt=""><figcaption></figcaption></figure>
 
 Vamos a utilizar la base de datos <mark style="color:orange;">**`ozone`**</mark>  para ilustrar el tema. Esta conjunto de datos reúne 203 observaciones diarias tomadas en 1976 en Los Ángeles. Cada registro contiene la lectura máxima de ozono del día (<mark style="color:purple;">`Ozone_reading`</mark>) y doce factores meteorológicos—entre ellos temperatura, viento y humedad—que sirven como predictores para modelizar la contaminación por ozono. El objetivo habitual de análisis es estimar o clasificar episodios de alta concentración de ozono.
 
@@ -86,7 +86,7 @@ outlier_values
 [1] 5410 5350 5470 5320 5440
 ```
 
-<figure><img src="../.gitbook/assets/image (248).png" alt="" width="334"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (268).png" alt="" width="334"><figcaption></figcaption></figure>
 
 En este diagram de cajas (boxplot) detectamos 5 outliers que son 5410, 5350, 5470, 5320 y 5440. La decisión de que hacer es más compleja, no siempre hay que borrar los datos atípicos o extremos, a veces basta con que seamos conscientes y en el posterior análisis tengamos en cuenta la influencia de los mismos. Otras veces dependerá del contexto del estudio y lo que queramos hacer después.&#x20;
 
@@ -107,6 +107,6 @@ ggplot(data, aes(x=Pressure_height)) +
   geom_histogram(fill = "skyblue")
 ```
 
-<figure><img src="../.gitbook/assets/image (4) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (18).png" alt="" width="563"><figcaption></figcaption></figure>
 
 En este caso, vemos como los valores atípicos corresponden a una distribución asimétrica y seguramente en el estudio bivariante encontremos alguna asociación y terminemos no borrando los datos.&#x20;

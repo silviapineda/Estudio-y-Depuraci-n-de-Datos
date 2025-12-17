@@ -38,7 +38,7 @@ geom_density(alpha = 0.5) +
 geom_density(aes(x = temp_imp, fill = "temp_imp"), alpha = 0.5) 
 ```
 
-<figure><img src="../../.gitbook/assets/image (202).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
 Tras imputar por la media se ve como la distribución se desplaza hacia el valor 38.5 que es el valor de la media. Quizás esta forma no sea la mejor, puesto que hay claramente una distribución bimodal con un pico en 37 seguramente correspondiente a los que no tienen fiebre y un pico en 39 correspondiente a aquellos que si tienen fiebre. En el siguiente apartado veremos como mejorar esta imputación.&#x20;
 
@@ -69,7 +69,7 @@ barplot(prop.table(table(data$gender_imp)), main = "Después de la imputación",
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (279).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (299).png" alt=""><figcaption></figcaption></figure>
 
 Vemos que la categoría female "f" aumenta respecto a la de male "m" ya que un 5% ya es un número considerable, pero no distorsiona demasiado, así que se podría dar por válido en el caso de querer un método de imputación muy sencillo.&#x20;
 
@@ -143,11 +143,11 @@ geom_density(aes(x = temp_imp_model1, fill = "temp_imp_model1"), alpha = 0.5) +
 geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 ```
 
-<figure><img src="../../.gitbook/assets/image (280).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (300).png" alt="" width="563"><figcaption></figcaption></figure>
 
 
 
-<figure><img src="../../.gitbook/assets/image (281).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (301).png" alt="" width="563"><figcaption></figcaption></figure>
 
 En el prmer gráfico se pueden ver los dos picos correspondientes a los dos valores de la predicción y en el segundo la comparación con la imputación por la media, viendo claramente como el modelo de regresión hace una imputación mucho más robusto ya que tiene en cuanto información extra sobre si los individuos tienen o no tienen fiebre.&#x20;
 

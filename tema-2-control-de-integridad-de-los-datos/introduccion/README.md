@@ -120,7 +120,7 @@ ggp <- ggplot(data,aes(Oxigeno, Tiempo)) + geom_point()
 ggp + stat_smooth(method = "lm",formula = y ~ x, geom = "smooth")
 ```
 
-<figure><img src="../../.gitbook/assets/image (254).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (274).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Supongamos que en algún momento se ha producido un error y que en la observacion 10, el Tiempo = 18:
 
@@ -166,7 +166,7 @@ ggp + stat_smooth(method = "lm",
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (255).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (275).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Los cambios producidos por una única observación son catastróficos. Para evitar estas situaciones, necesitamos estudiar la causa de estos valores y realizar un tratamiento de los mismos.&#x20;
 
@@ -193,4 +193,4 @@ A veces se **analizan los datos con los atípicos y sin los atípicos** para ver
 
 Para la detección y tratamiento de los datos atípicos vamos a seguir tres enfoques que veremos a continuación, enfoque univariante, ennfoque bivariante y enfoque multivariante, que podemos ver resumiedo en el siguiente gráfico:
 
-<figure><img src="../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>

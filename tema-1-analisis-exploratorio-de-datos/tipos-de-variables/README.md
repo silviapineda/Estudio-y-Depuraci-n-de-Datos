@@ -1,5 +1,5 @@
 ---
-cover: ../../.gitbook/assets/image (112).png
+cover: ../../.gitbook/assets/image (132).png
 coverY: 0
 ---
 
@@ -9,7 +9,7 @@ coverY: 0
 
 Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los scripts y todas las bases de datos. Para ello ve a <mark style="color:blue;">File > New Project</mark> e introduce el nombre del proyecto "<mark style="color:blue;">Depuración</mark>" y la URL donde lo quieres guardar:
 
-![](<../../.gitbook/assets/image (237).png>)
+![](<../../.gitbook/assets/image (257).png>)
 
 A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
 
@@ -39,7 +39,7 @@ Escribe un ejemplo de cada tipo de variable
 
 En R los datos se guardan en _**objetos**_ . Los _objetos_ tienen nombre y contenido, pero también atributos que especifican el tipo de datos representados.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (108).png" alt="" width="510"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (128).png" alt="" width="510"><figcaption></figcaption></figure>
 
 
 

@@ -6,7 +6,7 @@ En la base de datos <mark style="color:orange;">**estres.csv**</mark> se incluye
 
 Lo primero, genera un documento quarto:
 
-<figure><img src="../../../.gitbook/assets/image (230).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (250).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Recuerda ponerle bien la cabecera
 
