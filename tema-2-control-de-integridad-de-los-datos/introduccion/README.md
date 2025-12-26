@@ -159,7 +159,7 @@ Tiempo=10.26+0.02112*Oxigeno
 $$
 
 ```r
-ggp <- ggplot(data,aes(Oxigeno, Tiempo)) + geom_point()
+ggp <- ggplot(data_outlier,aes(Oxigeno, Tiempo)) + geom_point()
 ggp + stat_smooth(method = "lm",
                   formula = y ~ x,
                   geom = "smooth")
