@@ -228,7 +228,7 @@ datos[lof_score>5,]
 69	CEBADA	0.60	 130.14	  13.19	66.00	228.88	68	  9.395902
 142	AVENA	1.30	 150.18	  1.08	49.58	168.59	140	  18.772921
 
-ggplot(datos, aes(x = MANGANESO, y = SELENIO, colour = lof)) +
+ggplot(datos, aes(x = MANGANESO, y = SELENIO, colour = lof_score)) +
   geom_point() +
   scale_color_gradient(low = "blue", high = "red", name = "LOF Score") +
   labs(title = "Detección de Valores Atípicos con LOF")
