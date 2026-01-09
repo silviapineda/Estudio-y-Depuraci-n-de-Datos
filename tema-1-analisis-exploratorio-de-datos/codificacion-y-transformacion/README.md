@@ -78,15 +78,16 @@ Columna <mark style="color:purple;">`favourite_food`</mark> tiene un `N/A` que n
 
 Para buscar posibles errores o NA mal declarados podemos hacer uso de sentencias sencillas como <mark style="color:green;">**`summary()`**</mark> o <mark style="color:green;">**`table()`**</mark>
 
-<pre class="language-r"><code class="lang-r">summary(data)
+```r
+summary(data)
 table(data$favourite_food)
-<strong>table(data$meal_plan)
-</strong>
-data$favourite_food&#x3C;-car::recode(data$favourite_food,"'N/A'= NA")
-data[data == ""] &#x3C;- NA ##Esto reemplaza todos los valores vacíos a NA
+table(data$meal_plan)
+
+data$favourite_food<-car::recode(data$favourite_food,"'N/A'= NA")
+data[data == ""] <- NA ##Esto reemplaza todos los valores vacíos a NA
 
 data
-</code></pre>
+```
 
 ```r
   student_id        full_name     favourite_food     meal_plan            age

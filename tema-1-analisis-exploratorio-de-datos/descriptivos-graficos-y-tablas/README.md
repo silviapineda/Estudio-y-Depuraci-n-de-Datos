@@ -53,15 +53,16 @@ Construimos las tablas de frecuencias para la variable genero
 
 <mark style="color:green;">**`prop.table(table())`**</mark>: frecuencias relativas
 
-<pre class="language-r"><code class="lang-r"><strong>table(datos$genero)
-</strong># genero
+```r
+table(datos$genero)
+# genero
 #  Hombre      Mujer No binario 
 #     9          10          1 
 prop.table(table(datos$genero))
 # genero
 # Hombre      Mujer No binario 
 #   0.45       0.50       0.05 
-</code></pre>
+```
 
 Esto nos sirve para ver que hay una categoría muy pequeña y que muchas veces trabajar con categorías tan pequeñas es un problema. **A veces las juntaremos, otras veces las borraremos y otras veces seguiremos adelante.**&#x20;
 
@@ -153,8 +154,9 @@ En las dos variables cuantitativas vemos que hay número incorrecto, habrá que 
 
 También podemos calcular media y desviación típica de la variable _edad_ por genero con la función <mark style="color:green;">**`aggregate()`**</mark>
 
-<pre class="language-r"><code class="lang-r"><strong>aggregate(datos$edad,by=list(datos$genero),mean)
-</strong></code></pre>
+```r
+aggregate(datos$edad,by=list(datos$genero),mean)
+```
 
 La librería **`psych`** contiene las funciones <mark style="color:green;">**`describe()`**</mark> y <mark style="color:green;">**`describeBy()`**</mark> que no sólo calculan la media sino que añaden otros estadísticos de interés
 

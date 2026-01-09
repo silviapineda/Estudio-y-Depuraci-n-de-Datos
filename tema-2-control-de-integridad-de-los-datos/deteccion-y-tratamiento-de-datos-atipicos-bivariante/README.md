@@ -1,6 +1,6 @@
 ---
 cover: >-
-  ../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
+  ../../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
 ---
 
@@ -39,7 +39,7 @@ p1 + p2
 
 </code></pre>
 
-<figure><img src="../.gitbook/assets/image (272).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (272).png" alt=""><figcaption></figcaption></figure>
 
 En el gráfico de la izquierda se representa la variable <mark style="color:purple;">`Pressure_height`</mark> por la variable <mark style="color:purple;">`Month`</mark>,  y en el de la derecha por la variable <mark style="color:purple;">`Day_of_week`</mark>. En este caso, vemos que la variable <mark style="color:purple;">`Pressure_height`</mark> tiene relación con la variable <mark style="color:purple;">`Month`</mark>, a diferencia de la variable <mark style="color:purple;">`Day_of_week`</mark> con la que no se observa ninguna relación.  Con la primera, vemos como los meses de invierno son los que toman valores más bajos y los de verano más altos, siendo los outliers que detectamos en el estudio univariante parte de esta asociación.  Conclusión,  ya no queda claro si realmente los datos atípicos de la variable <mark style="color:purple;">`Pressure_heigt`</mark> eran realmente atípicos o simplemente son parte de la asociación observada con <mark style="color:purple;">`Month`</mark>. &#x20;
 
@@ -59,7 +59,7 @@ summary(lm(data$Pressure_height~data$Temperature_Sandburg))
 
 ```
 
-<figure><img src="../.gitbook/assets/image (19).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (19).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ```r
 Call:
