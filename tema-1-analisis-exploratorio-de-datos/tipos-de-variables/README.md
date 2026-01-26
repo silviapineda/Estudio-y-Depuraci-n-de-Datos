@@ -5,16 +5,6 @@ coverY: 0
 
 # Tipos de variables
 
-## Crear un proyecto en R
-
-Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los scripts y todas las bases de datos. Para ello ve a <mark style="color:blue;">File > New Project</mark> e introduce el nombre del proyecto "<mark style="color:blue;">Depuración</mark>" y la URL donde lo quieres guardar:
-
-![](<../../.gitbook/assets/image (257).png>)
-
-A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
-
-Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1, Tema\_2, Tema\_3, Tema\_4</mark>
-
 ## Tipos de variables
 
 Las variables que pueden aparecer en un conjunto de datos pueden ser de varios tipos:&#x20;
@@ -51,6 +41,16 @@ En R los datos se guardan en _**objetos**_ . Los _objetos_ tienen nombre y conte
 | Data Frame | Numérico, carácter o lógico                     | Si                       |
 | Lista      | Numérico, carácter, lógico, función o expresión | Si                       |
 
+## Crear un proyecto en R
+
+Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los scripts y todas las bases de datos. Para ello ve a <mark style="color:blue;">File > New Project</mark> e introduce el nombre del proyecto "<mark style="color:blue;">Depuración</mark>" y la URL donde lo quieres guardar:
+
+![](<../../.gitbook/assets/image (257).png>)
+
+A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
+
+Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1, Tema\_2, Tema\_3, Tema\_4</mark>
+
 Para saber los tipos de datos en R tenemos la función <mark style="color:green;">**`class()`**</mark>
 
 ## Vectores
@@ -85,14 +85,14 @@ Para saber su longitud usamos la función <mark style="color:green;">**`length()
 
 <pre class="language-r"><code class="lang-r">length(edad)
 # [1] 10
-<strong>
-</strong>length(letras)
-# [1] 5
+
+<strong>length(letras)
+</strong># [1] 5
 </code></pre>
 
 Tenemos distintas formas de acceso a las posiciones del vector:
 
-```r
+```
 #Para acceder a una posición k del vector: 
 edad[3]
 # [1] 29
@@ -258,7 +258,7 @@ Para la lectura de CSV en R usaremos la función <mark style="color:green;">**`r
 {% file src="../../.gitbook/assets/TiposDatos.csv" %}
 
 ```r
-datos<-read.csv("Tema_1/TiposDatos.csv")
+datos<-read.csv("TiposDatos.csv")
 str(datos)
 ```
 
