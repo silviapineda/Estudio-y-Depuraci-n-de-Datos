@@ -41,16 +41,6 @@ En R los datos se guardan en _**objetos**_ . Los _objetos_ tienen nombre y conte
 | Data Frame | Numérico, carácter o lógico                     | Si                       |
 | Lista      | Numérico, carácter, lógico, función o expresión | Si                       |
 
-## Crear un proyecto en R
-
-Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los scripts y todas las bases de datos. Para ello ve a <mark style="color:blue;">File > New Project</mark> e introduce el nombre del proyecto "<mark style="color:blue;">Depuración</mark>" y la URL donde lo quieres guardar:
-
-![](<../../.gitbook/assets/image (257).png>)
-
-A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
-
-Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1, Tema\_2, Tema\_3, Tema\_4</mark>
-
 Para saber los tipos de datos en R tenemos la función <mark style="color:green;">**`class()`**</mark>
 
 ## Vectores
@@ -248,6 +238,16 @@ La función <mark style="color:green;">**`Sys.Date()`**</mark> lee la fecha actu
 ```r
 Sys.Date()
 ```
+
+## Crear un proyecto en R
+
+Antes de nada vamos a crear un proyecto en R donde iremos guardando todos los scripts y todas las bases de datos. Para ello ve a <mark style="color:blue;">File > New Project</mark> e introduce el nombre del proyecto "<mark style="color:blue;">Depuración</mark>" y la URL donde lo quieres guardar:
+
+![](<../../.gitbook/assets/image (257).png>)
+
+A partir de ahora siempre en el inicio de clase abrirás ese proyecto y guardarás todos los ficheros en esa carpeta.
+
+Puedes crear una carpeta por cada  tema para tener todo más ordenado. Por ejemplo <mark style="color:blue;">Tema\_1, Tema\_2, Tema\_3, Tema\_4</mark>
 
 ## Lectura de datos en R
 
