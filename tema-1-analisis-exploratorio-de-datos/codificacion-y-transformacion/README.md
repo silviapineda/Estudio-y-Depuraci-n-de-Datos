@@ -73,6 +73,15 @@ data$age<-as.numeric(data$age) ###Cuidado cunando salta este warning
 Cuidado con los warnings, en este caso ha convertido un "five" en NA cuando deberíamos convertirlo previamente a 5
 {% endhint %}
 
+### **Asegurarnos que no hay valores incorrectos:**&#x20;
+
+En la variable <mark style="color:purple;">`age`</mark>, una de las observaciones tiene "five" en vez del número, esto nos causará problemas a la hora de usar dicha variable como variable numérica como hemos visto al declararla con <mark style="color:green;">**`as.numeric()`**</mark>.
+
+```r
+data$age<-car::recode(data$age,"'five'='5'")
+data$age<-as.numeric(data$age)
+```
+
 ### **Asegurarnos que los NA se han leído correctamente**
 
 Columna <mark style="color:purple;">`favourite_food`</mark> tiene un `N/A` que no está detectado como dato "_missing_" y un vacío en <mark style="color:purple;">`age`</mark>
@@ -90,29 +99,9 @@ data[data == ""] <- NA ##Esto reemplaza todos los valores vacíos a NA
 data
 ```
 
-```r
-  student_id        full_name     favourite_food     meal_plan            age
-  1              Sunil Huffmann  Strawberry yoghurt  Lunch only            4            
-  2              Barclay Lynn       French fries     Lunch only            5          
-  3              Jayendra Lyne          <NA>         Breakfast and lunch   7          
-  4              Leon Rossini         Anchovies      Lunch only            <NA>          
-  5              Chidiegwu Dunkel    Pizza           Breakfast and lunch   Five          
-  6              Güvenç Attila         Ice cream     Lunch only            6
-```
 
-
 
-### **Asegurarnos que no hay valores incorrectos:**&#x20;
-
-En la variable <mark style="color:purple;">`age`</mark>, una de las observaciones tiene "five" en vez del número, esto nos causará problemas a la hora de usar dicha variable como variable numérica como hemos visto al declararla con <mark style="color:green;">**`as.numeric()`**</mark>.
-
-```r
-data$age<-car::recode(data$age,"'five'='5'")
-data$age<-as.numeric(data$age)
-
-data
-
-```
+
 
 Así quedaría la base de datos corregida
 
