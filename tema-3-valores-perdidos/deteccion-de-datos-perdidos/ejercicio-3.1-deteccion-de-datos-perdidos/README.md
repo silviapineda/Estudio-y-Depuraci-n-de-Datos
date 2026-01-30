@@ -2,7 +2,7 @@
 
 La siguiente base de datos corresponde al rendimiento académico de alumnado que cursa una FP:&#x20;
 
-{% file src="../../.gitbook/assets/students_missing_mini.csv" %}
+{% file src="../../../.gitbook/assets/students_missing_mini.csv" %}
 
 Realiza lo siguiente:
 

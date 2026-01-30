@@ -1,8 +1,8 @@
-# Ejercicio
+# Ejercicio 4.1: Pruebas de Normalidad
 
 En la siguiente base datos <mark style="color:orange;">**arboles.csv**</mark> se incluye información sobre diversas características de las hojas de diferentes poblaciones de árboles. Este término es muy utilizado en biología, agricultura, ecología, etc.
 
-{% file src="../../.gitbook/assets/arboles.csv" %}
+{% file src="../../../.gitbook/assets/arboles.csv" %}
 
 Las variables que se han medido son:
 

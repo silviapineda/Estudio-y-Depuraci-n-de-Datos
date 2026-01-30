@@ -99,8 +99,6 @@ data[data == ""] <- NA ##Esto reemplaza todos los valores vacíos a NA
 data
 ```
 
-
-
 
 
 Así quedaría la base de datos corregida
@@ -114,6 +112,10 @@ Así quedaría la base de datos corregida
 5          5 Chidiegwu Dunkel              Pizza Breakfast and lunch   5
 6          6    Güvenç Attila          Ice cream          Lunch only   6
 ```
+
+En el siguiente recuadro puedes ver el resumen de las coas a verificar en esta primera parte:
+
+<figure><img src="../../.gitbook/assets/image (307).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Transformación de variables
 
