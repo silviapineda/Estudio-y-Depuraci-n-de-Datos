@@ -6,5 +6,5 @@ hidden: true
 
 
 
-{% file src="../../../.gitbook/assets/Ejercicio_1.3.pdf" %}
+{% file src="../../../.gitbook/assets/Ejercicio1.3.pdf" %}
 
