@@ -173,6 +173,6 @@ ggplot(data, aes(x = temp, fill = "temp")) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 En este caso, como se ha metido un error estocástico, vemos un ajuste casi igual a la distribución original de la variable sin imputar

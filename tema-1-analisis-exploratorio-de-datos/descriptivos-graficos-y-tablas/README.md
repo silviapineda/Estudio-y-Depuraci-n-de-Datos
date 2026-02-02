@@ -26,7 +26,9 @@ Algunas de las funciones más útiles para este propósito son:
 
 <mark style="color:green;">**`hist(varCuant)`**</mark>: Muestra el histograma de la variable cuantitativa seleccionada.
 
-<mark style="color:green;">**`barplot(table(varCuali))`**</mark>: Muestra el diagrama de barras de la variable cualitativa seleccionada.&#x20;
+<mark style="color:green;">**`barplot(table(varCuali))`**</mark>: Muestra el diagrama de barras de la variable cualitativa seleccionada.
+
+<mark style="color:green;">**`boxplot(varCuant)`**</mark>: Muestra el diagrama de cajas de la variable cuantitativa seleccionada.
 
 A partir de estas funciones es posible hacerse una idea muy clara de cómo son las variables del conjunto de datos y de sus problemas.&#x20;
 
@@ -34,17 +36,16 @@ A partir de estas funciones es posible hacerse una idea muy clara de cómo son l
 
 Vamos a construir una base de datos sencilla para ver este apartado
 
-```r
-#Definición de los datos (simulamos los datos)
-set.seed(123)
-datos <- data.frame(
+<pre class="language-r"><code class="lang-r">#Definición de los datos (simulamos los datos)
+<strong>set.seed(123)
+</strong>datos &#x3C;- data.frame(
   ID = 1:20,
   genero = as.factor(c(rep("Masculino", 10), rep("Femenino", 9), "No binario")), # 10 hombres, 9 mujeres, 1 no binario
   edad = c(sample(18:80, 18, replace = TRUE), 150, -5), # Errores: edad negativa y edad demasiado alta
   estudios = as.factor(sample(c("Primaria", "Secundaria", "Universitaria", "?"), 20, replace = TRUE, prob = c(0.2, 0.3, 0.3, 0.05))),
   horas_ejercicio = c(rnorm(18, mean = 4, sd = 2), -2, 50) # Errores: valores negativos y extremadamente altos
 )
-```
+</code></pre>
 
 ### Tablas de frecuencias unidemensionales
 
@@ -54,16 +55,15 @@ Construimos las tablas de frecuencias para la variable genero
 
 <mark style="color:green;">**`prop.table(table())`**</mark>: frecuencias relativas
 
-```r
-table(datos$genero)
-# genero
+<pre class="language-r"><code class="lang-r"><strong>table(datos$genero)
+</strong># genero
 #  Hombre      Mujer No binario 
 #     9          10          1 
 prop.table(table(datos$genero))
 # genero
 # Hombre      Mujer No binario 
 #   0.45       0.50       0.05 
-```
+</code></pre>
 
 Esto nos sirve para ver que hay una categoría muy pequeña y que muchas veces trabajar con categorías tan pequeñas es un problema. **A veces las juntaremos, otras veces las borraremos y otras veces seguiremos adelante.**&#x20;
 
@@ -71,46 +71,38 @@ Esto nos sirve para ver que hay una categoría muy pequeña y que muchas veces t
 
 Las tablas cruzadas también se construyen usando <mark style="color:green;">**`table()`**</mark>y <mark style="color:green;">**`prop.table()`**</mark>especificando las dos variables a representar. En  <mark style="color:green;">**`prop.table()`**</mark> incluimos un 1 si las queremos por filas, un 2 si por columnas, o nada si queremos las frecuencias relativas globales
 
-<pre class="language-r"><code class="lang-r">t=table(datos$estudios,datos$genero)
-<strong>#                  Femenino Masculino No binario
-</strong>#  Primaria             2         2          0
-#  Secundaria           5         7          1
-#  Universitaria        2         1          0
+```r
+t=table(datos$estudios,datos$genero)
 
+##LA tabla con los totales
 prop.table(t)
-#                  Femenino Masculino No binario
-#  Primaria          0.10      0.10       0.00
-#  Secundaria        0.25      0.35       0.05
-#  Universitaria     0.10      0.05       0.00
 
+# La tabla con los totales por fila
 prop.table(t,1)
-#                Femenino  Masculino No binario
-#  Primaria      0.50000000 0.50000000 0.00000000
-#  Secundaria    0.38461538 0.53846154 0.07692308
-#  Universitaria 0.66666667 0.33333333 0.00000000
 
+# La tabla con los totales por clumna
 prop.table(t,2)
-#                Femenino Masculino No binario
-#  Primaria      0.2222222 0.2000000  0.0000000
-#  Secundaria    0.5555556 0.7000000  1.0000000
-#  Universitaria 0.2222222 0.1000000  0.0000000
-</code></pre>
+```
 
-<details>
-
-<summary>¿Qué porcentaje de los que se autodenominan género masculino tiene estudios primarios?</summary>
-
-20%
-
-</details>
-
-<details>
-
-<summary>¿Qué porcentaje de los que tienen estudios secundarios se autodenominan género no binario?</summary>
-
-7.7%
-
-</details>
+```r
+                 Femenino Masculino No binario
+  ?                 0.05      0.10       0.00
+  Primaria          0.15      0.10       0.00
+  Secundaria        0.15      0.05       0.05
+  Universitaria     0.10      0.25       0.00
+               
+                 Femenino Masculino No binario
+  ?             0.3333333 0.6666667  0.0000000
+  Primaria      0.6000000 0.4000000  0.0000000
+  Secundaria    0.6000000 0.2000000  0.2000000
+  Universitaria 0.2857143 0.7142857  0.0000000
+               
+                 Femenino Masculino No binario
+  ?             0.1111111 0.2000000  0.0000000
+  Primaria      0.3333333 0.2000000  0.0000000
+  Secundaria    0.3333333 0.1000000  1.0000000
+  Universitaria 0.2222222 0.5000000  0.0000000
+```
 
 ### Tablas de frecuencias de una variable continua agrupada por intervalos
 
@@ -122,14 +114,14 @@ table(datos$edad)
 #  1   1   1   1   1   1   2   2   1   1   1   1   1   1   1   1   1   1 
 ```
 
-No nos está dando informacióm adicional ni resumiendo la variable. Para trabajar este tipo de variables, podemos construir intervalos. Normalmente pensaremos qué intervalos pueden tener sentido según el **objetivo del estudio**. En este caso podemos pensar simplemente en una variable dicotómica con los que son menores de edad y los que son mayores de edad.&#x20;
+No nos está dando informacióm adicional ni resumiendo la variable. Para trabajar este tipo de variables, podemos construir intervalos. Normalmente pensaremos qué intervalos pueden tener sentido según el **objetivo del estudio**. En este caso podemos pensar simplemente en una variable dicotómica con los que son menores de 40 y los que son mayores de 40.&#x20;
 
 En este caso lo podemos hacer de forma muy sencilla con el comando <mark style="color:green;">**`if_else`**</mark>:&#x20;
 
 ```r
-datos$edad_cat<-if_else(datos$edad<18,1,2)
+datos$edad_cat<-if_else(datos$edad<40,1,2)
 datos$edad_cat<-factor(datos$edad_cat, levels=c(1,2),   
-                labels=c("<18",">=18"))
+                labels=c("<40",">=40"))
 table(datos$edad_cat)
 ```
 
@@ -155,9 +147,8 @@ En las dos variables cuantitativas vemos que hay número incorrecto, habrá que 
 
 También podemos calcular media y desviación típica de la variable _edad_ por genero con la función <mark style="color:green;">**`aggregate()`**</mark>
 
-```r
-aggregate(datos$edad,by=list(datos$genero),mean)
-```
+<pre class="language-r"><code class="lang-r"><strong>aggregate(datos$edad,by=list(datos$genero),mean)
+</strong></code></pre>
 
 La librería **`psych`** contiene las funciones <mark style="color:green;">**`describe()`**</mark> y <mark style="color:green;">**`describeBy()`**</mark> que no sólo calculan la media sino que añaden otros estadísticos de interés
 
@@ -170,41 +161,31 @@ describeBy(datos$edad,datos$genero)
 
 ## Gráficos
 
-Estos serían las cuatro representaciones gráficas más sencillas para las variables que estamos viendo:
-
-```
-pie(table(datos$estudios))
-```
-
-<figure><img src="../../.gitbook/assets/image (37).png" alt="" width="375"><figcaption></figcaption></figure>
+Estos serían las  representaciones gráficas más sencillas para las variables que estamos viendo:
 
 ```r
 barplot(table(datos$genero),col=rainbow(10))
 
 library(ggplot2)
-ggplot(datos, aes(x = sexo)) +
-  geom_bar(aes(fill=sexo))
+ggplot(datos, aes(x = estudios)) +
+  geom_bar(aes(fill=estudios))
 ```
 
-<figure><img src="../../.gitbook/assets/image (38).png" alt="" width="375"><figcaption></figcaption></figure>
-
-<pre class="language-r"><code class="lang-r"><strong>hist(datos$edad,col="skyblue")
-</strong>hist(datos$horas_ejercicio,col="orange")
-</code></pre>
-
-<figure><img src="../../.gitbook/assets/image (39).png" alt="" width="375"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (40).png" alt="" width="375"><figcaption></figcaption></figure>
-
-Si recordamos lo que veíamos con el <mark style="color:green;">**`summary()`**</mark> y ahora con los plots, podemos corregir los errores que encontramos en estas dos variables
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ```r
-datos$edad<-replace(datos$edad , datos$edad <0 | datos$edad>100,NA)
-hist(datos$edad)
+hist(datos$edad,col="skyblue")
+hist(datos$horas_ejercicio,col="orange")
 
-datos$horas_ejercicio<-replace(datos$horas_ejercicio , datos$horas_ejercicio <0 | datos$horas_ejercicio>40,NA)
-hist(datos$horas_ejercicio)
+ggplot(datos, aes(x = edad)) +
+  geom_histogram(fill = "steelblue")
 ```
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+
 
 ```r
 boxplot(datos$edad~datos$genero,col=rainbow(10))
@@ -220,7 +201,19 @@ ggplot(datos, aes(x = genero, y = edad, fill = genero)) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (41).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+Si recordamos lo que veíamos con el <mark style="color:green;">**`summary()`**</mark> y ahora con los gráficos, podemos corregir los errores que encontramos en las variables
+
+```r
+datos$estudios <-recode(datos$estudios, "?" = NA_character_)
+
+datos$edad<-replace(datos$edad , datos$edad <0 | datos$edad>100,NA)
+hist(datos$edad)
+
+datos$horas_ejercicio<-replace(datos$horas_ejercicio , datos$horas_ejercicio <0 | datos$horas_ejercicio>40,NA)
+hist(datos$horas_ejercicio)
+```
 
 Ahora es tu turno: Realiza los siguientes ejercicios:
 

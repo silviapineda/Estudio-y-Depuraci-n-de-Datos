@@ -13,18 +13,20 @@ Recuerda ponerle bien la cabecera
 Después lee el fichero&#x20;
 
 ```r
+library(dplyr)
 datos<-read.csv("estres.csv", header = T, sep = "\t")
 ```
 
 Realiza las siguientes actividades en R:
 
-1. Clasifica las variables en cuantitativas y cualitativas
-2. Examina la estructura de los datos (_<mark style="color:green;">**`str`**</mark>_) ¿Cómo son los tipos de variables? ¿Cambiarías alguna?
-3. ¿Hay algún `NA`? Utiliza <mark style="color:green;">**`any(is.na(datos))`**</mark>
-4. ¿Qué ID tiene la persona con mejor sueldo? puedes usar  <mark style="color:green;">**`which()`**</mark>
-5. ¿Cuántos trabajadores tienen un nivel de estrés mayor de 5? Utiliza <mark style="color:green;">**`length()`**</mark>
-6. ¿Cuántos trabajadores tienen estrés mayor de 5 y además una carga física > 3?
-7. Nos hemos equivocado en la introducción de datos y para todos los valores _2_ de carga física, queríamos haber puesto un _3_. _Recodifica_ esta variable incluyendo este cambio. Recuerda recodificar en una nueva variable. Utiliza <mark style="color:green;">**`if_else()`**</mark>del paquete **`dplyr`**
-8. Crea una nueva variable llamada _expo\_total_ que se obtenga como suma de los valores de exposición en _carga física_, _carga psíquica_ y _ruido_.
-9. _Categoriza_ la variable _estres_ en otra nueva variable que llamaremos _estres\_grupo_ que incluya tres categorías: _bajo_: 1 a 2; _medio_: 3 a 7; _alto_; 8 a 10. ¿Cuántas personas hay en cada categoría de la nueva variable. Utiliza <mark style="color:green;">**`cut()`**</mark> y <mark style="color:green;">**`breaks()`**</mark>
-10. Guarda la base de datos corregida. Usa <mark style="color:green;">**`write.csv()`**</mark> y llamala <mark style="color:orange;">**estres\_corregido.csv**</mark>
+1. Clasifica las variables en cuantitativas y cualitativas: Escríbelo.
+2. ¿Los nombres de variables son consistentes?
+3. Examina la estructura de los datos (_<mark style="color:green;">**`str`**</mark>_) ¿Cómo son los tipos de variables? ¿Cambiarías alguna?
+4. ¿Hay algún `NA`? Puedes utilizar <mark style="color:green;">**`any(is.na(datos))`**</mark>
+5. ¿Qué ID tiene la persona con mejor sueldo?&#x20;
+6. ¿Cuántos trabajadores tienen un nivel de estrés mayor de 5?&#x20;
+7. ¿Cuántos trabajadores tienen estrés mayor de 5 y además una carga física > 3?
+8. Nos hemos equivocado en la introducción de datos y para todos los valores _2_ de carga física, queríamos haber puesto un _3_. _Recodifica_ esta variable incluyendo este cambio. Recuerda recodificar en una nueva variable. Utiliza <mark style="color:green;">**`if_else()`**</mark>del paquete **`dplyr`**
+9. Crea una nueva variable llamada _expo\_total_ que se obtenga como suma de los valores de exposición en _carga física_, _carga psíquica_ y _ruido_.
+10. _Categoriza_ la variable _estres_ en otra nueva variable que llamaremos _estres\_grupo_ que incluya tres categorías: _bajo_: 1 a 2; _medio_: 3 a 7; _alto_; 8 a 10. ¿Cuántas personas hay en cada categoría de la nueva variable. Puedes utilizar  <mark style="color:green;">**`cut()`**</mark> y <mark style="color:green;">**`breaks()`**</mark>
+11. Guarda la base de datos corregida. Usa <mark style="color:green;">**`write.csv()`**</mark> y llamala <mark style="color:orange;">**estres\_corregido.csv**</mark>

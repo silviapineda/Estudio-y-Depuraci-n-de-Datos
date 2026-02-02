@@ -78,7 +78,7 @@ Cuidado con los warnings, en este caso ha convertido un "five" en NA cuando debe
 En la variable <mark style="color:purple;">`age`</mark>, una de las observaciones tiene "five" en vez del número, esto nos causará problemas a la hora de usar dicha variable como variable numérica como hemos visto al declararla con <mark style="color:green;">**`as.numeric()`**</mark>.
 
 ```r
-data$age<-car::recode(data$age,"'five'='5'")
+data$age<-replace(data$age,data$age=="five",5)
 data$age<-as.numeric(data$age)
 ```
 
@@ -93,7 +93,7 @@ summary(data)
 table(data$favourite_food)
 table(data$meal_plan)
 
-data$favourite_food<-car::recode(data$favourite_food,"'N/A'= NA")
+data$favourite_food<-replace(data$favourite_food, data$favourite_food=="N/A",NA)
 data[data == ""] <- NA ##Esto reemplaza todos los valores vacíos a NA
 
 data
@@ -135,6 +135,8 @@ str(datos)
 
 ## 1. Declaramos de forma consistente el nombre de las variables
 datos <- datos |> janitor::clean_names()
+## Cuidado id debe ir en mayúscula porque es una abreviatura
+datos <- rename(datos, ID = id)
 
 ## 2. Transformamos las variables que no están bien leídas
 datos$fecha_de_nacimiento<-as.Date(datos$fecha_de_nacimiento,format="%d/%m/%y")
@@ -162,13 +164,12 @@ $$
 IMC=peso(kg)/altura(m)^2
 $$
 
-```r
-##Crear IMC
-datos$IMC  <- datos$peso / (datos$altura/100)^2
+<pre class="language-r"><code class="lang-r">##Crear IMC
+datos$IMC  &#x3C;- datos$peso / (datos$altura/100)^2
 
-##IMC lo definimos con mayusculas porque son siglas. Cuidado con el uso de janitor
-
-```
+<strong>##IMC lo definimos con mayusculas porque son siglas. Cuidado con el uso de janitor
+</strong>
+</code></pre>
 
 ## Categorizar una variable cuantitativa en una cualitativa
 
@@ -210,8 +211,8 @@ table(datos$IMC_grupos)
 ```
 
 ```r
-bajo peso     normal     sobrepreso   obesidad          
-    0          5              4          1 
+bajo peso     normal sobrepreso   obesidad 
+         0          3          1          1 
 ```
 
 ## Recodificación de variables
