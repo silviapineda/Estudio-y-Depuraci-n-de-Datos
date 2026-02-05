@@ -16,6 +16,18 @@ Para este apartado vamos a utilizar el conjunto de datos "Wine Quality" utilizad
 
 <table><thead><tr><th width="193.9140625">Variable</th><th width="448.65625">Descripción</th></tr></thead><tbody><tr><td><mark style="color:purple;"><code>Id</code></mark></td><td>Código identificativo del tipo de vino</td></tr><tr><td><mark style="color:purple;"><code>Beneficio</code></mark></td><td>Beneficio obtenido por la venta de ese tipo de vino</td></tr><tr><td><mark style="color:purple;"><code>Compra</code></mark></td><td>Variable dicotómica que toma valor 1 si se ha realizado algún pedido de ese tipo de vino, y 0, en caso contrario</td></tr><tr><td><mark style="color:purple;"><code>Acidez</code></mark></td><td>rango ilimitado de valores</td></tr><tr><td><mark style="color:purple;"><code>Acidocitrico</code></mark></td><td>rango ilimitado de valores</td></tr><tr><td><mark style="color:purple;"><code>Azucar</code></mark></td><td>Sólo valores positivos</td></tr><tr><td><mark style="color:purple;"><code>Clorurosodico</code></mark></td><td>rango ilimitado de valores</td></tr><tr><td><mark style="color:purple;"><code>Densidad</code></mark></td><td>Sólo valores positivos</td></tr><tr><td><mark style="color:purple;"><code>Ph</code></mark></td><td>Entre 4 y 10</td></tr><tr><td><mark style="color:purple;"><code>Sulfatos</code></mark></td><td>rango ilimitado de valores</td></tr><tr><td><mark style="color:purple;"><code>Alcohol</code></mark></td><td>Contenido de alcohol en % </td></tr><tr><td><mark style="color:purple;"><code>Etiqueta</code></mark></td><td>Percepción del diseño de la etiqueta (MM=muy mal, M=malo, R=regular, B=bueno, MB=muy bueno)</td></tr><tr><td><mark style="color:purple;"><code>CalifProductor</code></mark></td><td>Calificacion (entre 0 y 9, sin decimales) del vino según el productor</td></tr><tr><td><mark style="color:purple;"><code>Clasificacion</code></mark></td><td>Calsificacion obtenida por un equipo de expertos (toma 4 valores, siendo los extremos "****" = "excelente" y "+" = "pobre")</td></tr><tr><td><mark style="color:purple;"><code>Region</code></mark></td><td>Region de la que proviene (toma 3 valores distintos)</td></tr><tr><td><mark style="color:purple;"><code>PrecioBotella</code></mark></td><td>Precio por botella</td></tr></tbody></table>
 
+Una distribuidora de vino ha recopilado detalles sobre su catálogo actual. La base de datos contine diferentes parámetros químicos, percepciones de marketing, evaluaciones de expertos y resultados financieros. La empresa busca optimizar su estrategia comercial para la próxima temporada
+
+El **objetivo** del estudio podría ser:
+
+1. Describir los vinos y caracterizar sus diferentes compuestos químicos.
+2. Clasificar la compra (variable binaria, SI o NO) según las diferentes características. Factores que se asocien con la compra.
+3. Predecir el beneficio (precio) según región, clasificación, etc.
+
+{% hint style="info" %}
+Conocer el objetivo del estudio antes de hacer la depuración es importante para tomar ciertas decisiones. Además nos ayudará en todo el proceso.
+{% endhint %}
+
 ### 1. Leer los datos
 
 Lo primero que haremos es leer los datos. Seguidamente verificamos que los tipos de variables se hayan asignado correctamente con <mark style="color:green;">**`str()`**</mark>
@@ -60,10 +72,22 @@ str(datos)
 
 ### 3. Resumen de todas las variables para detectar bien los errores iniciales
 
-Ahora podemos ver un resumen de todas las variables para poder detectar errores iniciales usando la función <mark style="color:green;">**`summary()`**</mark>
+Ahora podemos ver un resumen de todas las variables para poder detectar errores iniciales usando la función <mark style="color:green;">**`summary()`**</mark> y hacer unos gráficos como <mark style="color:green;">**`hist() barplot()`**</mark>
 
 ```r
 summary(datos)
+
+##install.packages("DataExplorer")
+library(DataExplorer)
+plot_histogram(datos)
+plot_bar(datos)
+
+##Las 4 variables en las que se encuentran errores
+hist(datos$CloruroSodico) #999 es un missing
+hist(datos$Alcohol) #Datos negativos y datos que superan el 100
+table(datos$Etiqueta) #Están en mayúsculas y minúsculas
+table(datos$Clasificacion) # Hay un ? en vez de NA
+
 ```
 
 ```r
@@ -132,8 +156,8 @@ hist(datos$Alcohol,main="Alcohol")
 Finalmente vamos a corregir los errores de escritura de la variable _<mark style="color:purple;">`Etiqueta`</mark>_, para ello podemos usar la funcion <mark style="color:green;">**`recode()`**</mark> del paquete **`car`**
 
 <pre class="language-r"><code class="lang-r"><strong>table(datos$Etiqueta)
-</strong><strong>datos$Etiqueta&#x3C;-car::recode(datos$Etiqueta,"'b'='B';'m'='M';'mb'='MB';'mm'='MM';'r'='R'")
-</strong>table(datos$Etiqueta)
+</strong>datos$Etiqueta&#x3C;-recode(datos$Etiqueta,"b" = "B","m" = "M","mb" = "MB","mm" = "MM","r" = "R")
+table(datos$Etiqueta)
 </code></pre>
 
 #### Variable <mark style="color:purple;">`Clasificacion`</mark>
@@ -142,7 +166,7 @@ Para la variable _<mark style="color:purple;">`Clasificacion`</mark>_ vamos a re
 
 ```r
 table(datos$Clasificacion)
-datos$Clasificacion<-car::recode(datos$Clasificacion,"'?'= NA")
+datos$Clasificacion<-recode(datos$Clasificacion,"?"= NA_character_)
 table(datos$Clasificacion)
 ```
 
@@ -150,6 +174,8 @@ Vamos a ver que efectivamente todos los errores se han corregido y guardamos el 
 
 ```r
 summary(datos)
+plot_histogram(datos)
+plot_bar(datos)
 
 #install.packages("writexl")
 library(writexl)
