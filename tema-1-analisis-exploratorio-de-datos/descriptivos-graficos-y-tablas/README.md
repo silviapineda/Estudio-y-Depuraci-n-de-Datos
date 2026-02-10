@@ -21,6 +21,8 @@ Algunas de las funciones más útiles para este propósito son:
 
 <mark style="color:green;">**`psych::describe(Filter(is.numeric,dataFrame))`**</mark>: Esta función ofrece más medidas de las variables numéricas como la desviación estándar y el índice de simetría
 
+<mark style="color:green;">**`skim(datos_agrupados,var1,var2):`**</mark> Esta función saca descriptivos de las variables que se le pasan según la variable de agrupación de datos\_agrupados <mark style="color:green;">**`(datos_agrupados <- group_by(dataFrame, var_agrupacion))`**</mark>&#x20;
+
 <mark style="color:green;">**`table(varCuali), prop.table(table(varCuali)`**</mark>: Muestra la tabla de frecuencias de la variable cualitativa seleccionada.
 
 <mark style="color:green;">**`hist(varCuant)`**</mark>: Muestra el histograma de la variable cuantitativa seleccionada.
@@ -156,6 +158,15 @@ La librería **`psych`** contiene las funciones <mark style="color:green;">**`de
 library(psych)
 describe(datos$edad)
 describeBy(datos$edad,datos$genero)
+```
+
+La librería **`skimr`** contiene las funciones <mark style="color:green;">**`skim()`**</mark> y <mark style="color:green;">**`group_by()`**</mark> que no sólo calculan la media sino que añaden otros estadísticos de interés por una variable de agrupación
+
+```r
+#install.packages("skimr")
+library(skimr)
+datos_agrupados <- group_by(datos, genero)
+skim(datos_agrupados,edad)
 ```
 
 ## Gráficos
