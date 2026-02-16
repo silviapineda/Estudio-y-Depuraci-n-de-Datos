@@ -74,7 +74,7 @@ En un grupo de 10 personas, se observan para cada una de ellas las siguientes va
 
 <mark style="color:purple;">`Tiempo`</mark>: tiempo que tarda en recorrer 1.5 millas (en minutos)
 
-<mark style="color:purple;">`Oxigeno`</mark>: cantidad de oxígeno que absorve por minuto (en ml. por Kg de peso)
+<mark style="color:purple;">`Oxigeno`</mark>: cantidad de oxígeno que absorbe por minuto (en ml. por Kg de peso)
 
 ```r
 Tiempo=c(11.37,10.07,8.65,8.17,9.22,11.63,11.95,10.85,13.08,8.63)
