@@ -68,7 +68,7 @@ Este ejemplo muestra que la **media es muy sensible a los datos atípicos**, mie
 
 No siempre vamos a observar unos datos tan dispares, pero aun así podemos ver que un dato atípico  puede tener un gran impacto en nuestros estudios.
 
-Imagínate que queremos predecir el tiempo que tarda en recorrer una persona 1.5 millas según la cantidad de oxígeno que absorve por minuto.&#x20;
+Imagínate que queremos predecir el tiempo que tarda en recorrer una persona 1.5 millas según la cantidad de oxígeno que absorbe por minuto.&#x20;
 
 En un grupo de 10 personas, se observan para cada una de ellas las siguientes variables:
 

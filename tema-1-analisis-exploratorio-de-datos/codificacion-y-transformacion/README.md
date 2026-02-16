@@ -51,8 +51,8 @@ colnames(data)<-
 colnames(data)
 
 #Con tidyverse
-library(tidyverse)
-data <-janitor::clean_names(data)
+library(janitor)
+data <-clean_names(data)
 ##Con la opción de clean_names recuerda verificar que los nombres se han completado de forma correcta
 ```
 
