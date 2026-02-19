@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: >-
   ../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
@@ -94,9 +93,16 @@ En este diagram de cajas (boxplot) detectamos 5 outliers que son 5410, 5350, 547
 Además tenemos que tener en cuenta la proporción de datos atípicos o extremos en la muestra, es decir, **si los datos representan menos de un 2-5% de la muestra**, podríamos considerar borrarlos, si son más entonces los consideramos datos "típicos".
 
 ```r
-####Miramos la proporción de outliers
-length(out_ind)/length(data$Pressure_height)*100
-[1] 2.463054
+####Miramos la proporción de outliers y extremos
+p<-length(out_ind)/length(data$Pressure_height)*100
+q<-length(ext_ind)/length(data$Pressure_height)*100
+cat("El % de outliers para la variable Pressure_height es", p,"\n")
+cat("El % de extremos para la variable Pressure_height es", q,"\n")
+```
+
+```r
+El % de outliers para la variable Pressure_height es 2.463054 
+El % de extremos para la variable Pressure_height es 0 
 ```
 
 **En este ejemplo nos salen que los datos atípicos de la variable&#x20;**<mark style="color:purple;">**`pressure height`**</mark>**&#x20;corresponden a un 2.5% de los datos, por tanto los considerarenos atípicos y pasarán a ser estudiados de forma bivariante en el siguiente apartado.**

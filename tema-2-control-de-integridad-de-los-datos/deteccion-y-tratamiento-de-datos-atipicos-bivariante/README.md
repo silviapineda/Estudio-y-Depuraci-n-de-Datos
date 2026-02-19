@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: >-
   ../../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
@@ -85,12 +84,14 @@ F-statistic: 373.6 on 1 and 201 DF,  p-value: < 2.2e-16
 
 En este diagrama de dispersión con un ajuste de una recta de regresión lineal, vemos como los posibles outliers de la variable <mark style="color:purple;">`Pressure_height`</mark> están relacionados con la temperatura, de forma que los valores  bajos de <mark style="color:purple;">`Pressure_heigth`</mark> (incluídos los valores atípicos) se relacionan con niveles muy bajitos de temperatura como veáimos también con los meses de inviernos, por tanto, **¿Son datos realmente atípicos?**
 
-**Considerando lo ya visto en el caso univariante y esto,  estos datos no los vamos a considerar como atípicos, ya que son parte de una asociación estadística en la que vemos con los valores atípicos de la variable&#x20;**<mark style="color:purple;">**`pressure_height`**</mark>**&#x20;se relacionan con los meses de inviernos donde la temperatura en inferior. Por tanto, no vamos a hacer nada y no los borraremos.**&#x20;
+#### Conclusión
+
+Considerando lo visto en el caso **univariante** y **bivariante**, estos datos no los vamos a considerar como atípicos, ya que **son parte de una asociación estadística** en la que vemos que los valores atípicos de la variable <mark style="color:purple;">`Pressure_heigth`</mark> se relacionan con los meses de invierno donde la temperatura en inferior. Por tanto, no vamos a hacer nada y **no los borraremos**.
 
 ### Resumen para la detección de atípicos
 
-1. Representar el diagrama de cajas de la variable en cuestión y calcular los valores atípicos y extremos como valores que se alejan de  1.5\*IQR (atípico) y de 3\*IQR (extremo).
-2. Representar su histograma para ver la distribución de la variable en cuestión, si es asimétrica o son datos realmente diferenciados de la distribución general. &#x20;
-3. Para poder ser considerados datos atípicos o extremos deben representar menos del 2-5% del conjunto de datos porque sino se trataría de datos "típicos".
-4. Se debe realizar un estudio bivariado para ver si esos datos atípicos son parte de una asociación estadística o no. Si lo son, no los consideraremos atípicos.&#x20;
+1. Representar el **diagrama de cajas** de la variable en cuestión y calcular los valores atípicos y extremos como valores que se alejan de **1.5\*IQR (atípico) y de 3\*IQR (extremo).**
+2. Representar su **histograma** para ver la distribución de la variable en cuestión, si es **asimétrica** o son datos realmente diferenciados de la distribución general. &#x20;
+3. Para poder ser considerados datos atípicos o extremos deben representar **menos del 2-5%** del conjunto de datos porque sino se trataría de datos "típicos".
+4. Se debe realizar un **estudio bivariante** para ver si esos datos atípicos son **parte de una asociación estadística** o no. Si lo son, no los consideraremos atípicos.&#x20;
 
