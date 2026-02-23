@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: >-
   ../../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
@@ -9,7 +8,7 @@ coverY: 0
 
 Si tenemos que comprobar varias variables de una misma base de datos podemos pensar en automatizar el proceso mediante el uso de alguna función propia que puede ejecutar el estudio univariante de forma automática.&#x20;
 
-En este ejemplor vemos como sería la función propia <mark style="color:green;">**`outliers()`**</mark> que la guarderemos en un fichero como **`Funciones_propias.R`**
+En este ejemplo vemos como sería la función propia <mark style="color:green;">**`outliers()`**</mark> que la guarderemos en un fichero como **`Funciones_propias.R`**
 
 ```r
 library(ggplot2)
