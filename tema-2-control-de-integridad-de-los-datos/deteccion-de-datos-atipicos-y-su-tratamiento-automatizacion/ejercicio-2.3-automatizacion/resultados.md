@@ -51,3 +51,4 @@ extreme <- function(data, variable) {
 }
 ```
 
+{% file src="../../../.gitbook/assets/Ejercicio2.3.pdf" %}

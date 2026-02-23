@@ -59,12 +59,11 @@ source("Funciones_propias.R")
 
 outliers(data,"Pressure_height")
 
-# Aplicar la función a múltiples variables numéricas o enteras
-numeric_integer_vars <- names(which(sapply(data, is.numeric) | sapply(data, is.integer)))
-# Aplicar la función 'outliers' a cada una de las variables numéricas
-outliers_results <- lapply(numeric_integer_vars, function(var) {
-  outliers(data, var)  # Llamar a la función pasando el nombre de la variable
-})
+# 1. Obtenemos los nombres de las columnas numéricas
+numeric_vars <- names(data)[sapply(data, is.numeric)]
+
+# 2. Usamos una función anónima para pasar 'data' y el 'nombre'
+outliers_results <- lapply(numeric_vars, function(v) outliers(data, v))
 
 ```
 
