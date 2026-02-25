@@ -5,6 +5,7 @@ hidden: true
 # Resultados
 
 ```r
+
 extreme <- function(data, variable) {
   var_name <- data[[variable]]  # Acceder a la variable por nombre
   
@@ -15,10 +16,6 @@ extreme <- function(data, variable) {
   stats <- boxplot.stats(var_name, coef = 3)
   extreme_values <- stats$out  
   prop_outliers <- round(length(extreme_values) / tot * 100, 2)  # Proporción de outliers
-  
-  # Filtrar datos sin outliers
-  data_no_outliers <- data.frame(value = var_name) %>%
-    filter(!(value %in% extreme_values))
   
   ##Datos extremos para dibujar en boxplot
   data_extreme <- data.frame(value = var_name) %>%
