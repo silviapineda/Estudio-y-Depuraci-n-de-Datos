@@ -114,7 +114,7 @@ outliers_results <- lapply(numeric_vars, function(v) outliers(iris_atipico,v))
 <figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
-{% tab title="Petal.Length" %}
+{% tab title="Petal.Width" %}
 <figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
