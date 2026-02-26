@@ -146,7 +146,7 @@ p1 <- ggplot(datos, aes(x = VARIEDAD, y = MANGANESO)) +
 p1
 ```
 
-<figure><img src="../.gitbook/assets/image (6).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Los outliers son un 24.28 %, de los cuales un 1.73% (3 valores) son extremos. En el caso de los outliers, se ve que corresponden a la CEBADA y los 3 extremos  no pertenecen a ninguna de las 3 distribuciones parcadas por los 3 cereales, por tanto habrá que borrarlos. &#x20;
 
@@ -160,7 +160,7 @@ p2 <- ggplot(datos, aes(x = VARIEDAD, y = FIBRA)) +
 p2
 ```
 
-<figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 El porcentaje de ouliers es de un 8% y además se ve que es debido a una distribución asimétrica ya que los outliers corresponden a la cebada, por tanto, no hay que borrarlos, no son outliers.
 
@@ -174,7 +174,7 @@ p3 <- ggplot(datos, aes(x = VARIEDAD, y = SELENIO)) +
 p3
 ```
 
-<figure><img src="../.gitbook/assets/image (9).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 CONCLUSIÓN:
 

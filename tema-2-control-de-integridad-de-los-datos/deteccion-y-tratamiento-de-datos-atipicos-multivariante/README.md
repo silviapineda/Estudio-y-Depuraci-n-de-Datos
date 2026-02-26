@@ -50,7 +50,11 @@ La costumbre lleva a considerar anómalos a **valores de LOF por encima de** $$1
 
 **Ejemplo con la base de datos de R iris**
 
-El conjunto de datos Iris consta de 150 observaciones de iris, con 50 observaciones de cada una de las tres especies de iris: setosa, versicolor y virginica. Para cada observación, se miden cuatro características: longitud del sépalo, ancho del sépalo, longitud del pétalo y ancho del pétalo. Es conocido por su utilidad en la demostración de técnicas de clasificación y análisis estadístico.
+El conjunto de datos Iris consta de 150 observaciones de iris, con 50 observaciones de cada una de las tres especies de iris: setosa, versicolor y virginica.Para cada observación, se miden cuatro características: longitud del sépalo, ancho del sépalo, longitud del pétalo y ancho del pétalo.&#x20;
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Es conocida esta dataset por su utilidad en la demostración de técnicas de clasificación y análisis estadístico.&#x20;
 
 ```r
 #Instala y carga los paquetes
@@ -59,11 +63,30 @@ install.packages(c("dbscan", "class"))
 library(dbscan)
 library(class)
 library(ggplot2)
+library(patchwork)
 
 # Carga el conjunto de datos iris
 data(iris)
 
+# Gráfico de dispersión para mostrar el conjunto de datos iris
+p1<-ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point() +
+   labs(title = "Conjunto de Datos Iris",    
+       x = "Longitud del Sépalo", y = "Anchura del Sépalo")
 
+p2<-ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point() +
+  labs(title = "Conjunto de Datos Iris",
+       x = "Longitud del Pétalo", y = "Anchura del Pétalo")
+
+p1+p2
+```
+
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+Ahora podemos añadir un datoa atípico y miro qué pasa a nivel univariante
+
+```r
 # Añade un valor atípico al conjunto de datos
 iris$Species<-as.character(iris$Species)
 iris_atipico <- rbind(iris, c(7, 5, 5, 0.7, "Atipico"))
@@ -71,70 +94,140 @@ iris_atipico$Species<-as.factor(iris_atipico$Species)
 iris_atipico[,c(1:4)]<-lapply(iris_atipico[,c(1:4)],as.numeric)
 iris$Species<-as.factor(iris$Species)
 
+source("Tema 2/Funciones_propias.R")
+# 1. Obtenemos los nombres de las columnas numéricas
+numeric_vars <- names(iris_atipico)[sapply(iris_atipico, is.numeric)]
 
+# 2. Usamos una función anónima para pasar 'data' y el 'nombre'
+outliers_results <- lapply(numeric_vars, function(v) outliers(iris_atipico,v))
+```
+
+{% tabs %}
+{% tab title="Sepal.Length" %}
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+
+{% tab title="Sepal.Width" %}
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+
+{% tab title="Petal.Length" %}
+<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+
+{% tab title="Petal.Length" %}
+<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+{% endtabs %}
+
+A nivel univariante sólo observaríamos el posible outlier en la variable Sepal.Width
+
+Si miramos su diagrama de dispersión considerando las variables dos a dos vemos lo siguiente
+
+```r
 # Gráfico de dispersión para mostrar el conjunto de datos con un valor atípico
-ggplot(iris_atipico, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+p1<-ggplot(iris_atipico, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() +
   geom_text(data = iris_atipico[nrow(iris_atipico),], aes(label = "Atipico"), vjust = -1) +
   labs(title = "Conjunto de Datos Iris con un Valor Atípico",    
        x = "Longitud del Sépalo", y = "Anchura del Sépalo")
 
-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+p2<-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
   geom_point() +
   geom_text(data = iris_atipico[nrow(iris_atipico),], aes(label = "Atipico"), vjust = -1) +
   labs(title = "Conjunto de Datos Iris con un Valor Atípico",
        x = "Longitud del Pétalo", y = "Anchura del Pétalo")
 
+p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (209).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (279).png" alt=""><figcaption></figcaption></figure>
+Vemos claramente que es un atípico para todas las variables. Por tanto sería un buen candidato para detectarlo con el algoritmo LOF
 
 ```r
 # Aplica LOF para detección de valores atípicos
 k<-round(log(nrow(iris_atipico)))
-lof_resultados <- lof(iris_atipico[, 1:4],minPts = k)
+datos_lof<-scale(iris_atipico[, 1:4]) ##Sólo las variables numéricas
 
+## Breve comprobación de lo que ha hecho scale
+library(DataExplorer)
+plot_histogram(datos_lof)
+plot_histogram(iris_atipico)
+
+#Ejecutar algoritmo lof
+lof_resultados <- lof(datos_lof,minPts = k)
 iris_atipico$lof<-lof_resultados
+
+#Imprimimos los que son >1.5
+iris_atipico[which(iris_atipico$lof>1.5),]
+
+#Vemos la distribución mediante boxplot
 ggplot(iris_atipico, aes(y = lof)) +
   geom_boxplot(fill = "skyblue", outlier.color = "red", outlier.shape = 16) +
   theme_minimal() +
   labs(title = "Distribución de LOF Scores")
-  
-### Los que tienen un LOF mayor de 1.5
-cbind(iris_atipico[which(iris_atipico$lof>1.5),])
 
-# Gráfico de dispersión con colores según las puntuaciones LOF
-ggplot(iris_atipico, aes(x = Sepal.Length, y = Sepal.Width, colour = lof_resultados)) +
+```
+
+```r
+    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species      lof
+16           5.7         4.4          1.5         0.4     setosa 1.649470
+23           4.6         3.6          1.0         0.2     setosa 1.586739
+42           4.5         2.3          1.3         0.3     setosa 3.479334
+60           5.2         2.7          3.9         1.4 versicolor 1.545483
+61           5.0         2.0          3.5         1.0 versicolor 1.626105
+107          4.9         2.5          4.5         1.7  virginica 2.072913
+110          7.2         3.6          6.1         2.5  virginica 2.204449
+118          7.7         3.8          6.7         2.2  virginica 2.101883
+132          7.9         3.8          6.4         2.0  virginica 1.777193
+151          7.0         5.0          5.0         0.7    Atipico 3.662890
+```
+
+<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+
+Y después podemos ver la visualización de estos valores con las variables en crudo
+
+```r
+p1<-ggplot(iris_atipico, aes(x = Sepal.Length, y = Sepal.Width, colour = lof_resultados)) +
   geom_point() +
   scale_color_gradient(low = "blue", high = "red", name = "LOF Score") +
   labs(title = "Detección de Valores Atípicos con LOF",
        x = "Longitud del Sépalo", y = "Anchura del Sépalo")
        
-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, colour = lof_resultados)) +
+p2<-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, colour = lof_resultados)) +
   geom_point() +
   scale_color_gradient(low = "blue", high = "red", name = "LOF Score") +
   labs(title = "Detección de Valores Atípicos con LOF",
        x = "Longitud del Pétalo", y = "Anchura del Pétalo")
 
+p1+p2
 ```
+
+<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
+En el gráfico vemos claramente el valor atípico con un lof muy alto y en la tabla, donde hemos pintado todos los datos que están por encima de lof score > 1.5 vemos como el dato atípico tiene un claro valor que se va del resto con un lof score = 3.66. En este caso no tenemos que borrar todos los valores que estén por encima de 1.5 sino ser capaces de identificar que ese valor dista mucho del resto tanto en valor como en el gráfico. Además en este caso vemos que los valores son raros para casi todas las variables, por tanto podemos sospechar que lo que deberíamos borrar es la observación entera.&#x20;
+
+Además también observamos otra observación "rara" con un LOF score elevado, este corresponde a una observación de setosa. Si miramos luego los gráficos, esta observación está bein clasificada en las características del Pétalo, pero mal clasificada en el Sepalo. Esto puede hacer que salga alta en el LOF pero realmente no es una observación anómala, simplemente algo diferente. No siempre vamos a borrar lo diferente.&#x20;
+
+Finalmente podemos incluir una visualización considerando todas las variables a la vez mediante el uso del análisis de componentes principales (PCA).&#x20;
 
 ```r
-Sepal.Length Sepal.Width Petal.Length Petal.Width    Species      lof
-21           5.4         3.4          1.7         0.2     setosa 1.590261
-23           4.6         3.6          1.0         0.2     setosa 2.107731
-24           5.1         3.3          1.7         0.5     setosa 1.510867
-32           5.4         3.4          1.5         0.4     setosa 1.529246
-42           4.5         2.3          1.3         0.3     setosa 2.406485
-63           6.0         2.2          4.0         1.0 versicolor 1.717688
-107          4.9         2.5          4.5         1.7  virginica 1.992299
-110          7.2         3.6          6.1         2.5  virginica 1.840244
-151          7.0         5.0          5.0         0.7    Atipico 5.176055
+# Ejecutamos un PCA rápido sobre las variables numéricas
+pca_res <- prcomp(datos_lof, center = TRUE)
+
+# Creamos un dataframe para graficar
+df_pca <- as.data.frame(pca_res$x)
+df_pca$lof <- lof_resultados
+
+ggplot(df_pca, aes(x = PC1, y = PC2, color = lof)) +
+  geom_point(aes(size = lof)) +
+  scale_color_gradient(low = "lightgrey", high = "darkorange") +
+  labs(title = "Proyección PCA y Puntuación LOF",
+       subtitle = "Los outliers se alejan del centro de la masa de datos en el espacio latente") +
+  theme_bw()
 ```
 
-<figure><img src="../../.gitbook/assets/image (210).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (280).png" alt=""><figcaption></figcaption></figure>
-
-En el gráfico vemos claramente el valor atípico con un lof muy alto y en la tabla, donde hemos pintado todos los datos que están por encima de lof score > 1.5 vemos como el dato atípico tiene un claro valor que se va del resto con un lof score = 5.17. En este caso no tenemos que borrar todos los valores que estén por encima de 1.5 sino ser capaces de identificar que ese valor dista mucho del resto tanto en valor como en el gráfico. Además en este caso vemos que los valores son raros para casi todas las variables, por tanto podemos sospechar que lo que deberíamos borrar es la observación entera.&#x20;
+Vemos como la observación atípica se va por completo de la nube de puntos y por tanto habría que borrarla.&#x20;
