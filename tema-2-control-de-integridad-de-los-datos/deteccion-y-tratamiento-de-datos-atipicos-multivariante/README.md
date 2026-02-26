@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: >-
   ../../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
