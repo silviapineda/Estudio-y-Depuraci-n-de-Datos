@@ -326,3 +326,11 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = lof)) +
 Al representar la PCA se ve como las 6 observaciones están completamente alejadas del resto.&#x20;
 
 Quitar 6 observaciones enteras podría ser mucho, lo ideal sería en este caso añadir a las 3 de manganeso y 3 de selenio que ya habíamos corregido antes, las 3 de FIBRA que no eran outliers en el estudio univariante, pero que si aparecían outliers en AVENA.&#x20;
+
+```r
+## FIBRA
+out_ind <- which(datos$FIBRA<=1.08) 
+datos$FIBRA[out_ind]<-NA
+
+datos[which(datos$lof>10),]
+```
