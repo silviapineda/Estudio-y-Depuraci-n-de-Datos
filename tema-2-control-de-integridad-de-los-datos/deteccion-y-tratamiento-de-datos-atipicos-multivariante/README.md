@@ -51,7 +51,7 @@ La costumbre lleva a considerar anómalos a **valores de LOF por encima de** $$1
 
 El conjunto de datos Iris consta de 150 observaciones de iris, con 50 observaciones de cada una de las tres especies de iris: setosa, versicolor y virginica.Para cada observación, se miden cuatro características: longitud del sépalo, ancho del sépalo, longitud del pétalo y ancho del pétalo.&#x20;
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
 Es conocida esta dataset por su utilidad en la demostración de técnicas de clasificación y análisis estadístico.&#x20;
 
@@ -81,7 +81,7 @@ p2<-ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
 p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ahora podemos añadir un datoa atípico y miro qué pasa a nivel univariante
 
@@ -103,19 +103,19 @@ outliers_results <- lapply(numeric_vars, function(v) outliers(iris_atipico,v))
 
 {% tabs %}
 {% tab title="Sepal.Length" %}
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Sepal.Width" %}
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Petal.Length" %}
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Petal.Width" %}
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -140,7 +140,7 @@ p2<-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, color = Species)
 p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 Vemos claramente que es un atípico para todas las variables. Por tanto sería un buen candidato para detectarlo con el algoritmo LOF
 
@@ -183,7 +183,7 @@ ggplot(iris_atipico, aes(y = lof)) +
 151          7.0         5.0          5.0         0.7    Atipico 3.662890
 ```
 
-<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
 
 Y después podemos ver la visualización de estos valores con las variables en crudo
 
@@ -203,7 +203,7 @@ p2<-ggplot(iris_atipico, aes(x = Petal.Length, y = Petal.Width, colour = lof_res
 p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
 
 En el gráfico vemos claramente el valor atípico con un lof muy alto y en la tabla, donde hemos pintado todos los datos que están por encima de lof score > 1.5 vemos como el dato atípico tiene un claro valor que se va del resto con un lof score = 3.66. En este caso no tenemos que borrar todos los valores que estén por encima de 1.5 sino ser capaces de identificar que ese valor dista mucho del resto tanto en valor como en el gráfico. Además en este caso vemos que los valores son raros para casi todas las variables, por tanto podemos sospechar que lo que deberíamos borrar es la observación entera.&#x20;
 
@@ -227,6 +227,6 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = lof)) +
   theme_bw()
 ```
 
-<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (10) (1).png" alt=""><figcaption></figcaption></figure>
 
 Vemos como la observación atípica se va por completo de la nube de puntos y por tanto habría que borrarla.&#x20;

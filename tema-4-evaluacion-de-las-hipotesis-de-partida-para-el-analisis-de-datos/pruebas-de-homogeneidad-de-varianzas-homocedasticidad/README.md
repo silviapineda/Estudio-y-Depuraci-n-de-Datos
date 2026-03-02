@@ -67,7 +67,7 @@ hist(data$Petal.Length)
 shapiro.test(data$Petal.Length)
 ```
 
-<figure><img src="../../.gitbook/assets/image (4) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ```r
 ##Segundo ver su comportamiento por la variable factor
@@ -163,7 +163,7 @@ boxplot(iris$Petal.Length~iris$Species)
 bartlett.test(iris$Sepal.Length ~ iris$Species)
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ```r
 

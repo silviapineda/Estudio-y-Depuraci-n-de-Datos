@@ -181,7 +181,7 @@ ggplot(datos, aes(x = estudios)) +
   geom_bar(aes(fill=estudios))
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```r
 hist(datos$edad,col="skyblue")
@@ -193,7 +193,7 @@ ggplot(datos, aes(x = edad)) +
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 
 
@@ -211,7 +211,7 @@ ggplot(datos, aes(x = genero, y = edad, fill = genero)) +
 
 ```
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Si recordamos lo que veíamos con el <mark style="color:green;">**`summary()`**</mark> y ahora con los gráficos, podemos corregir los errores que encontramos en las variables
 

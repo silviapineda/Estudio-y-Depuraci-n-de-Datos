@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: >-
   ../../.gitbook/assets/Introducing-Automated-Time-Series-Anomaly-Detection_blog_Image_v.1.0.webp
 coverY: 0
@@ -28,7 +27,9 @@ df <- data.frame(ID = c(1, 2, 3, 4, 2, 5),
                 Score = c(85, 92, 78, 90, 92, 80))
 ```
 
-La función <mark style="color:green;">**`duplicated()`**</mark> te permite identificar las filas duplicadas en un dataframe y junto con <mark style="color:green;">**`!`**</mark> los puedes eliminar y conservar solo las primeras ocurrencias:
+Existen varias formas de detectar duplicados en R:
+
+**Forma 1**: La función <mark style="color:green;">**`duplicated()`**</mark> te permite identificar las filas duplicadas en un dataframe y junto con <mark style="color:green;">**`!`**</mark> los puedes eliminar y conservar solo las primeras ocurrencias:
 
 ```r
 ###Identificación de los duplicados
@@ -42,14 +43,14 @@ df_no_duplicates <- df[!duplicated(df), ]
 df_no_duplicates
 ```
 
-La función <mark style="color:green;">**`unique()`**</mark> se puede utilizar para obtener las filas únicas de un dataframe, lo que puede también ayudar a identificar y tratar los duplicados, **la diferencia es que con esta no sabes cuáles han sido los duplicados ni cuantos:**
+**Forma 2**: La función <mark style="color:green;">**`unique()`**</mark> se puede utilizar para obtener las filas únicas de un dataframe, lo que puede también ayudar a identificar y tratar los duplicados, **la diferencia es que con esta no sabes cuáles han sido los duplicados ni cuantos:**
 
 ```r
 # Obtener filas únicas
 unique(df)
 ```
 
-Por otro lado la librería **`dplyr`** proporciona la función <mark style="color:green;">**`distinct()`**</mark> para obtener filas únicas de un dataframe muy similar a unique. También se puede utilizar para eliminar duplicados:
+**Forma 3**: Por otro lado la librería **`dplyr`** proporciona la función <mark style="color:green;">**`distinct()`**</mark> para obtener filas únicas de un dataframe muy similar a unique. También se puede utilizar para eliminar duplicados:
 
 ```r
 library(dplyr)
@@ -57,7 +58,7 @@ library(dplyr)
 distinct(df)
 ```
 
-y finalmente la función <mark style="color:green;">**`subset()`**</mark> se puede utilizar para eliminar duplicados basándose en una condición:
+**Forma 4:** y finalmente la función <mark style="color:green;">**`subset()`**</mark> se puede utilizar para eliminar duplicados basándose en una condición:
 
 ```r
 # Eliminar duplicados basados en la columna 'ID'
