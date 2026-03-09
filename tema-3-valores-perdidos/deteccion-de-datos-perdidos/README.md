@@ -91,17 +91,14 @@ mean(my_vector, na.rm = TRUE)
 
 ## Cuantificar y visualizar datos missing en una base de datos&#x20;
 
-Para ello vamos a usar una base de datos de una epidemia de Ébola.&#x20;
+Para ello vamos a usar una base de datos de una epidemia de Ébola que contiene información sobre pacientes registrados durante un brote infeccioso. El objetivo final es realizar un análisis de mortalidad y factores de riesgo, pero la calidad de los datos es preocupante.
 
 {% file src="../../.gitbook/assets/linelist_missing.rds" %}
 
 y un paquete de R que se llama <mark style="color:orange;">**`naniar`**</mark>
 
-```r
-library(naniar)
-library(tidyverse)
-library(rio)
-
+<pre class="language-r"><code class="lang-r"><strong>library(naniar)
+</strong>
 
 load("linelist_missing.rds") ## cargamos los datos
 str(data)
@@ -126,7 +123,7 @@ str(data)
  $ vomit               : chr  "yes" NA NA "no" ...
  $ temp                : num  36.8 36.9 36.9 36.8 36.9 37.6 37.3 37 36.4 35.9 ...
  $ days_onset_hosp     : num  2 1 2 2 1 1 2 1 1 2 ...
-```
+</code></pre>
 
 ```r
 summary(data) ## resumimos las variables
