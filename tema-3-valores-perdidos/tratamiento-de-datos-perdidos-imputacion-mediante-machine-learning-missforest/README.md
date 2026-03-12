@@ -1,4 +1,5 @@
 ---
+hidden: true
 cover: ../../.gitbook/assets/missing (1).jpeg
 coverY: 0
 ---
