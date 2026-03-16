@@ -386,19 +386,32 @@ Estas variables <mark style="color:purple;">`shadow`</mark> se pueden utilizar p
 
 <mark style="color:orange;">**Ejemplo 1**</mark>
 
+```r
+ggplot (data = shadowed_data, 
+        mapping = aes(x = temp,       
+                      colour = age_NA)) + geom_density()    
+```
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Si parece que hay más `NAs` en la variable <mark style="color:purple;">`age`</mark> cuando la <mark style="color:purple;">`temp`</mark> es alta, esto podría indacar un MAR/MNAR, en el gráfico anterior hemos visto que las variables no están relacionadas, por tanto esto nos podría hacer pensar que es un MNAR.
+
+<mark style="color:orange;">**Ejemplo 2**</mark>
+
 Si queremos ver si los síntomas están relacionados con alguna de las variables observadas, se puede representar la variable <mark style="color:purple;">`chills_NA`</mark> con <mark style="color:purple;">`temp`</mark>.&#x20;
 
 ```r
  ggplot (data = shadowed_data, 
         mapping = aes(x = temp,       
-                      colour = chills_NA)) + geom_density()                  
+                      colour = fever_NA)) + geom_density()                  
+        
 ```
 
-<figure><img src="../../.gitbook/assets/image (293).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
-En este caso se observa que los NA de la variable <mark style="color:purple;">`chills`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR/MNAR**. Es difícil saber si son MAR o MNAR sin saber la realidad, muchas veces lo podemos pensar por el contexto o por si hay o no datos además de los NA. En este caso, la mayoría de NAs es en aquellos que no tuvieron fiebre, se podría pensar que no fueron anotados aquellos síntomas de los individuos que no tenían fiebre, pero quizás la relación es más compleja porque algunos individuos que no tenían fiebre, si se les anotaron los síntomas. Por tanto, puede que haya algo no observado (MNAR) o una combinación más compleja de lo observado (MAR)
+En este caso se observa que los NA de la variable <mark style="color:purple;">`fever`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR** y que no fueron anotadas las temperaturas de algunos individuos  que no tenían fiebre. No son todos, por tanto la relación puede ser algo más compleja, pero como si vemos relación, podemos concluir que vamos a poder imputar los NAs de <mark style="color:purple;">`temp`</mark> usando <mark style="color:purple;">`fever`</mark>.&#x20;
 
-<mark style="color:orange;">**Ejemplo 2**</mark>
+<mark style="color:orange;">**Ejemplo 3**</mark>
 
 Si se quiere ver la proporción de pacientes a los que les falta la variable <mark style="color:purple;">`age`</mark> según el valor del registro del día de hospitalización <mark style="color:purple;">`date_hospitalisation`</mark> podemos estratificarla usando la variable shadow en la opción: <mark style="color:green;">**`color =`**</mark>.
 
@@ -413,11 +426,11 @@ geom_density()
 
 En este caso observamos que los datos missing de la variable edad se corresponde a fechas más recientes, por lo tanto podríamos sospechar de una relación del tipo que en fechas más tardías (con más desborde hospitalario), no se apuntaba la edad de algunas personas por falta de medios. En este caso el hecho de que no todos los valores faltantes correspondan a esa dependecia, nos hace pensar que podría ser un **MNAR**.&#x20;
 
-#### Variables Categóricas
+#### Variables Cualitativas
 
-<mark style="color:orange;">**Ejemplo 3**</mark>
+<mark style="color:orange;">**Ejemplo 4**</mark>
 
-También se pueden usar variables categóricas para esta representación, por ejemplo para ver si los missing de los síntomas <mark style="color:purple;">`fever_NA`</mark> están relacionados con la variable <mark style="color:purple;">`outcome`</mark>.
+También se pueden usar variables cualitativas para esta representación, por ejemplo para ver si los missing de los síntomas <mark style="color:purple;">`fever_NA`</mark> están relacionados con la variable <mark style="color:purple;">`outcome`</mark>.
 
 ```r
 ggplot(shadowed_data, aes(x = fever, fill = outcome_NA)) +
