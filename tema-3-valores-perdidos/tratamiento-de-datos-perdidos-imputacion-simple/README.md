@@ -169,7 +169,6 @@ data$temp_imp_model1_inc[is.na(data$temp)]<- predictions + inc
 #Hacer un gráfico para comparar las observaciones con la media y la regresión
 ggplot(data, aes(x = temp, fill = "temp")) +
   geom_density(alpha = 0.5) +
-  geom_density(aes(x = temp_imp_model1, fill = "temp_imp_model1"), alpha = 0.5) +
   geom_density(aes(x = temp_imp_model1_inc, fill = "temp_imp_model1_inc"), alpha = 0.5) 
 
 ```
