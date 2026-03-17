@@ -398,7 +398,7 @@ Si parece que hay más `NAs` en la variable <mark style="color:purple;">`age`</m
 
 <mark style="color:orange;">**Ejemplo 2**</mark>
 
-Si queremos ver si los síntomas están relacionados con alguna de las variables observadas, se puede representar la variable <mark style="color:purple;">`chills_NA`</mark> con <mark style="color:purple;">`temp`</mark>.&#x20;
+Si queremos ver si los síntomas están relacionados con alguna de las variables observadas, se puede representar la variable <mark style="color:purple;">`fever_NA`</mark> con <mark style="color:purple;">`temp`</mark>.&#x20;
 
 ```r
  ggplot (data = shadowed_data, 
