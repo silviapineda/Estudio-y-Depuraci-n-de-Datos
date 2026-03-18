@@ -285,7 +285,11 @@ gg_miss_var(data, show_pct = TRUE)
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
-Aquí se ve que <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes y el resto  de variables menos del 5%. Esto es importante porque si el número de datos ausentes supera el 5% en las variables, estas pueden ser muy problemáticas y, por tanto, habrá que ver como de relevantes son para el análisis.
+Variables <mark style="color:purple;">`infector`</mark>  y <mark style="color:purple;">`date_infection`</mark> tienen alrededor de un 35% de datos ausentes, seguramente haya que borrarlas.
+
+Variables  <mark style="color:purple;">`outcome`</mark> y <mark style="color:purple;">`date_outcome`</mark> tienen entre 20–25% de datos ausentes, pero son muy importantes, habrá que ver como imputarlas.
+
+Resto de variables tienen menos del 5%.
 
 En este caso, la ausencia **no es uniforme**: unas pocas variables concentran la mayoría de los NA. Esto ya **descarta MCAR global** (completamente aleatorio).
 
@@ -330,6 +334,8 @@ gg_miss_var(data, show_pct = TRUE,facet = gender)
 ```
 
 <figure><img src="../../.gitbook/assets/image (297).png" alt=""><figcaption></figcaption></figure>
+
+Buscamos ver un patrón diferenciado por las catagorías de cada variable cualitativa.
 
 Una cosa interesante que vemos al clasificar los datos por la variable <mark style="color:purple;">`gender`</mark>, es que para <mark style="color:purple;">`age`</mark> también falta en ≈30% de esos casos, por tanto hay dependencia entre la falta de género y de edad.
 
