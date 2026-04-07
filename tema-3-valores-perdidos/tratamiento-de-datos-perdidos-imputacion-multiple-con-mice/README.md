@@ -8,7 +8,7 @@ coverY: 0
 
 ## Imputación múltiple
 
-La imputación múltiple afronta los datos faltantes creando m copias del conjunto de datos donde cada valor perdido se imputa de forma estocástica. En R podemos usar el paquete  <mark style="color:green;">**`mice`**</mark> (Multiple Imputation by Chained Equations) para ello.&#x20;
+La imputación múltiple genera _m_ conjuntos de datos completos, imputando valores de forma estocástica (aleatoria y basada en probabilidad). En R podemos usar el paquete  <mark style="color:green;">**`mice`**</mark> (Multiple Imputation by Chained Equations) para ello.&#x20;
 
 ### Multiple Imputation by Chained Equations (Paquete <mark style="color:green;">`mice`</mark>):
 
@@ -20,7 +20,7 @@ La **imputación múltiple** es un método que aborda el problema de los valores
 
 ### Principio detrás de MICE:
 
-1. **Ecuaciones encadenadas**: El método MICE se basa en ecuaciones encadenadas, lo que significa que los valores faltantes de cada variable se imputan secuencialmente utilizando modelos predictivos basados en las demás variables en el conjunto de datos.
+1. **Ecuaciones encadenadas**: Imputa secuencialmente los valores de cada variable utilizando modelos predictivos basados en las demás variables.
 2. **Iterativo**: El proceso de imputación es iterativo, lo que significa que se repite varias veces hasta que se alcanza una convergencia. En cada iteración, se imputan los valores faltantes de una variable a la vez, utilizando los valores imputados de las otras variables en la iteración anterior.
 3. **Modelos Predictivos**: Para imputar los valores faltantes, se utilizan modelos predictivos adecuados para cada tipo de variable. Por ejemplo, para variables numéricas, se pueden utilizar modelos de regresión lineal, mientras que para variables categóricas se pueden utilizar modelos de regresión logística.
 
