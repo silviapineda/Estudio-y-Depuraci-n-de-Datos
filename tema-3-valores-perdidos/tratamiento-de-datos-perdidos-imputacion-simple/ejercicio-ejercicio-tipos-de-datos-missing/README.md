@@ -1,12 +1,8 @@
----
-hidden: true
----
-
 # Ejercicio: Ejercicio tipos de datos missing
 
 Estos datos ejemplifican un escenario en donde se seleccionan candidatos a un empleo, y los candidatos completan un test de IQ, durante su entrevista de trabajo y posteriormente un supervisor evalua su rendimiento después de un periodo de 6 meses. En el ejemplo hay 4 columnas de Rendimiento, una que sería la completa y otras tres que se han borrado los datos considerando los 3 tipos de datos missing que hemos estudiado (MCAR, MAR, MNAR).&#x20;
 
-{% file src="../../../.gitbook/assets/EjemploTiposMissing.csv" %}
+{% file src="../../../.gitbook/assets/EjemploTiposMissing (2).csv" %}
 
 ```r
 library(naniar)

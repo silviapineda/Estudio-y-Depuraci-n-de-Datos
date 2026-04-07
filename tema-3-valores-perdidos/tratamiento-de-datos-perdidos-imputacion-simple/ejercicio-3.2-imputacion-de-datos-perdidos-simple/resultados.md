@@ -1,7 +1,3 @@
----
-hidden: true
----
-
 # Resultados
 
-{% file src="../../../.gitbook/assets/Ejercicio3.2 (3).pdf" %}
+{% file src="../../../.gitbook/assets/Ejercicio3.2 (4).pdf" %}
