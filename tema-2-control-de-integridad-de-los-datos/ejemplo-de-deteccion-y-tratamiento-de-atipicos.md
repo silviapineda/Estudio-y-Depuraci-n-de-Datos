@@ -138,15 +138,15 @@ Veremos los gráficos correspondientes a estas variables:
 
 {% tabs %}
 {% tab title="MANGANESO" %}
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="FIBRA" %}
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="SELENIO" %}
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
@@ -169,7 +169,7 @@ p2 <- ggplot(datos, aes(x = VARIEDAD, y = MANGANESO)) +
 p1 + p2
 ```
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Los outliers son un 24.28 %, de los cuales un 1.73% (3 valores) son extremos. En el caso de los outliers, se ve que corresponden a la CEBADA y los 3 extremos no pertenecen a ninguna de las 3 distribuciones de los cereales, por tanto habrá que borrarlos.
 
@@ -185,7 +185,7 @@ p2 <- ggplot(datos, aes(x = VARIEDAD, y = FIBRA)) +
 p1 + p2
 ```
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 El porcentaje de ouliers es de un 8% y además se ve que es debido a una distribución asimétrica ya que los outliers corresponden a la cebada, por tanto, no hay que borrarlos, no son outliers.
 

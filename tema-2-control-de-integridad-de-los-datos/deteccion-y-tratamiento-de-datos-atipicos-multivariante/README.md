@@ -81,7 +81,7 @@ p2<-ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
 p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ahora podemos añadir un datoa atípico y miro qué pasa a nivel univariante
 
@@ -103,11 +103,11 @@ outliers_results <- lapply(numeric_vars, function(v) outliers(iris_atipico,v))
 
 {% tabs %}
 {% tab title="Sepal.Length" %}
-<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Sepal.Width" %}
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Petal.Length" %}
@@ -115,7 +115,7 @@ outliers_results <- lapply(numeric_vars, function(v) outliers(iris_atipico,v))
 {% endtab %}
 
 {% tab title="Petal.Width" %}
-<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 

@@ -78,10 +78,9 @@ Ten en cuenta que todos los métodos combina la predicción con el muestreo alea
 ### **Ejemplo de la aleatoriedad con PMM:**
 
 1. **Ajuste de un modelo de regresión**
-   * Se toma la variable con valores faltantes Y y se ajusta una regresión usando las observaciones completas en función de otras variables predictoras.
+   * Se toma la variable con valores faltantes Y y se ajusta una regresión usando las observaciones completas en función de otras variables predictoras, usando muestras **bootstrap** con reempleazo para generar variabilidad.
    * Esto da un conjunto de coeficientes de regresión  $$\hat{\beta}$$.
-   * MICE usa **bootstrap** en cada iteración para generar variabilidad en los datos de entrenamiento.&#x20;
-   * En cada imputación se obtiene un modelo de regresión **ligeramente distinto**, lo que cambia las predicciones y, por lo tanto, las imputaciones.
+   * En cada imputación se obtiene un modelo de regresión **ligeramente distinto** (debido a las muestras bootstrap), lo que cambia las predicciones y, por lo tanto, las imputaciones.
 2. **Predicción de valores faltantes**
    * Se usa el modelo ajustado para obtener una **predicción** de los valores faltantes de Y.
    * Estas predicciones no se usan directamente para la imputación (como en la regresión clásica), sino como referencia para encontrar valores similares en los datos observados.
@@ -99,6 +98,11 @@ Vamos a utilizar los datos de airquality de R que son datos de mediciones de la 
 {% file src="../../.gitbook/assets/airquality.csv" %}
 
 ```r
+library(naniar)
+library(tidyverse)
+library(ggplot2)
+library(mice)
+
 data<-read.csv("airquality.csv")
 str(data)
 ```
@@ -107,13 +111,13 @@ str(data)
 
 ```r
 ##Vamos a visualizar y cuantificar los datos missing
-library(naniar)
-vis_miss(data)
+vis_miss(data,cluster=TRUE)  + 
+  theme(axis.text.x = element_text(angle = 90))
 ```
 
-<figure><img src="../../.gitbook/assets/image (227).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-Observamos que la varianble <mark style="color:purple;">`ozone`</mark> tiene casi el 25% de los puntos de datos faltantes, por lo tanto, podríamos considerar excluirla del análisis o recopilar más medidas. Las otras variables están por debajo del umbral del 5%, por lo que podemos conservarlas.&#x20;
+Observamos que la varianble <mark style="color:purple;">`ozone`</mark> tiene un 24% de los puntos de datos faltantes, por lo tanto, habrá que tener cuidado con la imputación de esta variable. Las otras variables están por debajo del umbral del 5%, y por tanto serán fáciles de imputar.&#x20;
 
 2. **Tipos de datos perdidos**
 
@@ -137,15 +141,13 @@ ggplot(data = data, aes (x = Ozone, y = Temp)) + geom_miss_point()
 {% endtab %}
 {% endtabs %}
 
-Podríamos decir según estos gráficos que los datos faltantes de Ozone y Solar.R son MCAR ya que no hay ninguna relación con las demás variables, pero los datos de Wind y Temp corresponden a datos que tienen valores bajos de Ozone por tanto se podrían clasificar como MAR o MNAR. El hecho que que exista una asociación con lo valores bajos de Ozone, pero este asoaciación no se vea exclusiva, puede hacer indicar que existe una relación no observada inidicativo de MNAR.&#x20;
+Podríamos decir según estos gráficos que los datos faltantes de Ozone y Solar.R son MCAR o por lo menos no parecen estar relacionados con nada, pero los datos de Wind y Temp corresponden a datos que tienen valores bajos de Ozone por tanto se podrían clasificar como MAR o MNAR. El hecho que que exista una asociación con lo valores bajos de Ozone, pero esta asoaciación no se vea exclusiva, puede hacer indicar que existe una relación no observada inidicativo de MNAR.&#x20;
 
 3. **Patrón de los datos faltantes. ¿Hay alguna observación con todo datos faltantes?**
 
 El propio paquete **`mice`** proporciona una función útil llamada <mark style="color:green;">**`md.pattern()`**</mark> para ver mejor el patrón de datos faltantes.
 
-```renpy
-##install.packages("mice")
-library(mice)
+```r
 md.pattern(data)
 ```
 
@@ -154,10 +156,8 @@ md.pattern(data)
 Se ve que hay una observación para el que todas las variables son faltantes y por tanto esta observación habría que borrarla.
 
 ```r
-data <- data[rowSums(is.na(data)) < ncol(data), ]
-
-library(dplyr)
-data <- data %>% filter(!if_all(everything(), is.na))
+library(janitor)
+data <- remove_empty(data,"rows")
 ```
 
 4. **Imputación usando el método pmm**
@@ -188,11 +188,7 @@ Para la inspección de los datos vamos a utilizar varios gráficos que nos compa
 
 Primero, podemos utilizar un diagrama de dispersión (scatterplot) y representar la variable ozone frente a todas las demás variables.
 
-```r
-xyplot(impData, Ozone ~ Wind+Temp+Solar.R,pch=18,cex=1)
-```
 
-<figure><img src="../../.gitbook/assets/image (230).png" alt=""><figcaption></figcaption></figure>
 
 Lo que nos gustaría ver es que la forma de los puntos magenta (imputados) coincida con la forma de los azules (observados). La coincidencia de formas nos indica que los valores imputados son efectivamente "valores plausibles".
 
@@ -213,9 +209,28 @@ Otra forma visual útil de observar las distribuciones se puede obtener utilizan
 
 <figure><img src="../../.gitbook/assets/image (196).png" alt=""><figcaption></figcaption></figure>
 
+Finalmente podemos comprobar que los datos MAR/MNAR donde veíamos una relación se han imputado de forma correcta, en este caso Temp y Wind correspondían a valores bajos de Ozone. Esto lo vemos de la siguiente forma:
+
+```r
+xyplot(impData, Wind ~ Ozone,pch=18,cex=1)
+xyplot(impData, Temp ~ Ozone,pch=18,cex=1)
+```
+
+{% tabs %}
+{% tab title="Wind ~ Ozone" %}
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+
+{% tab title="Temp ~Ozone " %}
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+{% endtabs %}
+
+En estos gráficos se ve como efectivamente los datos imputados corresponden a valores bajos de Ozone en ambos casos
+
 5. **Ajustar un modelo de regresión lineal**
 
-Supongamos que el siguiente paso en nuestro análisis es ajustar un modelo lineal a los datos. Puede surgir la pregunta de qué conjunto de datos imputados elegir. El paquete <mark style="color:green;">**`mice`**</mark> facilita ajustar un modelo a cada uno de los conjuntos de datos imputados y luego combinar los resultados.
+Supongamos que el siguiente paso en nuestro análisis es ajustar un modelo lineal a los datos donde quremos predecir la temp en base al resto de características. Puede surgir la pregunta de qué conjunto de datos imputados elegir. El paquete <mark style="color:green;">**`mice`**</mark> facilita ajustar un modelo a cada uno de los conjuntos de datos imputados y luego combinar los resultados.
 
 ```r
 ###Ajustamos un modelo y luego hacemos un pool de los resultados
