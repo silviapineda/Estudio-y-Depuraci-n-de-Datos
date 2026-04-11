@@ -22,5 +22,5 @@ Realiza los siguientes pasos:
    1. ¿Qué métodos has usado para cada variable?
    2. Guarda los datos completos de alguna de las bases de datos imputadas
    3. Visualiza las imputaciones. ¿Cómo visualizarías la variable cualitativa?
-6. Ajusta un modelo de regresión lineal para predecir el colesterol en función de las demás variables y calcula el $$R^2$$. Comenta los resultados.
+6. Ajusta un modelo de regresión lineal para predecir el colesterol en función de las demás variables. Comenta los resultados.
 
