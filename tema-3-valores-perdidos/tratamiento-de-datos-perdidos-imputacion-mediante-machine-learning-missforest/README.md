@@ -1,5 +1,4 @@
 ---
-hidden: true
 cover: ../../.gitbook/assets/missing (1).jpeg
 coverY: 0
 ---
@@ -8,7 +7,13 @@ coverY: 0
 
 ## Imputación mediante algoritmo de Machine Learning
 
-_**missForest**_ es un algoritmo de imputación basado en el algoritmo de Machine Learning Random Forest (package <mark style="color:green;">**`missForest`**</mark> en R) que maneja tanto variables cuantitativas como cualitativas sin transformaciones previas. Empieza imputando los datos perdidos con media/moda y luego, variable a variable, entrena un bosque con las filas observadas y predice las celdas faltantes. Repite este ciclo de forma iterativa hasta que la mejora entre iteraciones deja de ser relevante o se alcanza un número máximo de iteraciones. A partir de la segunda vuelta, los bosques se entrenan sobre datos progresivamente mejor imputados, lo que mejora la calidad de las predicciones para las variables restantes.
+_**missForest**_ es un algoritmo de imputación basado en el algoritmo de Machine Learning Random Forest (package <mark style="color:green;">**`missForest`**</mark> en R) que maneja tanto variables cuantitativas como cualitativas sin transformaciones previas. Empieza imputando los datos perdidos con media/moda y luego, variable a variable, entrena un bosque de árboles con las filas observadas y predice las celdas faltantes. Repite este ciclo de forma iterativa hasta que la mejora entre iteraciones deja de ser relevante o se alcanza un número máximo de iteraciones. A partir de la segunda vuelta, los bosques se entrenan sobre datos progresivamente mejor imputados, lo que mejora la calidad de las predicciones para las variables restantes.
+
+Para entender cómo funciona, primero hay que entender la idea básica que hay detrás. Un **árbol de decisión** es un modelo que aprende a predecir una variable haciendo preguntas sucesivas sobre las demás. Funciona como un juego de "preguntas (variables)": por ejemplo, para predecir si un alumno aprobará, el árbol podría preguntar primero "¿ha asistido a más del 80% de las clases?", luego "¿su nota en el parcial fue mayor que 5?", y así sucesivamente. Cada pregunta divide los datos en dos grupos, y al final de la cadena de preguntas se llega a una predicción.&#x20;
+
+<figure><img src="../../.gitbook/assets/image (309).png" alt=""><figcaption></figcaption></figure>
+
+Un **Random Forest** (bosque aleatorio) simplemente consiste en entrenar muchos árboles de decisión, cada uno con una parte aleatoria de los datos y de las variables, y combinar sus predicciones. Al promediar muchos árboles se obtiene una predicción mucho más robusta y estable que la de un solo árbol.
 
 Algunas **ventajas** de este algoritmo son:
 
@@ -26,25 +31,37 @@ Algunas **desventajas** son:&#x20;
 
 ### **Evaluación mediante métrica OOB (interna del algoritmo)**
 
-_missForest_ devuelve un **error OOB** (_out-of-bag_) qusando las muestras no usadas para entrenar cada árbol. Este error mide cómo de bien predicen los bosques sin necesidad de un conjunto externo de validación.
+Para saber si la imputación es buena, necesitamos alguna forma de medir el error. El problema es que no conocemos los valores reales que faltan (si los conociéramos, no necesitaríamos imputar). missForest resuelve esto con un truco que hereda de Random Forest: el **error OOB (out-of-bag)**.
 
-1. Para las **variables numéricas** se mide el **NRMSE** (_Normalized Root Mean Square Error)_
+Cuando Random Forest construye cada árbol, no usa todas las filas de datos sino que toma una muestra aleatoria. Las filas que quedan fuera (las "out-of-bag") no participaron en el entrenamiento de ese árbol, así que se pueden usar como un pequeño conjunto de test. Cada fila acaba quedando fuera de aproximadamente un tercio de los árboles, y se usa la predicción promedio de esos árboles para estimar el error. Así obtenemos una medida de calidad sin necesidad de reservar datos aparte para validación.
+
+Este error se calcula de forma diferente según el tipo de variable:
+
+1. **Variables numéricas: NRMSE (Normalized Root Mean Square Error)**
+
+Se calcula primero el RMSE, que es la raíz del error cuadrático medio:
 
 $$\mathrm{RMSE}=\sqrt{\frac{1}{|S|}\sum_{i\in S}\big(\hat y_i-y_i\big)^2}$$
 
-donde S es el número de celdas evaluadas (aquellas con valor real conocido) y luego se normaliza dividiendo por la desviación estándar de los valores reales (para quedar sin unidades y ser comparable entre variables):
+donde _S_ es el conjunto de celdas evaluadas (aquellas con valor real conocido), $$\hat y_i$$ es el valor predicho e $$y_i$$ el valor real. En términos simples: para cada celda, calcula cuánto se ha equivocado la predicción, eleva esos errores al cuadrado (para que no se cancelen positivos con negativos), calcula la media, y finalmente toma la raíz cuadrada para volver a las unidades originales.
+
+El problema del RMSE es que depende de la escala: un error de 5 es mucho si hablamos de temperatura en grados pero insignificante si hablamos de radiación solar. Para poder comparar entre variables, se normaliza dividiendo por la desviación estándar de los valores observados:
 
 $$\mathrm{NRMSE}=\frac{\mathrm{RMSE}}{\,\mathrm{sd}(y)\,}$$.&#x20;
 
-Interpretación: cuanto más pequeño es este valor mejor, siendo el 0 la imputación perfecta.&#x20;
+Así el NRMSE queda sin unidades y es comparable entre variables. **Un valor cercano a 0 indica una imputación muy buena**. Un valor cercano a 1 significa que el error de imputación es del mismo orden que la variabilidad de los datos, es decir, el modelo no aporta mucho más que imputar con la media. Valores superiores a 1 indicarían que la imputación es peor que la media.
 
-2. Para las **variables categóricas** se midel el **PFC** (_Percentage Falsely Classified)_ que es la proporción mal clasificada:
+
+
+2. **Variables categóricas: PFC (Proportion of Falsely Classified):**
+
+Para las variables categóricas no tiene sentido medir un error numérico, así que simplemente se cuenta qué proporción de celdas se ha clasificado incorrectamente:
 
 $$
 \mathrm{PFC}=\frac{1}{|S|}\sum_{i\in S}\mathbf{1}\!\left[\hat y_i \neq y_i\right]
 $$
 
-De nuevo, cuanto más bajo mejor, siendo 0 la clasificación perfecta.
+donde $$\mathbf{1}[\hat y_i \neq y_i]$$ vale 1 si la predicción es incorrecta y 0 si es correcta. El resultado es una proporción entre 0 y 1: un PFC de 0 significa clasificación perfecta, y un PFC de 0.3, por ejemplo, significa que el 30% de los valores se han clasificado mal.
 
 \
 Si usas <mark style="color:green;">`variablewise = TRUE`</mark> obtienes el error por cada variable con NA (muy útil para detectar variables problemáticas).&#x20;
@@ -132,5 +149,5 @@ g1+g2+g3+g4
 
 
 
-Todas las imputaciones se asemejan a la distribución original de datos.
+Todas las imputaciones se asemejan a la distribución original de datos, pero los errores aunque menores de 1, no son del todo buenos.&#x20;
 

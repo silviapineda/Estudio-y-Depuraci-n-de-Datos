@@ -199,7 +199,32 @@ densityplot(impData)
 
 <figure><img src="../../.gitbook/assets/image (195).png" alt=""><figcaption></figcaption></figure>
 
-La densidad de los datos imputados para cada conjunto de datos imputados se muestra en magenta, mientras que la densidad de los datos observados se muestra en azul. Nuevamente, bajo nuestras suposiciones anteriores, esperamos que las distribuciones sean similares.
+La densidad de los datos imputados para cada conjunto de datos imputados se muestra en magenta, mientras que la densidad de los datos observados se muestra en azul. Nuevamente, bajo nuestras suposiciones anteriores, esperamos que las distribuciones sean similares. Pero cuidado que lo que vemos en magenta es la distribución sólo de los datos missing, no de toda la variable, para visualizar toda la variable se pueden extraer los datos completos y visulizar la distribución completa:
+
+```r
+completedData <- complete(impData, "long")
+  
+g1<-ggplot(completedData, aes(x = Ozone)) +
+  geom_density(aes(group = .imp), color = "red", alpha = 0.5) +
+  geom_density(data = data, aes(x = Ozone), color = "blue", linewidth = 1)
+
+g2<-ggplot(completedData, aes(x = Wind)) +
+  geom_density(aes(group = .imp), color = "red", alpha = 0.5) +
+  geom_density(data = data, aes(x = Wind), color = "blue", linewidth = 1)
+
+g3<-ggplot(completedData, aes(x = Temp)) +
+  geom_density(aes(group = .imp), color = "red", alpha = 0.5) +
+  geom_density(data = data, aes(x = Temp), color = "blue", linewidth = 1)
+
+g4<-ggplot(completedData, aes(x = Solar.R)) +
+  geom_density(aes(group = .imp), color = "red", alpha = 0.5) +
+  geom_density(data = data, aes(x = Solar.R), color = "blue", linewidth = 1)
+
+library(patchwork)
+g1+g2+g3+g4
+```
+
+<figure><img src="../../.gitbook/assets/image (308).png" alt=""><figcaption></figcaption></figure>
 
 Otra forma visual útil de observar las distribuciones se puede obtener utilizando la función <mark style="color:green;">**`stripplot()`**</mark>, que muestra las distribuciones de las variables como puntos individuales.
 
