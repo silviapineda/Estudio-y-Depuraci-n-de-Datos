@@ -81,7 +81,7 @@ p2<-ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
 p1+p2
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ahora podemos añadir un datoa atípico y miro qué pasa a nivel univariante
 

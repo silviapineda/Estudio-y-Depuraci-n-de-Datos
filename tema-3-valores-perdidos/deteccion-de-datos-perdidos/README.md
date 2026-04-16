@@ -413,7 +413,7 @@ Si queremos ver si los síntomas están relacionados con alguna de las variables
         
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 En este caso se observa que los NA de la variable <mark style="color:purple;">`fever`</mark>, corresponden a aquellos individuos que tienen una temperatura corporal por debajo de 38. Lo mismo pasa con el resto de síntomas, ya que todos los NA corresponden a los mismos individuos, por tanto se puede decir que hay una relación entre los NA de los síntomas con temperatura baja. Por lo tanto podríamos decir que los NA de los síntomas son **MAR** y que no fueron anotadas las temperaturas de algunos individuos  que no tenían fiebre. No son todos, por tanto la relación puede ser algo más compleja, pero como si vemos relación, podemos concluir que vamos a poder imputar los NAs de <mark style="color:purple;">`temp`</mark> usando <mark style="color:purple;">`fever`</mark>.&#x20;
 

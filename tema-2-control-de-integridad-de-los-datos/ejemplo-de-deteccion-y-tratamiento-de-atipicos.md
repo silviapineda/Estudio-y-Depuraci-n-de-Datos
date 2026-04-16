@@ -142,7 +142,7 @@ Veremos los gráficos correspondientes a estas variables:
 {% endtab %}
 
 {% tab title="FIBRA" %}
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="SELENIO" %}
