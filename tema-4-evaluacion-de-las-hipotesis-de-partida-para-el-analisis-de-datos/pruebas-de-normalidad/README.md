@@ -50,7 +50,7 @@ La **distribución normal**, también conocida como distribución gaussiana, es 
 
 ### Métodos gráficos
 
-Para ver los métodos gráficos vamos a simular dos conjuntos de datos, unos siguiendo una distribución normal y otra siguiendo una distribución exponencial
+Para ver los métodos gráficos vamos a simular dos conjuntos de datos, uno siguiendo una distribución normal y otro siguiendo una distribución exponencial
 
 ```r
 ##Datos simulados normales
@@ -332,15 +332,14 @@ La trasnformación box-cox se usa mucho en el contexto de la regresión lineal, 
 # Instalar y cargar el paquete MASS si aún no está instalado
 # install.packages("MASS")
 library(MASS)
-datos_prueba <- c(0.103, 0.528, 0.221, 0.260, 0.091,
-           1.314, 1.732, 0.244, 1.981, 0.273,       
-           0.461, 0.366, 1.407, 0.079, 2.266)
+set.seed(42)
+datos_prueba <- rlnorm(50, meanlog = -0.7, sdlog = 1.05)
 
 # Histograma de los datos
 hist(datos_prueba)
 ```
 
-<figure><img src="../../.gitbook/assets/image (177).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (310).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Para calcular el λ óptimo hay que ejecutar un modelo lineal con la función <mark style="color:green;">**`lm`**</mark> y pasarlo a la función <mark style="color:green;">**`boxcox`**</mark> de la siguiente manera:
 
@@ -348,7 +347,7 @@ Para calcular el λ óptimo hay que ejecutar un modelo lineal con la función <m
 boxcox(lm(datos_prueba ~ 1))
 ```
 
-<figure><img src="../../.gitbook/assets/image (176).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (311).png" alt="" width="375"><figcaption></figcaption></figure>
 
 La log-verosimilitud (log-likelihood) mide qué tan bien se ajusta el modelo a los datos transformados. En el contexto de la transformación Box–Cox, para cada posible λ se ajusta un modelo lineal y se calcula la log-verosimilitud asociada; el λ óptimo es el que **maximiza** esta cantidad (equivalente a minimizar la suma de cuadrados de los residuos). En términos más simples, cuanto mayor sea el log likelihood, mejor será el ajuste de la transformación Box-Cox a los datos.
 
@@ -369,13 +368,13 @@ datos_prueba_trans <- log(datos_prueba)
 hist(datos_prueba_trans)
 ```
 
-<figure><img src="../../.gitbook/assets/image (178).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (312).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Ahora los datos parece que puedan seguir una distribución normal, pero se puede comprobar realizando, por ejemplo, el test estadístico Shapiro-Wilk:
 
 ```r
-shapiro.test(new.x)
-#W = 0.9, p-value = 0.2
+shapiro.test(datos_prueba_trans)
+## W = 0.98122, p-value = 0.1654
 ```
 
 En este caso, no se rechaza la hipótesis nula de normalidad.
@@ -387,6 +386,13 @@ En el caso de querer extraer el parámetro λ exacto:
 b<-boxcox(lm(datos_prueba ~ 1))
 lambda <- b$x[which.max(b$y)] # -0.02
 datos_prueba_trans_exact <- (datos_prueba ^ lambda - 1) / lambda
+```
+
+<figure><img src="../../.gitbook/assets/image (313).png" alt="" width="375"><figcaption></figcaption></figure>
+
+```r
+shapiro.test(datos_prueba_trans_exact)
+## W = 0.98511, p-value = 0.7765
 ```
 
 Pero si λ es muy cercano a 0, por simplicidad e interpretabilidad se suele preferir usar directamente la transformación logarítmica.
