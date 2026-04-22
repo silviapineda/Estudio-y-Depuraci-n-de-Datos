@@ -232,6 +232,14 @@ donde:
 
 En palabras, el estadístico de prueba<img src="../../.gitbook/assets/image (171).png" alt="" data-size="line">representa la mayor discrepancia entre la ECDF observada y la ECDF teórica. Cuanto mayor sea <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line">, mayor será la evidencia de que la muestra no sigue la distribución teórica.
 
+Cuando queremos usar la prueba para testear si una única variable pertenece a una distribución normal, usaremos la aproximación de **Lilliefors, donde D se**&#x20;
+
+$$
+D = sup_z | F_n(z) - Φ(z) |
+$$
+
+donde $$z = (x - \bar{x}) / s$$ y $$Φ(z)$$ es la **función de distribución acumulada (CDF) de la normal estándar**, es decir, la normal con media 0 y desviación 1.
+
 Para el caso de usar la prueba para una **distribución normal** se plantea el siguiente contraste de hipótesis:
 
 $$
@@ -239,42 +247,40 @@ H_0: \text{La muestra proviene de una distribución normal.}  \\  H_1: \text{La 
 $$
 
 * Se compara el valor observado de <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line"> con los valores críticos de la tabla de Kolmogorov-Smirnov para decidir si se rechaza o no la hipótesis nula.
-* Si el valor observado de <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza $$H_0$$ $$f(x) = x * e^{2 pi i \xi$$ indicando que la muestra no sigue una distribución normal.
+* Si el valor observado de <img src="../../.gitbook/assets/image (172).png" alt="" data-size="line">es mayor que el valor crítico correspondiente para un nivel de significancia dado, se rechaza $$H_0$$ indicando que la muestra no sigue una distribución normal.
 
 ```r
-###Test Kolmogorov-Smirnov para normalidad
+###Test Kolmogorov-Smirnov con correccióon de Lilliefors para normalidad
 ##Datos normales
-ks.test(datos_sim_norm, "pnorm",mean = mean(datos_sim_norm), 
-        sd = sd(datos_sim_norm))
+library(nortest)
+lillie.test(datos_sim_norm)
 ```
 
 ```r
-	Asymptotic one-sample Kolmogorov-Smirnov test
+	Lilliefors (Kolmogorov-Smirnov) normality test
 
 data:  datos_sim_norm
-D = 0.014963, p-value = 0.9786
+D = 0.014963, p-value = 0.8484
 alternative hypothesis: two-sided
 ```
 
 ```r
 ##Datos exponenciales
-ks.test(datos_sim_exp, "pnorm",mean = mean(datos_sim_norm), 
-        sd = sd(datos_sim_norm))
+lillie.test(datos_sim_exp)
 ```
 
 ```r
-	Asymptotic one-sample Kolmogorov-Smirnov test
+	Lilliefors (Kolmogorov-Smirnov) normality test
 
 data:  datos_sim_exp
-D = 0.62383, p-value < 2.2e-16
-alternative hypothesis: two-sided
+D = 0.15277, p-value < 2.2e-16
 ```
 
-En el primero ($$p-valor=0.9786$$): No podemos rechazar la $$H_0$$ y por tanto los datos siguen una distribución normal
+En el primero ($$p-valor=0.8484$$): No podemos rechazar la $$H_0$$ y por tanto los datos siguen una distribución normal
 
 En el segundo ($$p-valor=2.2*10^-16$$): Rechazaremos la $$H_0$$ y por tanto los datos no siguen una distribución normal.&#x20;
 
-Recuerda que el test de Kolmogorov-Smirnov es sensible al **tamaño de la muestra**, por lo que con muestras grandes, es más probable que encuentres diferencias estadísticas significativas. En tales casos, otros métodos y gráficos de diagnóstico pueden ser útiles para evaluar la normalidad.
+Recuerda que el test de Lilliefors (Kolmogorov-Smirnov) es sensible al **tamaño de la muestra**, por lo que con muestras grandes, es más probable que encuentres diferencias estadísticas significativas. En tales casos, otros métodos y gráficos de diagnóstico pueden ser útiles para evaluar la normalidad.
 
 > ¿Y qué ocurre si los datos no siguen una distribución Normal?&#x20;
 >
@@ -423,7 +429,7 @@ A medida que el tamaño muestral aumenta, el test se vuelve muy sensible y puede
 
 
 
-**Test de Kolmogorov–Smirnov**
+**Test de Lilliefors Kolmogorov–Smirnov**
 
 * Es un test de **bondad de ajuste** más general: compara la distribución empírica de los datos con una distribución teórica (no sólo la normal).
 * Puede utilizarse con muestras más grandes, especialmente cuando se quiere contrastar una distribución específica y la normalidad no es el foco principal.
