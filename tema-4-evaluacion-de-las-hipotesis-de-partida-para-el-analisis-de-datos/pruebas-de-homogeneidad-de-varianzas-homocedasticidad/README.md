@@ -56,19 +56,45 @@ data("iris")
 
 #Filtramos para tener solo dos grupos por facilidad
 library(dplyr)
+library(ggplot2)
 data <- filter(iris, Species %in% c("versicolor", "virginica"))
 data$Species<-factor(data$Species)
 ```
 
 Estudiaremos la variable Petal.Length
 
+1. Ver la normalidad
+
 ```r
-#Primero ver NORMALIDAD
-hist(data$Petal.Length)
-shapiro.test(data$Petal.Length)
+ggplot(data, aes(x = Petal.Length)) +
+  geom_histogram(aes(y = ..density..),
+                 bins = 15, fill = "steelblue", color = "white") +
+  facet_wrap(~ Species, scales = "free") +
+  theme_minimal()
+ 
+by(data$Petal.Length, data$Species, shapiro.test)
 ```
 
-<figure><img src="../../.gitbook/assets/image (4) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+```r
+data$Species: versicolor
+
+	Shapiro-Wilk normality test
+
+data:  dd[x, ]
+W = 0.966, p-value = 0.1585
+
+---------------------------------------------------------------------------------- 
+data$Species: virginica
+
+	Shapiro-Wilk normality test
+
+data:  dd[x, ]
+W = 0.96219, p-value = 0.1098
+```
+
+2. Ver su comportamiento por la variable factor
 
 ```r
 ##Segundo ver su comportamiento por la variable factor
@@ -115,7 +141,7 @@ El test de Levene se basa en comparar las desviaciones absolutas de las observac
 
 El estadístico de prueba se calcula como la relación de la media de las desviaciones absolutas de cada observación respecto a la media o mediana del grupo, dependiendo de la variante del test.
 
-* **Para la versión basada en la medi**a, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la media de cada grupo.
+* **Para la versión basada en la media**, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la media de cada grupo.
 * **Para la versión basada en la mediana**, el estadístico se calcula como la suma de las desviaciones absolutas respecto a la mediana de cada grupo.
 
 El estadístico de prueba sigue aproximadamente una distribución $$χ^2$$ con $$k−1$$ grados de libertad bajo la hipótesis nula de igualdad de varianzas entre los grupos.
@@ -157,24 +183,23 @@ Bartlett no detecta diferencias en las varianzas (p = 0.2637); se asume homogene
 
 Ahora lo aplicamos a los 3 grupos a la vez
 
-```r
-##Ploteamos las 3 
+<pre class="language-r"><code class="lang-r">##Ploteamos las 3 
 boxplot(iris$Petal.Length~iris$Species)
 by(iris$Petal.Length, iris$Species, var)
-bartlett.test(iris$Sepal.Length ~ iris$Species)
-```
+<strong>bartlett.test(iris$Petal.Length ~ iris$Species)
+</strong></code></pre>
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ```r
 
 	Bartlett test of homogeneity of variances
 
-data:  iris$Sepal.Length by iris$Species
-Bartlett's K-squared = 16.006, df = 2, p-value = 0.0003345
+data:  iris$Petal.Length by iris$Species
+Bartlett's K-squared = 55.423, df = 2, p-value = 9.229e-13
 ```
 
-El boxplot sugiere diferencias de variabilidad entre especies y el test de Bartlett rechaza claramente la hipótesis de igualdad de varianzas (p < 0.001). Esto indica que _<mark style="color:purple;">`Sepal.Length`</mark>_ presenta **varianzas significativamente distintas entre las tres especies**, por lo que no se puede asumir homogeneidad de varianzas.
+El boxplot sugiere diferencias de variabilidad entre especies y el test de Bartlett rechaza claramente la hipótesis de igualdad de varianzas (p < 0.001). Esto indica que _<mark style="color:purple;">`Petal.Length`</mark>_ presenta **varianzas significativamente distintas entre las tres especies**, por lo que no se puede asumir homogeneidad de varianzas.
 
 {% hint style="info" %}
 Si se tiene la seguridad de que las muestras proceden de poblaciones normalmente distribuidas, pueden emplearse el **F-test** y el **test de Bartlett**, siendo este último más recomendable porque el F-test es muy potente pero demasiado sensible a pequeñas desviaciones de la normalidad.<br>

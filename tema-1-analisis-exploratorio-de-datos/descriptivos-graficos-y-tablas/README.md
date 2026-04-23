@@ -181,7 +181,7 @@ ggplot(datos, aes(x = estudios)) +
   geom_bar(aes(fill=estudios))
 ```
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```r
 hist(datos$edad,col="skyblue")

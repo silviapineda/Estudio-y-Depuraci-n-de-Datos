@@ -114,7 +114,7 @@ vis_miss(data,cluster=TRUE)  +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Observamos que la varianble <mark style="color:purple;">`ozone`</mark> tiene un 24% de los puntos de datos faltantes, por lo tanto, habrá que tener cuidado con la imputación de esta variable. Las otras variables están por debajo del umbral del 5%, y por tanto serán fáciles de imputar.&#x20;
 
@@ -242,7 +242,7 @@ xyplot(impData, Temp ~ Ozone,pch=18,cex=1)
 
 {% tabs %}
 {% tab title="Wind ~ Ozone" %}
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Temp ~Ozone " %}
