@@ -34,8 +34,8 @@ Ahora tendremos que comprobar que los datos se han leído correctamente y no tie
 
 En esta detección inicial lo que queremos ver es si:
 
-1. El nombre de las variables son consistentes
-2. Las variables están bien declarados
+1. Los nombres de las variables son consistentes
+2. Las variables están bien declaradas
 3. No hay valores incorrectos
 4. Los NAs se han leído de forma correcta
 

@@ -19,8 +19,6 @@ Algunas de las funciones más útiles para este propósito son:
 
 <mark style="color:green;">**`summary(dataFrame)`**</mark>: Ofrece un resumen de todas las variables presentes en el conjunto de datos. Para las variables numéricas, muestra valor mínimo, máximo, media, mediana y primer y tercer cuartil; mientras que para las variables de tipo factor, muestra los 6 niveles mayoritarios, junto con sus frecuencias. En ambos casos se muestra además el número de casos perdidos.&#x20;
 
-<mark style="color:green;">**`psych::describe(Filter(is.numeric,dataFrame))`**</mark>: Esta función ofrece más medidas de las variables numéricas como la desviación estándar y el índice de simetría
-
 <mark style="color:green;">**`skim(datos_agrupados,var1,var2):`**</mark> Esta función saca descriptivos de las variables que se le pasan según la variable de agrupación de datos\_agrupados <mark style="color:green;">**`(datos_agrupados <- group_by(dataFrame, var_agrupacion))`**</mark>&#x20;
 
 <mark style="color:green;">**`table(varCuali), prop.table(table(varCuali)`**</mark>: Muestra la tabla de frecuencias de la variable cualitativa seleccionada.
@@ -37,16 +35,17 @@ A partir de estas funciones es posible hacerse una idea muy clara de cómo son l
 
 Vamos a construir una base de datos sencilla para ver este apartado
 
-<pre class="language-r"><code class="lang-r">#Definición de los datos (simulamos los datos)
-<strong>set.seed(123)
-</strong>datos &#x3C;- data.frame(
+```r
+#Definición de los datos (simulamos los datos)
+set.seed(123)
+datos <- data.frame(
   ID = 1:20,
   genero = as.factor(c(rep("Masculino", 10), rep("Femenino", 9), "No binario")), # 10 hombres, 9 mujeres, 1 no binario
   edad = c(sample(18:80, 18, replace = TRUE), 150, -5), # Errores: edad negativa y edad demasiado alta
   estudios = as.factor(sample(c("Primaria", "Secundaria", "Universitaria", "?"), 20, replace = TRUE, prob = c(0.2, 0.3, 0.3, 0.05))),
   horas_ejercicio = c(rnorm(18, mean = 4, sd = 2), -2, 50) # Errores: valores negativos y extremadamente altos
 )
-</code></pre>
+```
 
 ### Tablas de frecuencias unidemensionales
 
@@ -150,15 +149,6 @@ También podemos calcular media y desviación típica de la variable _edad_ por 
 
 <pre class="language-r"><code class="lang-r"><strong>aggregate(datos$edad,by=list(datos$genero),mean)
 </strong></code></pre>
-
-La librería **`psych`** contiene las funciones <mark style="color:green;">**`describe()`**</mark> y <mark style="color:green;">**`describeBy()`**</mark> que no sólo calculan la media sino que añaden otros estadísticos de interés
-
-```r
-#install.packages("psych")
-library(psych)
-describe(datos$edad)
-describeBy(datos$edad,datos$genero)
-```
 
 La librería **`skimr`** contiene las funciones <mark style="color:green;">**`skim()`**</mark> y <mark style="color:green;">**`group_by()`**</mark> que no sólo calculan la media sino que añaden otros estadísticos de interés por una variable de agrupación
 
