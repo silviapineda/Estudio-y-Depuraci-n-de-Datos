@@ -16,9 +16,9 @@ Aunque siempre se puede analizar un conjunto de datos después de eliminar todos
 
 A continucación veremos distintas formas de imputación y cuándo son más recomendables unas respecto a otras.&#x20;
 
-### Imputación usando la media (v.continuas) o moda (v.categóricas o v.discretas)&#x20;
+### Imputación usando la media/mediana (v.continuas) o moda (v.categóricas o v.discretas)&#x20;
 
-Esta es la forma más sencilla de imputación cuando puedes asumir que los datos son **MCAR y el % de datos faltante es pequeño.** Si las variables son continuas puedes simplemente establecer los valores perdidos usando la media de esa variable.&#x20;
+Esta es la forma más sencilla de imputación cuando puedes asumir que los datos son **MCAR y el % de datos faltante es pequeño.** Si las variables son continuas puedes simplemente establecer los valores perdidos usando la media de esa variable o mediana si la distribución es muy asimétrica.&#x20;
 
 Vamos a asumir que las mediciones de temperatura (<mark style="color:purple;">`temp`</mark>) faltantes en nuestro conjunto de datos son **MCAR** y que por tanto los podemos imputar con la media ya que el % de datos faltantes es pequeño ( 3%)
 
@@ -79,7 +79,13 @@ Un método algo más avanzado es utilizar algún tipo de modelo estadístico par
 
 Dependiendo de si la variable que queremos imputar es continua o categórica, usaremos un modelo de **regresión lineal** (continua) o **regresión logística/multinomial** (categórica).&#x20;
 
-En este caso, vamos a ver como imputar la variable <mark style="color:purple;">`temp`</mark> con valores predichos usando una regresión lineal con la variable <mark style="color:purple;">`fever`</mark>  como predictora para compararlo con la imputación por la media que veíamos en el apartado anterior.&#x20;
+En este caso, la variable que queremos imputar es <mark style="color:purple;">`temp`</mark> (continua), por lo que utilizaremos regresión lineal. Como predictora emplearemos <mark style="color:purple;">`fever`</mark>, una variable dicotómica (0/1) que indica presencia o ausencia de fiebre — su naturaleza categórica no supone ningún problema, ya que actúa como variable independiente, no como variable a imputar.
+
+Cabe destactar que, dado que <mark style="color:purple;">`fever`</mark> es una variable dicotómica (0 = sin fiebre, 1 =\
+con fiebre), este modelo es equivalente a imputar cada valor perdido de <mark style="color:purple;">`temp`</mark> con la media de\
+su grupo. Esto solo ocurre cuando la predictora es dicotómica o categórica; cuando la variable\
+utilizada para imputar es cuantitativa, el modelo de regresión lineal incorpora la relación continua\
+entre ambas variables, obteniendo valores predichos distintos para cada observación
 
 Lo primero será comprobar que los valores faltantes de la variable <mark style="color:purple;">`temp`</mark> no lo son en la variable <mark style="color:purple;">`fever`</mark>, si no, esos valores no se podrán imputar:
 
@@ -149,7 +155,7 @@ geom_density(aes(x = temp_imp, fill = "temp_imp_mean"), alpha = 0.5)
 
 <figure><img src="../../.gitbook/assets/image (301).png" alt="" width="563"><figcaption></figcaption></figure>
 
-En el prmer gráfico se pueden ver los dos picos correspondientes a los dos valores de la predicción y en el segundo la comparación con la imputación por la media, viendo claramente como el modelo de regresión hace una imputación mucho más robusto ya que tiene en cuanto información extra sobre si los individuos tienen o no tienen fiebre.&#x20;
+En el primer gráfico se pueden ver los dos picos correspondientes a los dos valores de la predicción y en el segundo la comparación con la imputación por la media, viendo claramente como el modelo de regresión hace una imputación mucho más robusto ya que tiene en cuanto información extra sobre si los individuos tienen o no tienen fiebre.&#x20;
 
 ### Imputación mediante regresión lineal + error estocástico
 

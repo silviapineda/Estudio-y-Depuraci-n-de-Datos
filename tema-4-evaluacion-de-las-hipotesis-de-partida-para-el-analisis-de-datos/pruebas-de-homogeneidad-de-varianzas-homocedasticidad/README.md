@@ -1,6 +1,27 @@
 ---
 cover: ../../.gitbook/assets/Untitled.png
 coverY: 0
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+  actions:
+    visible: true
 ---
 
 # Pruebas de homogeneidad de varianzas (homocedasticidad)
@@ -64,15 +85,14 @@ Estudiaremos la variable Petal.Length
 
 1. Ver la normalidad
 
-```r
-ggplot(data, aes(x = Petal.Length)) +
+<pre class="language-r"><code class="lang-r">ggplot(data, aes(x = Petal.Length)) +
   geom_histogram(aes(y = ..density..),
                  bins = 15, fill = "steelblue", color = "white") +
   facet_wrap(~ Species, scales = "free") +
   theme_minimal()
- 
-by(data$Petal.Length, data$Species, shapiro.test)
-```
+<strong> 
+</strong>by(data$Petal.Length, data$Species, shapiro.test)
+</code></pre>
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
